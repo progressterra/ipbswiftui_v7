@@ -61,30 +61,30 @@ public class MessengerViewModel: ObservableObject {
     }
     
     public func sendMessage() {
-        guard let currentDialogID, let dialog = dialog?.data, !currentMessageText.isEmpty else { return }
+        guard let currentDialogID, !currentMessageText.isEmpty else { return }
         
         
-        let participants = initializeParticipants(for: dialog)
-        
-        // Create and donate the interaction
-        let intent = INSendMessageIntent(
-            recipients: participants,
-            outgoingMessageType: .outgoingMessageText,
-            content: currentMessageText,
-            speakableGroupName: nil,
-            conversationIdentifier: currentDialogID,
-            serviceName: nil,
-            sender: nil,
-            attachments: nil
-        )
-        let interaction = INInteraction(intent: intent, response: nil)
-        interaction.donate { error in
-            if let error = error {
-                print("Interaction donation failed: \(error)")
-            } else {
-                print("Interaction successfully donated")
-            }
-        }
+//        let participants = initializeParticipants(for: dialog)
+//        
+//        // Create and donate the interaction
+//        let intent = INSendMessageIntent(
+//            recipients: participants,
+//            outgoingMessageType: .outgoingMessageText,
+//            content: currentMessageText,
+//            speakableGroupName: nil,
+//            conversationIdentifier: currentDialogID,
+//            serviceName: nil,
+//            sender: nil,
+//            attachments: nil
+//        )
+//        let interaction = INInteraction(intent: intent, response: nil)
+//        interaction.donate { error in
+//            if let error = error {
+//                print("Interaction donation failed: \(error)")
+//            } else {
+//                print("Interaction successfully donated")
+//            }
+//        }
         
         let message = RGMessagesEntityCreate(
             idDialog: currentDialogID,
@@ -388,40 +388,40 @@ public struct DialogNotifications {
     public let unreadMessages: Int?
 }
 
-extension MessengerViewModel {
-    func initializeParticipants(for dialog: RGDialogsViewModel) -> [INPerson] {
-        guard let clients = dialog.listMetaDataClient else { return [] }
-        
-        return clients.compactMap { clientViewModel in
-            let metaData = clientViewModel.clientMetaData
-            
-            let personHandle = INPersonHandle(value: clientViewModel.idClient, type: .unknown)
-            
-            let imageUrl = metaData.listImages?.first?.urlData
-            
-            // Creating an INPerson object for the participant
-            var person = INPerson(
-                personHandle: personHandle,
-                nameComponents: nil,
-                displayName: nil,
-                image: nil,
-                contactIdentifier: clientViewModel.idClient,
-                customIdentifier: nil
-            )
-            
-            if let imageUrlString = imageUrl, let url = URL(string: imageUrlString), let imageData = try? Data(contentsOf: url) {
-                person = INPerson(
-                    personHandle: personHandle,
-                    nameComponents: nil,
-                    displayName: "",
-                    image: INImage(imageData: imageData),
-                    contactIdentifier: clientViewModel.idClient,
-                    customIdentifier: nil
-                )
-            }
-            
-            
-            return person
-        }
-    }
-}
+//extension MessengerViewModel {
+//    func initializeParticipants(for dialog: RGDialogsViewModel) -> [INPerson] {
+//        guard let clients = dialog.listMetaDataClient else { return [] }
+//        
+//        return clients.compactMap { clientViewModel in
+//            let metaData = clientViewModel.clientMetaData
+//            
+//            let personHandle = INPersonHandle(value: clientViewModel.idClient, type: .unknown)
+//            
+//            let imageUrl = metaData.listImages?.first?.urlData
+//            
+//            // Creating an INPerson object for the participant
+//            var person = INPerson(
+//                personHandle: personHandle,
+//                nameComponents: nil,
+//                displayName: nil,
+//                image: nil,
+//                contactIdentifier: clientViewModel.idClient,
+//                customIdentifier: nil
+//            )
+//            
+//            if let imageUrlString = imageUrl, let url = URL(string: imageUrlString), let imageData = try? Data(contentsOf: url) {
+//                person = INPerson(
+//                    personHandle: personHandle,
+//                    nameComponents: nil,
+//                    displayName: "",
+//                    image: INImage(imageData: imageData),
+//                    contactIdentifier: clientViewModel.idClient,
+//                    customIdentifier: nil
+//                )
+//            }
+//            
+//            
+//            return person
+//        }
+//    }
+//}

@@ -1,0 +1,13 @@
+<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="teenyicons:tick-small-outline">
+<g id="Group">
+<path id="Vector" d="M4.2666 7.99992L7.4666 10.6666L11.7333 5.33325" stroke="url(#paint0_linear_3168_30791)"/>
+</g>
+</g>
+<defs>
+<linearGradient id="paint0_linear_3168_30791" x1="7.99993" y1="5.33325" x2="7.99993" y2="10.6666" gradientUnits="userSpaceOnUse">
+<stop stop-color="#35C290"/>
+<stop offset="1" stop-color="#2E9399"/>
+</linearGradient>
+</defs>
+</svg>

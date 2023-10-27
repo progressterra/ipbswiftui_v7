@@ -1,2 +1,3 @@
 # ipbswiftui_v7
-IPB visual component library
+
+A description of this package.

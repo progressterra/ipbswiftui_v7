@@ -1,0 +1,77 @@
+//
+//  ItemDetailView.swift
+//  WhiteLabel
+//
+//  Created by Artemy Volkov on 25.07.2023.
+//
+
+import SwiftUI
+import ipbswiftapi_v7
+
+public struct ItemDetailView: View {
+    @EnvironmentObject var cartVM: CartViewModel
+    @EnvironmentObject var vm: MainViewModel
+    
+    let product: ProductViewDataModel
+    
+    public init(product: ProductViewDataModel) {
+        self.product = product
+    }
+    
+    public var body: some View {
+        ScrollView {
+            VStack(spacing: 8) {
+                let imageURLs = product.nomenclature.listImages?.compactMap { $0.urlData } ?? []
+                
+                ImagesView(imageURLs: imageURLs)
+                
+                ItemDescriptionView(
+                    descriptionTitle: product.nomenclature.name ?? "",
+                    description: product.nomenclature.commerseDescription ?? "",
+                    favoriteAction: {},
+                    shareItem: product.nomenclature.commerseDescription ?? "",
+                    parameters: product.listProductCharacteristic?.compactMap { ($0.characteristicType.name ?? "", $0.characteristicValue.viewData ?? "") } ?? [],
+                    deliveryOptions: [.express]
+                )
+                .padding(.horizontal)
+                
+                HStack {
+                    VStack(alignment: .leading, spacing: 4) {
+                        Text(product.inventoryData.beginPrice.asCurrency())
+                            .font(Style.title)
+                            .foregroundColor(Style.textTertiary)
+                            .bold()
+                            .strikethrough()
+                        
+                        Text("Цена для вас:")
+                            .foregroundColor(Style.textPrimary)
+                            .font(Style.footnoteRegular)
+                        
+                        Text(product.inventoryData.currentPrice.asCurrency())
+                            .font(Style.title)
+                            .foregroundColor(Style.textPrimary)
+                            .bold()
+                    }
+                    .padding(.horizontal, 12)
+                    
+                    CustomButtonView(title: "Добавить в корзину") {
+                        cartVM.addCartItem(idrfNomenclature: product.nomenclature.idUnique, count: 1)
+                    }
+                }
+                .padding(.horizontal)
+                .padding(.top, 25)
+                
+                Spacer()
+            }
+        }
+        .safeAreaPadding()
+        .toolbar {
+            ToolbarItem(placement: .principal) {
+                Text(product.nomenclature.name ?? "")
+                    .font(Style.title)
+                    .foregroundColor(Style.textPrimary)
+            }
+        }
+        .background(Style.background)
+    }
+}

@@ -12,7 +12,7 @@ let package = Package(
             targets: ["ipbswiftui_v7"]),
     ],
     dependencies: [
-         .package(url: "https://artvs18@bitbucket.org/iHomosum/ipbswiftapi_v7.git", from: "1.0.0"),
+         .package(url: "https://github.com/progressterra/ipbswiftapi_v7.git", branch: "main"),
          .package(url: "https://github.com/onevcat/Kingfisher.git", from: "7.0.0")
     ],
     targets: [

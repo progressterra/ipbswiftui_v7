@@ -29,8 +29,7 @@ public struct ChatsView: View {
                             badgeCount: vm.dialogsNotifications?[dialog.idUnique]?.unreadMessages
                         ) {
                             vm.messages = nil
-                            vm.currentDialogID = dialog.idUnique
-                            vm.currentDialogDescription = dialog.description ?? ""
+                            vm.currentDialog = dialog
                             isPresented = true
                         }
                     }

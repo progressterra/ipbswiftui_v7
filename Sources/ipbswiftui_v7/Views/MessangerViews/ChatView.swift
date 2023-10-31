@@ -58,7 +58,7 @@ public struct ChatView: View {
                 .background(Style.background)
                 .toolbar {
                     ToolbarItem(placement: .principal) {
-                        Text(vm.currentDialogDescription)
+                        Text(vm.currentDialog?.description ?? "")
                             .foregroundColor(Style.textPrimary)
                             .font(Style.title)
                     }

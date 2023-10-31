@@ -23,7 +23,6 @@ public struct SupportServiceView: View {
             VStack(spacing: 8) {
                 Button(action: {
                     vm.fetchOrCreateDialog(for: .enterprise, with: "Техническая поддержка")
-                    vm.currentDialogDescription = "Техническая поддержка"
                     isChatPresented = true
                 }) {
                     let notifications = vm.dialogsNotifications?[IPBSettings.techSupportID]

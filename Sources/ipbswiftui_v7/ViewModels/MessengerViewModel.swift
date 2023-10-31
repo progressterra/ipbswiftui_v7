@@ -15,16 +15,14 @@ public class MessengerViewModel: ObservableObject {
     
     public static let shared = MessengerViewModel()
     
-    @Published public var dialog: ResultData<RGDialogsViewModel>?
-    @Published public var dialogList: ResultDataList<RGDialogsViewModel>?
-    @Published public var message: ResultData<RGMessagesViewModel>?
-    @Published public var messages: ResultDataList<RGMessagesViewModel>?
-    @Published public var currentDialogID: String? {
+    @Published public var currentDialog: RGDialogsViewModel? {
         didSet {
             getMessageList()
         }
     }
-    @Published public var currentDialogDescription = ""
+    @Published public var dialogList: ResultDataList<RGDialogsViewModel>?
+    @Published public var message: ResultData<RGMessagesViewModel>?
+    @Published public var messages: ResultDataList<RGMessagesViewModel>?
     @Published public var currentMessageText = ""
     @Published public var totalUnreadMessages: Int?
     @Published public var dialogsNotifications: [String: DialogNotifications]?
@@ -61,40 +59,39 @@ public class MessengerViewModel: ObservableObject {
     }
     
     public func sendMessage() {
-        guard let currentDialogID, !currentMessageText.isEmpty else { return }
-        
-        
-//        let participants = initializeParticipants(for: dialog)
-//        
-//        // Create and donate the interaction
-//        let intent = INSendMessageIntent(
-//            recipients: participants,
-//            outgoingMessageType: .outgoingMessageText,
-//            content: currentMessageText,
-//            speakableGroupName: nil,
-//            conversationIdentifier: currentDialogID,
-//            serviceName: nil,
-//            sender: nil,
-//            attachments: nil
-//        )
-//        let interaction = INInteraction(intent: intent, response: nil)
-//        interaction.donate { error in
-//            if let error = error {
-//                print("Interaction donation failed: \(error)")
-//            } else {
-//                print("Interaction successfully donated")
-//            }
-//        }
-        
-        let message = RGMessagesEntityCreate(
-            idDialog: currentDialogID,
-            contentText: currentMessageText,
-            idQuotedMessage: nil
-        )
-        
+        guard let currentDialog = currentDialog, !currentMessageText.isEmpty else { return }
+
         isLoading = true
         
-        messengerService.sendMessage(with: message)
+        initializeParticipants(for: currentDialog)
+            .receive(on: DispatchQueue.main)
+            .flatMap { [weak self] participants -> AnyPublisher<ResultData<RGMessagesViewModel>, NetworkRequestError> in
+                guard let self = self else { return Empty().eraseToAnyPublisher() }
+                
+                let intent = INSendMessageIntent(
+                    recipients: participants,
+                    outgoingMessageType: .outgoingMessageText,
+                    content: self.currentMessageText,
+                    speakableGroupName: nil,
+                    conversationIdentifier: currentDialog.idUnique,
+                    serviceName: nil,
+                    sender: nil,
+                    attachments: nil
+                )
+                
+                let interaction = INInteraction(intent: intent, response: nil)
+                interaction.direction = .outgoing
+                interaction.donate()
+                
+                let message = RGMessagesEntityCreate(
+                    idDialog: currentDialog.idUnique,
+                    contentText: self.currentMessageText,
+                    idQuotedMessage: nil
+                )
+                
+                return self.messengerService.sendMessage(with: message)
+                    .eraseToAnyPublisher()
+            }
             .receive(on: DispatchQueue.main)
             .sink { [weak self] completion in
                 self?.isLoading = false
@@ -116,9 +113,9 @@ public class MessengerViewModel: ObservableObject {
             }
             .store(in: &subscriptions)
     }
-    
+
     public func getMessageList() {
-        guard let currentDialogID else { return }
+        guard let currentDialogID = currentDialog?.idUnique else { return }
         
         let filter = FilterAndSort(
             listFields: [
@@ -301,8 +298,7 @@ public class MessengerViewModel: ObservableObject {
                     break
                 }
             } receiveValue: { [weak self] result in
-                self?.dialog = result
-                self?.currentDialogID = result.data?.idUnique
+                self?.currentDialog = result.data
             }
             .store(in: &subscriptions)
     }
@@ -388,40 +384,48 @@ public struct DialogNotifications {
     public let unreadMessages: Int?
 }
 
-//extension MessengerViewModel {
-//    func initializeParticipants(for dialog: RGDialogsViewModel) -> [INPerson] {
-//        guard let clients = dialog.listMetaDataClient else { return [] }
-//        
-//        return clients.compactMap { clientViewModel in
-//            let metaData = clientViewModel.clientMetaData
-//            
-//            let personHandle = INPersonHandle(value: clientViewModel.idClient, type: .unknown)
-//            
-//            let imageUrl = metaData.listImages?.first?.urlData
-//            
-//            // Creating an INPerson object for the participant
-//            var person = INPerson(
-//                personHandle: personHandle,
-//                nameComponents: nil,
-//                displayName: nil,
-//                image: nil,
-//                contactIdentifier: clientViewModel.idClient,
-//                customIdentifier: nil
-//            )
-//            
-//            if let imageUrlString = imageUrl, let url = URL(string: imageUrlString), let imageData = try? Data(contentsOf: url) {
-//                person = INPerson(
-//                    personHandle: personHandle,
-//                    nameComponents: nil,
-//                    displayName: "",
-//                    image: INImage(imageData: imageData),
-//                    contactIdentifier: clientViewModel.idClient,
-//                    customIdentifier: nil
-//                )
-//            }
-//            
-//            
-//            return person
-//        }
-//    }
-//}
+extension MessengerViewModel {
+    func initializeParticipants(for dialog: RGDialogsViewModel) -> AnyPublisher<[INPerson], Never> {
+        guard let clients = dialog.listMetaDataClient else {
+            return Just([]).eraseToAnyPublisher()
+        }
+
+        let participants = clients.compactMap { clientViewModel -> AnyPublisher<INPerson?, Never> in
+            let personHandle = INPersonHandle(value: clientViewModel.idClient, type: .unknown)
+            let metaData = clientViewModel.clientMetaData
+            
+            if let imageUrlString = metaData.listImages?.first?.urlData, let url = URL(string: imageUrlString) {
+                return URLSession.shared.dataTaskPublisher(for: url)
+                    .map { result in
+                        INPerson(
+                            personHandle: personHandle,
+                            nameComponents: nil,
+                            displayName: nil,
+                            image: INImage(imageData: result.data),
+                            contactIdentifier: nil,
+                            customIdentifier: clientViewModel.idClient
+                        )
+                    }
+                    .replaceError(with: nil)
+                    .eraseToAnyPublisher()
+            } else {
+                return Just(
+                    INPerson(
+                        personHandle: personHandle,
+                        nameComponents: nil,
+                        displayName: nil,
+                        image: nil,
+                        contactIdentifier: nil,
+                        customIdentifier: clientViewModel.idClient
+                    )
+                )
+                .eraseToAnyPublisher()
+            }
+        }
+
+        return Publishers.MergeMany(participants)
+            .compactMap { $0 }
+            .collect()
+            .eraseToAnyPublisher()
+    }
+}

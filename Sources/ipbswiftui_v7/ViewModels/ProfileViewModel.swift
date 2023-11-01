@@ -100,6 +100,17 @@ public class ProfileViewModel: ObservableObject {
             }
             .store(in: &subscriptions)
     }
+    
+    public func clearData() {
+        name = ""
+        surname = ""
+        patronymic = ""
+        birthday = .now
+        phoneNumber = ""
+        typeSexStr = ""
+        email = ""
+        profileImageURL = nil
+    }
 }
 
 extension ProfileViewModel {

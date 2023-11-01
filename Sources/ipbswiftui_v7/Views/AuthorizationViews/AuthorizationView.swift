@@ -49,13 +49,13 @@ public struct AuthorizationView: View {
                     timeRemaining: $vm.secondForResendSMS,
                     codeFromSMS: $vm.codeFromSMS,
                     phoneNumber: vm.phoneNumber,
-                    loginAction: {
-                        vm.endLogin()
-                        isProfileDetailViewPresented = vm.isNewUser
-                    },
+                    loginAction: vm.endLogin,
                     requestNewCodeAction: vm.startLogin
                 )
                 .toolbarRole(.editor)
+            }
+            .onReceive(vm.$isNewUser) {
+                isProfileDetailViewPresented = $0
             }
             .navigationDestination(isPresented: $isProfileDetailViewPresented) {
                 ProfileDetailView(

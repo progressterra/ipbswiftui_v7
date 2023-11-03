@@ -12,7 +12,7 @@ public struct SignInView: View {
     let offerLink: String
     let privacyPolicyLink: String
     let authAction: () -> ()
-    var skipAction: (() -> ())?
+    let skipAction: (() -> ())?
     
     @State private var displayedPhoneNumber: String = ""
     @State private var isAuthButtonDisabled: Bool = true
@@ -23,7 +23,7 @@ public struct SignInView: View {
         offerLink: String,
         privacyPolicyLink: String,
         authAction: @escaping () -> (),
-        skipAction: @escaping () -> ()
+        skipAction: (() -> ())? = nil
     ) {
         self._phoneNumber = phoneNumber
         self.offerLink = offerLink
@@ -109,6 +109,6 @@ public struct SignInView: View {
 
 struct Previews_SignInView_Previews: PreviewProvider {
     static var previews: some View {
-        SignInView(phoneNumber: .constant("79000000000"), offerLink: "f", privacyPolicyLink: "f", authAction: {}, skipAction: {})
+        SignInView(phoneNumber: .constant("79000000000"), offerLink: "f", privacyPolicyLink: "f", authAction: {})
     }
 }

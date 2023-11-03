@@ -38,7 +38,6 @@ public struct NewCodeRequestRemainingView: View {
         }
         .font(Style.headline)
         .foregroundColor(Style.textDisabled)
-        .frame(height: 50)
         .animation(.default, value: timeRemaining != 0)
     }
     

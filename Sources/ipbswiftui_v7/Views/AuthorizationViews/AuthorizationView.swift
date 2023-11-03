@@ -54,8 +54,12 @@ public struct AuthorizationView: View {
                 )
                 .toolbarRole(.editor)
             }
-            .onReceive(vm.$isNewUser) {
-                isProfileDetailViewPresented = $0
+            .onReceive(vm.$isNewUser.dropFirst()) {
+                if $0 {
+                    isProfileDetailViewPresented = true
+                } else {
+                    vm.isLoggedIn = true
+                }
             }
             .navigationDestination(isPresented: $isProfileDetailViewPresented) {
                 ProfileDetailView(

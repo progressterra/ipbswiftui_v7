@@ -90,13 +90,13 @@ public class AuthorizationViewModel: ObservableObject {
                     AuthStorage.shared.updateTokenStorage(for: value.data)
                     self.phoneNumber = ""
                     self.codeFromSMS = ""
-                    self.fetchUserProfileData()
+                    self.checkForNewUser()
                 }
             }
             .store(in: &subscriptions)
     }
     
-    private func fetchUserProfileData() {
+    private func checkForNewUser() {
         SCRMService().getClientData()
             .receive(on: DispatchQueue.main)
             .sink { [weak self]  completion in
@@ -107,9 +107,7 @@ public class AuthorizationViewModel: ObservableObject {
                     break
                 }
             } receiveValue: { [weak self] result in
-                let isNewUser = result.data?.name?.isEmpty ?? true
-                self?.isNewUser = isNewUser
-                self?.isLoggedIn = !isNewUser
+                self?.isNewUser = result.data?.name?.isEmpty ?? true
             }
             .store(in: &subscriptions)
     }

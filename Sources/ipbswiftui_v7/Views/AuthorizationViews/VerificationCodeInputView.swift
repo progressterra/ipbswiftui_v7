@@ -15,6 +15,7 @@ public struct VerificationCodeInputView: View {
     let loginAction: () -> ()
     let requestNewCodeAction: () -> ()
     
+    @FocusState private var isFocused: Bool
     @State private var isAuthButtonDisabled: Bool = true
     
     public init(
@@ -40,22 +41,10 @@ public struct VerificationCodeInputView: View {
             VStack {
                 CodeInputFieldView(codeString: $codeFromSMS, phoneNumber: phoneNumber)
                     .padding(.horizontal)
+                    .focused($isFocused)
                 
                 Spacer()
-                VStack(spacing: 8) {
-                    CustomButtonView(title: "Далее", isDisabled: $isAuthButtonDisabled, action: loginAction)
-                        .animation(.default, value: isAuthButtonDisabled)
-                    
-                    NewCodeRequestRemainingView(timeRemaining: $timeRemaining, requestNewCodeAction: requestNewCodeAction)
-                }
-                .padding(.bottom, 35)
-                .padding(8)
-                .background(Style.surface)
-                .cornerRadius(20, corners: [.topLeft, .topRight])
-                .padding(.horizontal)
-                
             }
-            .edgesIgnoringSafeArea(.bottom)
             .toolbar {
                 ToolbarItem(placement: .principal) {
                     Text("Код подтверждения")
@@ -64,6 +53,21 @@ public struct VerificationCodeInputView: View {
                 }
             }
             .onChange(of: codeFromSMS) { isAuthButtonDisabled = $0.count != 4 }
+        }
+        .overlay(alignment: .bottom) {
+            VStack(spacing: 8) {
+                CustomButtonView(title: "Далее", isDisabled: $isAuthButtonDisabled, action: loginAction)
+                    .onChange(of: isAuthButtonDisabled) { if !$0 { loginAction() } }
+                
+                if !isFocused {
+                    NewCodeRequestRemainingView(timeRemaining: $timeRemaining, requestNewCodeAction: requestNewCodeAction)
+                        .padding(.vertical, 15)
+                }
+            }
+            .padding(.bottom, 24)
+            .padding(.horizontal)
+            .animation(.default, value: isAuthButtonDisabled)
+            .animation(.default, value: isFocused)
         }
     }
 }

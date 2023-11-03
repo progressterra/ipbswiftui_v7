@@ -16,6 +16,7 @@ public struct ProfileDetailView: View {
         case view
         case edit
         case register
+        case birthdayAndSex
     }
     
     @Binding var mode: Mode
@@ -45,7 +46,7 @@ public struct ProfileDetailView: View {
         switch mode {
         case .view: return "Изменить данные"
         case .edit: return "Готово"
-        case .register: return "Далее"
+        default: return "Далее"
         }
     }
     
@@ -54,6 +55,7 @@ public struct ProfileDetailView: View {
         case .view: return "Профиль"
         case .edit: return "Изменить данные"
         case .register: return "Регистрация"
+        case .birthdayAndSex: return "Личные данные"
         }
     }
     
@@ -107,24 +109,26 @@ public struct ProfileDetailView: View {
                     }
                     
                     VStack(spacing: 12) {
-                        Group {
-                            CustomTextFieldView(text: $vm.name, prompt: "Имя", backgroundColor: Style.background)
-                                .focused($focusedField, equals: 0)
-                                .onSubmit { focusedField = 1 }
-                                .submitLabel(.next)
-                            CustomTextFieldView(text: $vm.surname, prompt: "Фамилия", backgroundColor: Style.background)
-                                .focused($focusedField, equals: 1)
-                                .onSubmit { focusedField = 2 }
-                                .submitLabel(.next)
-                            CustomTextFieldView(text: $vm.patronymic, prompt: "Отчество", backgroundColor: Style.background)
-                                .focused($focusedField, equals: 2)
-                                .onSubmit {
-                                    focusedField = nil
-                                    isDatePickerPresented.toggle()
-                                }
-                                .submitLabel(.next)
+                        if mode != .birthdayAndSex {
+                            Group {
+                                CustomTextFieldView(text: $vm.name, prompt: "Имя", backgroundColor: Style.background)
+                                    .focused($focusedField, equals: 0)
+                                    .onSubmit { focusedField = 1 }
+                                    .submitLabel(.next)
+                                CustomTextFieldView(text: $vm.surname, prompt: "Фамилия", backgroundColor: Style.background)
+                                    .focused($focusedField, equals: 1)
+                                    .onSubmit { focusedField = 2 }
+                                    .submitLabel(.next)
+                                CustomTextFieldView(text: $vm.patronymic, prompt: "Отчество", backgroundColor: Style.background)
+                                    .focused($focusedField, equals: 2)
+                                    .onSubmit {
+                                        focusedField = nil
+                                        isDatePickerPresented.toggle()
+                                    }
+                                    .submitLabel(.next)
+                            }
+                            .disabled(!isInEditMode)
                         }
-                        .disabled(!isInEditMode)
                         
                         Button(action: {
                             if isInEditMode {
@@ -262,7 +266,14 @@ public struct ProfileDetailView: View {
                         Spacer()
                         
                         VStack(spacing: 8) {
-                            CustomButtonView(title: buttonTitle) {
+                            CustomButtonView(
+                                title: buttonTitle,
+                                isDisabled: .constant(
+                                    mode == .birthdayAndSex
+                                    ? vm.typeSexStr.isEmpty || displayingBirthday.isEmpty
+                                    : false
+                                )
+                            ) {
                                 submitAction()
                                 isDatePickerPresented = false
                                 isTypeSexPickerPresented = false
@@ -288,7 +299,7 @@ public struct ProfileDetailView: View {
                         )
                         .padding(.horizontal, 8)
                     }
-                    .safeAreaPadding(value: mode == .register ? 0 : 65)
+                    .safeAreaPadding(value: mode == .register || mode == .birthdayAndSex ? 0 : 65)
                 }
             }
         }
@@ -336,7 +347,7 @@ public struct ProfileDetailView: View {
 
 struct ProfileDetailView_Previews: PreviewProvider {
     static var previews: some View {
-        ProfileDetailView(mode: .constant(.register), submitAction: {}, skipAction: {})
+        ProfileDetailView(mode: .constant(.birthdayAndSex), submitAction: {}, skipAction: {})
             .environmentObject(ProfileViewModel())
     }
 }

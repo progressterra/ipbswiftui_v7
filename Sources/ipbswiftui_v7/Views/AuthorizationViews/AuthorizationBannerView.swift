@@ -48,6 +48,7 @@ public struct AuthorizationBannerView: View {
                 }
             }
             .padding(.horizontal)
+            .padding(.bottom, 24)
         }
         .background(Style.background)
     }

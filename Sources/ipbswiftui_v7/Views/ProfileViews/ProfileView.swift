@@ -69,7 +69,6 @@ public struct ProfileView: View {
                     NavigationButtonView(title: "Выйти из аккаунта", isDestructive: true) {
                         AuthStorage.shared.logout()
                         AuthorizationViewModel.shared.isLoggedIn = false
-                        AuthorizationViewModel.shared.isNewUser = false
                         AuthorizationViewModel.shared.logoutToken()
                     }
                     Spacer()
@@ -107,8 +106,7 @@ public struct ProfileView: View {
                         case .edit:
                             profileMode = .view
                             profileVM.patchClientData()
-                        case .register:
-                            ()
+                        default: ()
                         }
                     }
                 )

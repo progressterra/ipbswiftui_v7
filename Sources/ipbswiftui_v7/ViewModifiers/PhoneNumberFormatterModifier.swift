@@ -1,6 +1,6 @@
 //
 //  PhoneNumberFormatterModifier.swift
-//  
+//
 //
 //  Created by Artemy Volkov on 15.08.2023.
 //
@@ -20,7 +20,7 @@ public struct PhoneNumberFormatterModifier: ViewModifier {
         content
             .onChange(of: displayedPhoneNumber) { newValue in
                 let cleanedValue = newValue.filter(\.isNumber)
-                phoneNumber = String(cleanedValue.prefix(11))
+                phoneNumber = cleanedValue.isEmpty ? "7" : String(cleanedValue.prefix(11))
                 
                 let formatted = format(phoneNumber: phoneNumber)
                 
@@ -29,6 +29,7 @@ public struct PhoneNumberFormatterModifier: ViewModifier {
                 }
             }
             .onAppear {
+                phoneNumber = "7"
                 displayedPhoneNumber = format(phoneNumber: phoneNumber)
             }
     }
@@ -40,8 +41,6 @@ public struct PhoneNumberFormatterModifier: ViewModifier {
         
         if phoneNumber.first == "7" {
             result += "+"
-        } else if phoneNumber.first == "9" {
-            result += "+7"
         }
         
         let indices = [1, 4, 7, 9]

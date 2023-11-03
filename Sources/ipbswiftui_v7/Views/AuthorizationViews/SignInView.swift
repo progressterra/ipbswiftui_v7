@@ -1,6 +1,6 @@
 //
 //  SignInView.swift
-//  
+//
 //
 //  Created by Artemy Volkov on 11.08.2023.
 //
@@ -12,7 +12,7 @@ public struct SignInView: View {
     let offerLink: String
     let privacyPolicyLink: String
     let authAction: () -> ()
-    let skipAction: () -> ()
+    var skipAction: (() -> ())?
     
     @State private var displayedPhoneNumber: String = ""
     @State private var isAuthButtonDisabled: Bool = true
@@ -41,10 +41,10 @@ public struct SignInView: View {
             VStack(spacing: 20) {
                 CustomTextFieldView(text: $displayedPhoneNumber, prompt: "Номер телефона")
                     .keyboardType(.phonePad)
-                    .onChange(of: phoneNumber) { isAuthButtonDisabled = $0.count < 10 }
+                    .onChange(of: phoneNumber) { isAuthButtonDisabled = $0.count < 11 }
                     .onAppear {
                         isFocused = true
-                        isAuthButtonDisabled = phoneNumber.count < 10
+                        isAuthButtonDisabled = phoneNumber.count < 11
                     }
                     .focused($isFocused)
                     .modifier(
@@ -54,44 +54,46 @@ public struct SignInView: View {
                         )
                     )
                 
-                VStack {
-                    Text("Нажимая кнопку «Авторизоваться», я соглашаюсь")
-                    HStack(spacing: 5) {
-                        Text("c")
-                        Link("офертой", destination: URL(string: offerLink)!)
-                            .overlay(alignment: .bottom) {
-                                Rectangle().frame(height: 0.5)
-                            }
-                        Text("и")
-                        Link("политикой конфиденциальности", destination: URL(string: privacyPolicyLink)!)
-                            .overlay(alignment: .bottom) {
-                                Rectangle().frame(height: 0.5)
-                            }
+                if let offerURL = URL(string: offerLink), let privacyPolicyURL = URL(string: privacyPolicyLink) {
+                    VStack {
+                        Text("Нажимая кнопку «Авторизоваться», я соглашаюсь")
+                        HStack(spacing: 5) {
+                            Text("c")
+                            Link("офертой", destination: offerURL)
+                                .overlay(alignment: .bottom) {
+                                    Rectangle().frame(height: 0.5)
+                                }
+                            Text("и")
+                            Link("политикой конфиденциальности", destination: privacyPolicyURL)
+                                .overlay(alignment: .bottom) {
+                                    Rectangle().frame(height: 0.5)
+                                }
+                        }
                     }
+                    .font(Style.footnoteRegular)
+                    .foregroundColor(Style.textDisabled)
                 }
-                .font(Style.footnoteRegular)
-                .foregroundColor(Style.textDisabled)
                 
                 Spacer()
-                
+            }
+            .overlay(alignment: .bottom) {
                 VStack(spacing: 8) {
                     CustomButtonView(title: "Авторизоваться", isDisabled: $isAuthButtonDisabled, action: authAction)
                     
-                    Button(action: skipAction) {
-                        Text("Пока пропустить")
-                            .foregroundColor(Style.textDisabled)
-                            .font(Style.body)
-                            .bold()
-                            .padding(.vertical, 15)
+                    if let skipAction, !isFocused {
+                        Button(action: skipAction) {
+                            Text("Пока пропустить")
+                                .foregroundColor(Style.textDisabled)
+                                .font(Style.body)
+                                .bold()
+                                .padding(.vertical, 15)
+                        }
                     }
                 }
-                .padding(8)
-                .padding(.bottom, 30)
-                .background(Style.surface)
-                .cornerRadius(20, corners: [.topLeft, .topRight])
+                .padding(.bottom, 24)
             }
-            .edgesIgnoringSafeArea(.bottom)
             .onTapGesture { isFocused = false }
+            .animation(.default, value: isFocused)
             .padding(.horizontal)
             .padding(.top)
             .toolbar {
@@ -107,6 +109,6 @@ public struct SignInView: View {
 
 struct Previews_SignInView_Previews: PreviewProvider {
     static var previews: some View {
-        SignInView(phoneNumber: .constant("79269300718"), offerLink: "f", privacyPolicyLink: "f", authAction: {}, skipAction: {})
+        SignInView(phoneNumber: .constant("79000000000"), offerLink: "f", privacyPolicyLink: "f", authAction: {}, skipAction: {})
     }
 }

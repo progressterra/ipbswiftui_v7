@@ -44,7 +44,7 @@ public struct SignInView: View {
                     .onChange(of: phoneNumber) { isAuthButtonDisabled = $0.count < 11 }
                     .onAppear {
                         isAuthButtonDisabled = phoneNumber.count < 11
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
                             isFocused = true
                         }
                     }

@@ -43,8 +43,10 @@ public struct SignInView: View {
                     .keyboardType(.phonePad)
                     .onChange(of: phoneNumber) { isAuthButtonDisabled = $0.count < 11 }
                     .onAppear {
-                        isFocused = true
                         isAuthButtonDisabled = phoneNumber.count < 11
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+                            isFocused = true
+                        }
                     }
                     .focused($isFocused)
                     .modifier(

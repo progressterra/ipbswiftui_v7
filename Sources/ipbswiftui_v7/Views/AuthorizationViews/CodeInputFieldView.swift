@@ -10,17 +10,16 @@ import SwiftUI
 public struct CodeInputFieldView: View {
     @Binding var codeString: String
     let phoneNumber: String
-
-    @FocusState private var focusedField: Int?
-    @State private var partials = Array(repeating: "", count: 4)
-    @State private var isPlaceHolderShowing: [Bool] = Array(repeating: false, count: 4)
+    
+    @FocusState private var isFocused: Bool
+    @State private var isPlaceholderShowing: [Bool] = Array(repeating: false, count: 4)
     @State private var displayedPhoneNumber: String = ""
-
+    
     public init(codeString: Binding<String>, phoneNumber: String) {
         self._codeString = codeString
         self.phoneNumber = phoneNumber
     }
-
+    
     public var body: some View {
         VStack(spacing: 16) {
             Text("Код из смс на номер:\n\(displayedPhoneNumber)")
@@ -28,88 +27,61 @@ public struct CodeInputFieldView: View {
                 .foregroundColor(Style.textSecondary)
                 .font(Style.body)
                 .modifier(PhoneNumberFormatterModifier(phoneNumber: .constant(phoneNumber), displayedPhoneNumber: $displayedPhoneNumber))
-
+            
             HStack(spacing: 12) {
                 ForEach(0..<4) { index in
-                    TextField("", text: $partials[index])
-                        .font(Style.largeTitle)
-                        .onChange(of: partials[index]) { newValue in
-                            handleInputChange(newValue, at: index)
-                        }
-                        .keyboardType(.numberPad)
-                        .multilineTextAlignment(.center)
-                        .foregroundColor(Style.textPrimary)
-                        .frame(width: 56, height: 56)
-                        .background(Style.background)
-                        .cornerRadius(8)
-                        .overlay {
-                            if !isPlaceHolderShowing[index] {
-                                ZStack {
-                                    Style.background
-                                    Circle()
-                                        .foregroundColor(Style.textDisabled)
-                                        .frame(height: 5)
+                    ZStack {
+                        RoundedRectangle(cornerRadius: 8)
+                            .fill(Style.background)
+                            .frame(width: 56, height: 56)
+                        
+                        Text(index < codeString.count ? String(codeString[codeString.index(codeString.startIndex, offsetBy: index)]) : "")
+                            .foregroundColor(Style.textPrimary)
+                            .font(Style.largeTitle)
+                            .multilineTextAlignment(.center)
+                            .frame(width: 56, height: 56)
+                            .overlay {
+                                if isFocused && index == codeString.count {
+                                    RoundedRectangle(cornerRadius: 8)
+                                        .stroke()
+                                        .gradientColor(gradient: Style.primary)
                                 }
-                                .cornerRadius(8)
-                                .transition(.opacity)
                             }
-                        }
-                        .overlay {
-                            RoundedRectangle(cornerRadius: 8)
-                                .stroke()
-                                .gradientColor(gradient: Style.primary)
-                                .opacity(focusedField == index ? 1 : 0)
-                        }
-                        .textContentType(.oneTimeCode)
-                        .focused($focusedField, equals: index)
-                        .onTapGesture { focusedField = index }
-                        .animation(.default, value: focusedField)
-                        .animation(.default, value: isPlaceHolderShowing)
+                    }
                 }
-                .onAppear { focusedField = 0 }
             }
+            
+            TextField("", text: $codeString)
+                .font(Style.largeTitle)
+                .foregroundColor(Style.textPrimary)
+                .multilineTextAlignment(.center)
+                .keyboardType(.numberPad)
+                .textContentType(.oneTimeCode)
+                .focused($isFocused)
+                .opacity(0)
+                .frame(width: 0, height: 0)
+                .onChange(of: codeString) { newValue in
+                    if newValue.count > 4 {
+                        codeString = String(newValue.prefix(4))
+                    }
+                    for i in codeString.count..<4 {
+                        isPlaceholderShowing[i] = false
+                    }
+                }
         }
-        .onTapGesture { focusedField = nil }
+        .onAppear {
+            displayedPhoneNumber = phoneNumber
+            isFocused = true
+        }
+        .onTapGesture {
+            isFocused = true
+        }
+        .animation(.default, value: isFocused)
+        .animation(.default, value: isPlaceholderShowing)
+        .animation(.default, value: isPlaceholderShowing)
         .frame(maxWidth: .infinity)
         .padding()
         .background(Style.surface)
         .cornerRadius(12)
-    }
-
-    private func handleInputChange(_ newValue: String, at index: Int) {
-        let truncatedValue = String(newValue.prefix(1))
-        partials[index] = truncatedValue
-
-        if truncatedValue.isEmpty {
-            handleDeletion(at: index)
-        } else if let lastChar = truncatedValue.last, lastChar.isNumber {
-            handleNumberInput(lastChar, at: index)
-        } else {
-            partials[index] = ""
-        }
-    }
-
-    private func handleDeletion(at index: Int) {
-        if index > 0 && focusedField != 0 {
-            focusedField = index - 1
-        }
-        if index < codeString.count {
-            codeString.remove(at: codeString.index(codeString.startIndex, offsetBy: index))
-        }
-        isPlaceHolderShowing[index] = false
-    }
-
-    private func handleNumberInput(_ character: Character, at index: Int) {
-        if codeString.count > index {
-            let startIndex = codeString.index(codeString.startIndex, offsetBy: index)
-            codeString.replaceSubrange(startIndex...startIndex, with: String(character))
-        } else {
-            codeString.append(character)
-        }
-
-        isPlaceHolderShowing[index] = true
-        if index < partials.count - 1 {
-            focusedField = index + 1
-        }
     }
 }

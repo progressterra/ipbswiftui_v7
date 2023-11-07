@@ -138,11 +138,12 @@ public struct ProfileDetailView: View {
                         }) {
                             CustomTextFieldView(text: $displayingBirthday, prompt: "Дата рождения", backgroundColor: Style.background)
                                 .onAppear {
-                                    if mode != .register {
-                                        displayingBirthday = vm.birthday.format(as: "dd.MM.yyyy")
-                                    }
+                                    displayingBirthday = vm.birthday.format(as: "dd.MM.yyyy")
                                 }
                                 .animation(.default, value: displayingBirthday)
+                                .onReceive(vm.$birthday) {
+                                    displayingBirthday = $0.format(as: "dd.MM.yyyy")
+                                }
                                 .disabled(true)
                                 .multilineTextAlignment(.leading)
                                 .overlay(alignment: .trailing) {

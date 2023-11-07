@@ -21,7 +21,7 @@ public struct ProfileDetailView: View {
     
     @Binding var mode: Mode
     let submitAction: () -> ()
-    let skipAction: () -> ()
+    let skipAction: (() -> ())?
     
     @State private var displayingBirthday: String = ""
     @State private var displayingPhoneNumber: String = ""
@@ -59,7 +59,7 @@ public struct ProfileDetailView: View {
         }
     }
     
-    public init(mode: Binding<Mode>, submitAction: @escaping () -> (), skipAction: @escaping () -> () = {}) {
+    public init(mode: Binding<Mode>, submitAction: @escaping () -> (), skipAction: (() -> ())? = nil) {
         self._mode = mode
         self.submitAction = submitAction
         self.skipAction = skipAction
@@ -279,7 +279,7 @@ public struct ProfileDetailView: View {
                                 isTypeSexPickerPresented = false
                             }
                             
-                            if mode == .register {
+                            if let skipAction {
                                 Button(action: skipAction) {
                                     Text("Пока пропустить")
                                         .foregroundColor(Style.textDisabled)
@@ -289,15 +289,7 @@ public struct ProfileDetailView: View {
                                 }
                             }
                         }
-                        .padding(8)
-                        .background(
-                            Rectangle()
-                                .frame(maxWidth: .infinity)
-                                .foregroundColor(Style.surface)
-                                .cornerRadius(20, corners: [.topLeft, .topRight])
-                                .edgesIgnoringSafeArea(.bottom)
-                        )
-                        .padding(.horizontal, 8)
+                        .padding(.horizontal)
                     }
                     .safeAreaPadding(value: mode == .register || mode == .birthdayAndSex ? 0 : 65)
                 }

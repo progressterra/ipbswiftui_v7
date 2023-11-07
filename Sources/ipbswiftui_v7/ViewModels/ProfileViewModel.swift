@@ -121,7 +121,7 @@ extension ProfileViewModel {
         patronymic = data.patronymic ?? ""
         birthday = data.dateOfBirth?.toDate() ?? .now
         phoneNumber = data.phoneGeneral ?? ""
-        typeSex = data.sex
+        typeSex = data.sex ?? .male
         typeSexStr = data.sex == .male ? "Мужской" : "Женский"
         email = data.eMailGeneral ?? ""
     }

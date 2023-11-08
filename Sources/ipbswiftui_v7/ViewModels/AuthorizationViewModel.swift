@@ -186,7 +186,7 @@ public class AuthorizationViewModel: ObservableObject {
                 self?.isLoading = false
                 switch completion {
                 case .failure(let error):
-                    self?.error = error
+                    print("Refresh token error: \(error)")
                 case .finished:
                     self?.refreshTokenPublisher = nil
                     break

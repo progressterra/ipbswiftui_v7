@@ -1,6 +1,6 @@
 //
 //  Style.swift
-//  
+//
 //
 //  Created by Artemy Volkov on 19.07.2023.
 //
@@ -9,6 +9,15 @@ import Foundation
 import SwiftUI
 
 public struct Style {
+    
+    // URLs
+    public private(set) static var offerURL: String = ""
+    public private(set) static var privacyURL: String = ""
+    
+    // SCRM fields configuration
+    public private(set) static var mandatoryProfileFields: Set<ProfileDetailView.Field>?
+    public private(set) static var customProfileNavigationTitle: String?
+    public private(set) static var customProfileButtonTitle: String?
     
     // Button style
     public private(set) static var buttonHeight: CGFloat = 50
@@ -82,7 +91,17 @@ public struct Style {
     public static var textDisabled = Color(hex: "#B5B5B5")
     
     
+    
     private struct StyleConfiguration: Codable {
+        
+        // URLs
+        let offerURL: String?
+        let privacyURL: String?
+        
+        // SCRM fields configuration
+        let mandatoryProfileFields: [String]?
+        let customProfileNavigationTitle: String?
+        let customProfileButtonTitle: String?
         
         // Button style
         let buttonHeight: Float?
@@ -156,6 +175,25 @@ public struct Style {
     }
     
     private static func configure(with config: StyleConfiguration) {
+        
+        // URLs
+        if let url = config.offerURL {
+            self.offerURL = url
+        }
+        if let url = config.privacyURL {
+            self.privacyURL = url
+        }
+        
+        // SCRM fields configuration
+        if let fields = config.mandatoryProfileFields {
+            self.mandatoryProfileFields = Set(fields.compactMap { ProfileDetailView.Field(rawValue: $0) })
+        }
+        if let title = config.customProfileNavigationTitle {
+            customProfileNavigationTitle = title
+        }
+        if let buttonTitle = config.customProfileButtonTitle {
+            customProfileButtonTitle = buttonTitle
+        }
         
         // Button style
         if let height = config.buttonHeight {

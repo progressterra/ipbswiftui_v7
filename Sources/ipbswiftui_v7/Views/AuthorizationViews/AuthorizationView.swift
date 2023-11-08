@@ -32,8 +32,8 @@ public struct AuthorizationView: View {
             .navigationDestination(isPresented: $isSignInViewPresented) {
                 SignInView(
                     phoneNumber: $vm.phoneNumber,
-                    offerLink: "https://progressterra.com/",
-                    privacyPolicyLink: "https://progressterra.com/",
+                    offerLink: Style.offerURL,
+                    privacyPolicyLink: Style.privacyURL,
                     authAction: {
                         vm.startLogin()
                         isSignInViewPresented = false
@@ -63,7 +63,7 @@ public struct AuthorizationView: View {
             }
             .navigationDestination(isPresented: $isProfileDetailViewPresented) {
                 ProfileDetailView(
-                    mode: .constant(.register),
+                    mode: .constant(.custom),
                     submitAction: {
                         profileVM.patchClientData()
                         vm.isLoggedIn = true

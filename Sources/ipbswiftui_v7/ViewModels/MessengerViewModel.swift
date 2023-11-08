@@ -219,24 +219,24 @@ public class MessengerViewModel: ObservableObject {
     /// - Parameters:
     ///   - dataSourceType: The type of data source for the dialog.
     ///   - name: The name or title for the dialog.
-    ///   - reasonID: Optional specific identifier for a type of message.
-    ///   - customID: Optional custom identifier, primarily used for custom data source type.
+    ///   - reasonID: Optional specific identifier for a type of message addressed to order, docset or iwantit data source.
+    ///   - customID: Optional custom identifier, primarily used for custom and client data source type. By default client data source represents empty guid value.
     ///   - additionalDataJSON: Optional JSON string for any additional data.
     public func fetchOrCreateDialog(
         for dataSourceType: TypeDataSource,
-        with name: String,
+        with name: String = "",
         reasonID: String? = nil,
         customID: String? = nil,
         additionalDataJSON: String = ""
     ) {
-        var supportTypeID: String {
+        var idClient: String {
             switch dataSourceType {
             case .custom:
                 return customID ?? ""
             case .enterprise:
                 return IPBSettings.techSupportID
             case .client:
-                return IPBSettings.emptyGuid
+                return customID ?? IPBSettings.emptyGuid
             case .order:
                 return IPBSettings.ordersSupportID
             case .docset:
@@ -247,17 +247,17 @@ public class MessengerViewModel: ObservableObject {
         }
         
         var listClients: [MetaDataClientWithID] {
-            if let reasonID {
+            if let reasonID, customID == nil {
                 return [
                     MetaDataClientWithID(
                         dataSourceType: dataSourceType,
-                        dataSourceName: dataSourceType.rawValue,
+                        dataSourceName: "",
                         description: "",
-                        idClient: supportTypeID
+                        idClient: idClient
                     ),
                     MetaDataClientWithID(
                         dataSourceType: dataSourceType,
-                        dataSourceName: dataSourceType.rawValue,
+                        dataSourceName: "",
                         description: "",
                         idClient: reasonID
                     )
@@ -268,7 +268,7 @@ public class MessengerViewModel: ObservableObject {
                         dataSourceType: dataSourceType,
                         dataSourceName: "",
                         description: "",
-                        idClient: supportTypeID
+                        idClient: idClient
                     )
                 ]
             }

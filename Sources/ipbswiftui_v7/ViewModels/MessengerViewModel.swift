@@ -218,15 +218,17 @@ public class MessengerViewModel: ObservableObject {
     
     /// - Parameters:
     ///   - dataSourceType: The type of data source for the dialog.
-    ///   - name: The name or title for the dialog.
+    ///   - name: The name or title for the dialog. Do not fill it if you need to use target as description.
     ///   - reasonID: Optional specific identifier for a type of message addressed to order, docset or iwantit data source.
     ///   - customID: Optional custom identifier, primarily used for custom and client data source type. By default client data source represents empty guid value.
+    ///   - targetListImages: Use to provide image for target of dialog.
     ///   - additionalDataJSON: Optional JSON string for any additional data.
     public func fetchOrCreateDialog(
         for dataSourceType: TypeDataSource,
         with name: String = "",
         reasonID: String? = nil,
         customID: String? = nil,
+        targetListImages: [RGEntityMediaDataViewModel] = [],
         additionalDataJSON: String = ""
     ) {
         var idClient: String {
@@ -253,12 +255,14 @@ public class MessengerViewModel: ObservableObject {
                         dataSourceType: dataSourceType,
                         dataSourceName: "",
                         description: "",
+                        listImages: [],
                         idClient: idClient
                     ),
                     MetaDataClientWithID(
                         dataSourceType: dataSourceType,
                         dataSourceName: "",
                         description: "",
+                        listImages: targetListImages,
                         idClient: reasonID
                     )
                 ]
@@ -268,6 +272,7 @@ public class MessengerViewModel: ObservableObject {
                         dataSourceType: dataSourceType,
                         dataSourceName: "",
                         description: "",
+                        listImages: targetListImages,
                         idClient: idClient
                     )
                 ]

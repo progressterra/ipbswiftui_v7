@@ -6,7 +6,7 @@
       "location" : "https://github.com/progressterra/ipbswiftapi_v7.git",
       "state" : {
         "branch" : "main",
-        "revision" : "de1316c135eb5421b4eadfd33c33299894246222"
+        "revision" : "a4c923da3d8eb6190220370abeccbc3b83048520"
       }
     },
     {
@@ -14,8 +14,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/onevcat/Kingfisher.git",
       "state" : {
-        "revision" : "b6f62758f21a8c03cd64f4009c037cfa580a256e",
-        "version" : "7.9.1"
+        "revision" : "277f1ab2c6664b19b4a412e32b094b201e2d5757",
+        "version" : "7.10.0"
       }
     }
   ],

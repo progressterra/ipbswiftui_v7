@@ -45,6 +45,7 @@ public class AuthorizationViewModel: ObservableObject {
     private var tempToken: String?
     private var refreshTokenPublisher: AnyPublisher<ResultData<ResultAuthAsJWT>, NetworkRequestError>?
     private let authService = AuthorizationService()
+    private let sCRMService = SCRMService()
     private var subscriptions = Set<AnyCancellable>()
     
     private init() {
@@ -97,7 +98,7 @@ public class AuthorizationViewModel: ObservableObject {
     }
     
     private func checkForNewUser() {
-        SCRMService().getClientData()
+        sCRMService.getClientData()
             .receive(on: DispatchQueue.main)
             .sink { [weak self]  completion in
                 switch completion {

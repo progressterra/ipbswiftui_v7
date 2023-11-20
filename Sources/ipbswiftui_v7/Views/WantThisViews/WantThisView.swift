@@ -48,7 +48,7 @@ public struct WantThisView: View {
                                     .cornerRadius(8)
                                     .overlay(alignment: .topTrailing) {
                                         Button(action: { vm.itemImage = nil }) {
-                                            Image("xmark")
+                                            Image("xmark", bundle: .module)
                                                 .foregroundColor(Style.error)
                                                 .font(.title)
                                         }

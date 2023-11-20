@@ -31,6 +31,7 @@ public class WantThisViewModel: ObservableObject {
     @Published public var error: NetworkRequestError? {
         didSet {
             if let error {
+                print(error)
                 switch error {
                 case let NetworkRequestError.badRequest(message),
                     let NetworkRequestError.customError(message),
@@ -54,7 +55,7 @@ public class WantThisViewModel: ObservableObject {
         
         $itemURL
             .combineLatest($itemName, $itemImage)
-            .map { $0.isEmpty || $1.isEmpty || $2 == nil }
+            .map { $0.isEmpty && $1.isEmpty && $2 == nil }
             .assign(to: &$isSubmitButtonDisabled)
         
         fetchFieldsData()
@@ -113,12 +114,17 @@ public class WantThisViewModel: ObservableObject {
                 var fields: [FieldData] = []
                 
                 for var field in fieldsData {
-                    if field.name == "Наименование" {
+                    switch field.name {
+                    case "Наименование" where !itemName.isEmpty:
                         field.valueData = itemName
-                    } else if field.name == "Ссылка" {
+                    case "Ссылка" where !itemURL.isEmpty:
                         field.valueData = itemURL
+                    default:
+                        break
                     }
-                    fields.append(field)
+                    if field.valueData != nil {
+                        fields.append(field)
+                    }
                 }
                 
                 do {
@@ -135,11 +141,17 @@ public class WantThisViewModel: ObservableObject {
             .flatMap { [unowned self] result -> AnyPublisher<ResultData<RFCharacteristicValueViewModel>, NetworkRequestError> in
                 self.document = result
                 
-                guard let currentDocumentID, let itemImage = itemImage, let imageData = itemImage.jpegData(compressionQuality: IPBSettings.imageCompressionQuality) else {
-                    return Fail(error: NetworkRequestError.customError("Missing required data")).eraseToAnyPublisher()
+                guard let currentDocumentID = self.currentDocumentID else {
+                    return Fail(error: NetworkRequestError.customError("Missing document ID")).eraseToAnyPublisher()
                 }
                 
-                return documentService.setImage(for: currentDocumentID, with: MediaModel(data: imageData))
+                if let itemImage = self.itemImage, let imageData = itemImage.jpegData(compressionQuality: IPBSettings.imageCompressionQuality) {
+                    return documentService.setImage(for: currentDocumentID, with: MediaModel(data: imageData))
+                } else {
+                    return Just(result)
+                        .setFailureType(to: NetworkRequestError.self)
+                        .eraseToAnyPublisher()
+                }
             }
             .receive(on: DispatchQueue.main)
             .sink { [unowned self] completion in
@@ -209,7 +221,10 @@ public class WantThisViewModel: ObservableObject {
 
 extension WantThisViewModel {
     public func editDocument() {
-        guard let currentDocumentID else { return }
+        guard let currentDocumentID else {
+            error = NetworkRequestError.customError("Missing Document ID")
+            return
+        }
         
         guard let fieldsData else {
             error = NetworkRequestError.customError("Missing Fields Data")
@@ -219,9 +234,9 @@ extension WantThisViewModel {
         var updatedFields: [FieldData] = []
         
         for var field in fieldsData {
-            if field.name == "Наименование" {
+            if field.name == "Наименование" && !itemName.isEmpty {
                 field.valueData = itemName
-            } else if field.name == "Ссылка" {
+            } else if field.name == "Ссылка" && !itemURL.isEmpty {
                 field.valueData = itemURL
             }
             updatedFields.append(field)
@@ -235,11 +250,17 @@ extension WantThisViewModel {
             }
             
             documentService.setData(for: currentDocumentID, with: jsonString)
+                .receive(on: DispatchQueue.main)
                 .flatMap { [unowned self] result -> AnyPublisher<ResultData<RFCharacteristicValueViewModel>, NetworkRequestError> in
-                    guard let itemImage = itemImage, let imageData = itemImage.jpegData(compressionQuality: IPBSettings.imageCompressionQuality) else {
-                        return Fail(error: NetworkRequestError.customError("Missing Image Data")).eraseToAnyPublisher()
+                    self.document = result
+                    
+                    if let itemImage = self.itemImage, let imageData = itemImage.jpegData(compressionQuality: IPBSettings.imageCompressionQuality) {
+                        return documentService.setImage(for: currentDocumentID, with: MediaModel(data: imageData))
+                    } else {
+                        return Just(result)
+                            .setFailureType(to: NetworkRequestError.self)
+                            .eraseToAnyPublisher()
                     }
-                    return documentService.setImage(for: currentDocumentID, with: MediaModel(data: imageData))
                 }
                 .receive(on: DispatchQueue.main)
                 .sink { [unowned self] completion in

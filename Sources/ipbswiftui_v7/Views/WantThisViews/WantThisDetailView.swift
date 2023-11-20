@@ -72,11 +72,13 @@ public struct WantThisDetailView: View {
                     if let fieldsData = vm.fieldsData {
                         CustomTextFieldView(text: $vm.itemName, prompt: fieldsData.first?.comment ?? "")
                             .focused($focusedField, equals: .itemName)
+                            .submitLabel(.next)
                             .onSubmit { focusedField = .itemURL }
                             .autocorrectionDisabled()
                         
                         CustomTextFieldView(text: $vm.itemURL, prompt: fieldsData.last?.comment ?? "")
                             .focused($focusedField, equals: .itemURL)
+                            .submitLabel(.done)
                             .onSubmit { focusedField = nil }
                             .autocorrectionDisabled()
                             .keyboardType(.URL)
@@ -134,7 +136,6 @@ public struct WantThisDetailView: View {
                 .padding(.horizontal)
             }
             .padding(.top)
-            .onTapGesture { focusedField = nil }
             .safeAreaPadding()
             .disabled(!canEdit)
             
@@ -160,6 +161,7 @@ public struct WantThisDetailView: View {
             
             StatusAlertView(status: $vm.status) { dismiss() }
         }
+        .onTapGesture { focusedField = nil }
         .onDisappear(perform: vm.eraseDocumentData)
         .safeAreaPadding()
         .navigationBarTitleDisplayMode(.inline)
@@ -182,7 +184,7 @@ public struct WantThisDetailView: View {
         case .confirmed:
             return Text("Запрос подтвержден")
                 .foregroundColor(Style.onBackground)
-        case .waitReview:
+        case .waitReview, .waitImage:
             return Text("Ожидает подтверждения")
                 .foregroundColor(Style.textTertiary)
         case .rejected:
@@ -190,9 +192,6 @@ public struct WantThisDetailView: View {
                 .foregroundColor(Style.textPrimary2)
         case .notFill:
             return Text("Документ не заполнен")
-                .foregroundColor(Style.textPrimary2)
-        case .waitImage:
-            return Text("Ожидает изображение")
                 .foregroundColor(Style.textPrimary2)
         }
     }

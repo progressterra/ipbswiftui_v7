@@ -58,8 +58,8 @@ public struct CodeInputFieldView: View {
                 .keyboardType(.numberPad)
                 .textContentType(.oneTimeCode)
                 .focused($isFocused)
-                .opacity(0)
-                .frame(width: 0, height: 0)
+                .opacity(0.01)
+                .frame(width: 1, height: 1)
                 .onChange(of: codeString) { newValue in
                     if newValue.count > 4 {
                         codeString = String(newValue.prefix(4))
@@ -77,7 +77,6 @@ public struct CodeInputFieldView: View {
             isFocused = true
         }
         .animation(.default, value: isFocused)
-        .animation(.default, value: isPlaceholderShowing)
         .animation(.default, value: isPlaceholderShowing)
         .frame(maxWidth: .infinity)
         .padding()

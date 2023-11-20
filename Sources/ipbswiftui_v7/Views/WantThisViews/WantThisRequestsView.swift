@@ -27,12 +27,22 @@ public struct WantThisRequestsView: View {
                         if let fieldsData = document.viewData?.data(using: .utf8),
                            let fields = try? JSONDecoder().decode([FieldData].self, from: (fieldsData)) {
                             VStack(alignment: .leading, spacing: 4) {
-                                AsyncImageView(
-                                    imageURL: document.listImages?.sorted(by: { $0.dateAdded > $1.dateAdded }).first?.urlData ?? "",
-                                    width: size,
-                                    height: size,
-                                    cornerRadius: 8
-                                )
+                                ZStack {
+                                    if let imageURL = document.listImages?.sorted(by: { $0.dateAdded > $1.dateAdded }).first?.urlData {
+                                        AsyncImageView(
+                                            imageURL: imageURL,
+                                            width: size,
+                                            height: size,
+                                            cornerRadius: 8
+                                        )
+                                    } else {
+                                        Image(systemName: "photo")
+                                            .resizable()
+                                            .scaledToFit()
+                                            .frame(width: size, height: size)
+                                            .cornerRadius(8)
+                                    }
+                                }
                                 
                                 if let name = fields.first?.valueData {
                                     Text(name)
@@ -95,7 +105,7 @@ public struct WantThisRequestsView: View {
         case .confirmed:
             return Text("Запрос подтвержден")
                 .foregroundColor(Style.onBackground)
-        case .waitReview:
+        case .waitReview, .waitImage:
             return Text("Ожидает подтверждения")
                 .foregroundColor(Style.textTertiary)
         case .rejected:
@@ -103,9 +113,6 @@ public struct WantThisRequestsView: View {
                 .foregroundColor(Style.textPrimary2)
         case .notFill:
             return Text("Документ не заполнен")
-                .foregroundColor(Style.textPrimary2)
-        case .waitImage:
-            return Text("Ожидает изображение")
                 .foregroundColor(Style.textPrimary2)
         }
     }

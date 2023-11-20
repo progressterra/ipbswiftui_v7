@@ -145,7 +145,6 @@ public struct FillDocumentView: View {
                     }
                 }
             }
-            .onAppear { vm.inputImage = UIImage(systemName: "photo") } // TODO: - Remove on release
             
             VStack {
                 Spacer()

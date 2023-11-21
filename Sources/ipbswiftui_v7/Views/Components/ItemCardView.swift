@@ -105,9 +105,10 @@ extension ItemCardView {
                     .frame(
                         maxWidth: .infinity,
                         minHeight: 16,
-                        maxHeight: 34,
+                        maxHeight: 40,
                         alignment: .topLeading
                     )
+                    .minimumScaleFactor(0.8)
                 
                 if let brandName = details.brandName {
                     Text(brandName)
@@ -152,9 +153,10 @@ extension ItemCardView {
                     .frame(
                         maxWidth: .infinity,
                         minHeight: 16,
-                        maxHeight: 34,
+                        maxHeight: 40,
                         alignment: .topLeading
                     )
+                    .minimumScaleFactor(0.8)
                 
                 if let brandName = details.brandName {
                     Text(brandName)

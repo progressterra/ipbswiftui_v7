@@ -70,7 +70,7 @@ public struct AuthorizationView: View {
                     },
                     skipAction: { vm.isLoggedIn = true }
                 )
-                .toolbarRole(.editor)
+                .navigationBarBackButtonHidden()
             }
             .alert(isPresented: $vm.showErrorAlert) {
                 Alert(

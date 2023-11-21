@@ -24,7 +24,7 @@ public struct WithdrawalView: View {
             if isHaveSubmittedCards {
                 withdrawalView
             } else {
-               addNewCardPromptView
+                addNewCardPromptView
             }
         }
         .refreshable { vm.fetchPaymentList() }
@@ -101,6 +101,8 @@ public struct WithdrawalView: View {
                     .font(Style.title)
                     .foregroundColor(Style.textPrimary)
             }
+            
+            Spacer()
         }
     }
     

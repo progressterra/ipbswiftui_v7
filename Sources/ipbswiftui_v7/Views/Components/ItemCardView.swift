@@ -105,7 +105,7 @@ extension ItemCardView {
                     .frame(
                         maxWidth: .infinity,
                         minHeight: 16,
-                        maxHeight: 32,
+                        maxHeight: 34,
                         alignment: .topLeading
                     )
                 
@@ -152,7 +152,7 @@ extension ItemCardView {
                     .frame(
                         maxWidth: .infinity,
                         minHeight: 16,
-                        maxHeight: 32,
+                        maxHeight: 34,
                         alignment: .topLeading
                     )
                 

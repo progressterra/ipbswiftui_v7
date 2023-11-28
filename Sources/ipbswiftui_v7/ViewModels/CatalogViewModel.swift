@@ -13,13 +13,8 @@ public class CatalogViewModel: ObservableObject {
     
     @Published public var catalogCategoryResult: ResultData<RFCatalogCategoryViewModel>?
     @Published public var productListResults: [String: [ProductViewDataModel]] = [:]
-    @Published public var currentCatalogItem: CatalogItem? {
-        didSet {
-            if currentCatalogItem == nil {
-                getCatalog()
-            }
-        }
-    }
+    @Published public var navigationStack: [CatalogItem] = []
+    @Published public var rootCatalogItem: CatalogItem?
     
     @Published public var isLoading: Bool = false
     @Published public var xRequestID: String?
@@ -54,6 +49,8 @@ public class CatalogViewModel: ObservableObject {
     }
     
     public func getCatalog() {
+        guard rootCatalogItem == nil else { return }
+        
         isLoading = true
         
         let filter = FilterAndSort(
@@ -82,8 +79,8 @@ public class CatalogViewModel: ObservableObject {
                     break
                 }
             } receiveValue: { [weak self] result in
-                if result.result.status == .success {
-                    self?.currentCatalogItem = result.data
+                if let catalog = result.data {
+                    self?.rootCatalogItem = catalog
                 }
             }
             .store(in: &subscriptions)

@@ -13,16 +13,20 @@ public struct CatalogProductListView: View {
     @EnvironmentObject var vm: CatalogViewModel
     @EnvironmentObject var cartVM: CartViewModel
     
+    let catalogItem: CatalogItem
+    
     @State private var showDetails = false
     @State private var currentProduct: ProductViewDataModel?
     
-    public init() {}
+    public init(catalogItem: CatalogItem) {
+        self.catalogItem = catalogItem
+    }
     
     public var body: some View {
         VStack(spacing: 0) {
             ScrollView {
                 LazyVGrid(columns: [GridItem(), GridItem()], spacing: 20) {
-                    ForEach(vm.productListResults[vm.currentCatalogItem?.itemCategory.idUnique ?? ""] ?? [], id: \.nomenclature.idUnique) { product in
+                    ForEach(vm.productListResults[catalogItem.itemCategory.idUnique] ?? [], id: \.nomenclature.idUnique) { product in
                         let details = ItemCardView.Details(
                             name: product.nomenclature.name ?? "",
                             price: product.inventoryData.currentPrice,
@@ -55,11 +59,12 @@ public struct CatalogProductListView: View {
             }
             .safeAreaPadding()
             .background(Style.background)
-            .refreshable { vm.fetchProductList(for: vm.currentCatalogItem?.itemCategory.idUnique ?? "") }
-            .onAppear { vm.fetchProductList(for: vm.currentCatalogItem?.itemCategory.idUnique ?? "") }
+            .animation(.default, value: vm.xRequestID)
+            .refreshable { vm.fetchProductList(for: catalogItem.itemCategory.idUnique) }
+            .onAppear { vm.fetchProductList(for: catalogItem.itemCategory.idUnique) }
             .toolbar {
                 ToolbarItem(placement: .principal) {
-                    Text((vm.currentCatalogItem?.itemCategory.name ?? "").capitalized)
+                    Text((catalogItem.itemCategory.name ?? "").capitalized)
                         .font(Style.title)
                         .foregroundColor(Style.textPrimary)
                 }

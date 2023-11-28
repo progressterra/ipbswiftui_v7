@@ -9,17 +9,19 @@ import SwiftUI
 import ipbswiftapi_v7
 
 public struct CatalogView: View {
+    
     @EnvironmentObject var vm: CatalogViewModel
     
-    @State private var isProductListPresented: Bool = false
-    @State private var isEnclosingCatalogPresented: Bool = false
+    let catalogItem: CatalogItem?
     
-    let columns = [GridItem(), GridItem(), GridItem()]
+    private let columns = [GridItem(), GridItem(), GridItem()]
     
-    public init() {}
+    public init(catalogItem: CatalogItem? = nil) {
+        self.catalogItem = catalogItem
+    }
     
     public var body: some View {
-        NavigationStack {
+        NavigationStack(path: $vm.navigationStack) {
             ScrollView {
                 TextField("Поиск", text: .constant(""))
                     .padding()
@@ -35,20 +37,26 @@ public struct CatalogView: View {
                     }
                     .padding(20)
                 
-               if let catalogItems = vm.currentCatalogItem?.listChildItems, !catalogItems.isEmpty {
+                if let catalogItems = catalogItem?.listChildItems {
                     LazyVGrid(columns: columns, spacing: 16) {
                         ForEach(catalogItems, id: \.itemCategory.idUnique) { item in
                             CategoryCardView(
                                 imageURL: item.itemCategory.imageData?.urlData ?? "",
                                 name: item.itemCategory.name ?? ""
                             ) {
-                                if let hasChildren = item.listChildItems?.isEmpty, !hasChildren {
-                                    isEnclosingCatalogPresented = true
-                                } else {
-                                    vm.fetchProductList(for: item.itemCategory.idUnique)
-                                    vm.currentCatalogItem = item
-                                    isProductListPresented = true
-                                }
+                                vm.navigationStack.append(item)
+                            }
+                        }
+                    }
+                    .padding(.horizontal)
+                } else if let rootCatalogItems = vm.rootCatalogItem?.listChildItems {
+                    LazyVGrid(columns: columns, spacing: 16) {
+                        ForEach(rootCatalogItems, id: \.itemCategory.idUnique) { item in
+                            CategoryCardView(
+                                imageURL: item.itemCategory.imageData?.urlData ?? "",
+                                name: item.itemCategory.name ?? ""
+                            ) {
+                                vm.navigationStack.append(item)
                             }
                         }
                     }
@@ -65,14 +73,14 @@ public struct CatalogView: View {
                     CustomProgressView(isLoading: vm.isLoading)
                 }
             }
-            .navigationDestination(isPresented: $isProductListPresented) {
-                CatalogProductListView()
-                    .toolbarRole(.editor)
-                    .onDisappear(perform: vm.getCatalog)
-                
-            }
-            .navigationDestination(isPresented: $isEnclosingCatalogPresented) {
-                CatalogView().toolbarRole(.editor)
+            .navigationDestination(for: CatalogItem.self) { item in
+                if let hasChildren = item.listChildItems?.isEmpty, !hasChildren {
+                    CatalogView(catalogItem: item)
+                        .toolbarRole(.editor)
+                } else {
+                    CatalogProductListView(catalogItem: item)
+                        .toolbarRole(.editor)
+                }
             }
         }
     }
@@ -86,4 +94,3 @@ struct Previews_CatalogView_Previews: PreviewProvider {
             .environmentObject(CatalogViewModel())
     }
 }
-

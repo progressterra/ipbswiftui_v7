@@ -82,18 +82,10 @@ public class ProfileViewModel: ObservableObject {
         
         sCRMService.patсhClientData(with: clientsEntity)
             .receive(on: DispatchQueue.main)
-            .sink { [weak self] completion in
+            .sink { [weak self] in
                 self?.isLoading = false
-                switch completion {
-                case .failure(let error):
+                if case .failure(let error) = $0 {
                     self?.error = error
-                    if error == .unauthorized {
-                        AuthorizationViewModel.shared.refreshTokenAnd {
-                            self?.patchClientData()
-                        }
-                    }
-                case .finished:
-                    break
                 }
             } receiveValue: { [weak self] result in
                 self?.getClientData()
@@ -131,18 +123,10 @@ extension ProfileViewModel {
         
         sCRMService.getClientData()
             .receive(on: DispatchQueue.main)
-            .sink { [weak self] completion in
+            .sink { [weak self] in
                 self?.isLoading = false
-                switch completion {
-                case .failure(let error):
+                if case .failure(let error) = $0 {
                     self?.error = error
-                    if error == .unauthorized {
-                        AuthorizationViewModel.shared.refreshTokenAnd {
-                            self?.getClientData()
-                        }
-                    }
-                case .finished:
-                    break
                 }
             } receiveValue: { [weak self] result in
                 self?.updateStoredData(with: result.data)
@@ -167,18 +151,10 @@ extension ProfileViewModel {
         
         mediaDataService.fetchListMediaDataForClient(with: filter)
             .receive(on: DispatchQueue.main)
-            .sink { [weak self] completion in
+            .sink { [weak self] in
                 self?.isLoading = false
-                switch completion {
-                case .failure(let error):
+                if case .failure(let error) = $0 {
                     self?.error = error
-                    if error == .unauthorized {
-                        AuthorizationViewModel.shared.refreshTokenAnd {
-                            self?.getClientPhoto()
-                        }
-                    }
-                case .finished:
-                    break
                 }
             } receiveValue: { [weak self] result in
                 self?.profileImageURL = result.dataList?.first?.urlData
@@ -207,18 +183,10 @@ extension ProfileViewModel {
         
         mediaDataService.addMediaDataForClient([mediaModel], typeContent: .image, alias: "Profile Image", tag: 0)
             .receive(on: DispatchQueue.main)
-            .sink { [weak self] completion in
+            .sink { [weak self] in
                 self?.isLoading = false
-                switch completion {
-                case .failure(let error):
+                if case .failure(let error) = $0 {
                     self?.error = error
-                    if error == .unauthorized {
-                        AuthorizationViewModel.shared.refreshTokenAnd {
-                            self?.setProfilePhoto(with: photoData)
-                        }
-                    }
-                case .finished:
-                    break
                 }
             } receiveValue: { [weak self] result in
                 self?.profileImageURL = result.data?.urlData

@@ -96,18 +96,10 @@ public final class CartViewModel: ObservableObject {
                 self.cartService.getCart()
             }
             .receive(on: DispatchQueue.main)
-            .sink { [weak self] completion in
+            .sink { [weak self] in
                 self?.isLoading = false
-                switch completion {
-                case .failure(let error):
+                if case .failure(let error) = $0 {
                     self?.error = error
-                    if error == .unauthorized {
-                        AuthorizationViewModel.shared.refreshTokenAnd {
-                            self?.getCart()
-                        }
-                    }
-                case .finished:
-                    break
                 }
             } receiveValue: { [weak self] result in
                 self?.cartResult = result
@@ -119,18 +111,10 @@ public final class CartViewModel: ObservableObject {
         isLoading = true
         productService.getProductByID(idRFNomenclature: idRFNomenclature)
             .receive(on: DispatchQueue.main)
-            .sink { [weak self] completion in
+            .sink { [weak self] in
                 self?.isLoading = false
-                switch completion {
-                case .failure(let error):
+                if case .failure(let error) = $0 {
                     self?.error = error
-                    if error == .unauthorized {
-                        AuthorizationViewModel.shared.refreshTokenAnd {
-                            self?.getProductByID(idRFNomenclature: idRFNomenclature)
-                        }
-                    }
-                case .finished:
-                    break
                 }
             } receiveValue: { [weak self] result in
                 self?.productDictionary[idRFNomenclature] = result.data
@@ -142,21 +126,10 @@ public final class CartViewModel: ObservableObject {
         isLoading = true
         cartService.addCartItem(idrfNomenclature: idrfNomenclature, count: count)
             .receive(on: DispatchQueue.main)
-            .sink { [weak self] completion in
+            .sink { [weak self] in
                 self?.isLoading = false
-                switch completion {
-                case .failure(let error):
+                if case .failure(let error) = $0 {
                     self?.error = error
-                    if error == .unauthorized {
-                        AuthorizationViewModel.shared.refreshTokenAnd {
-                            self?.addCartItem(
-                                idrfNomenclature: idrfNomenclature,
-                                count: count
-                            )
-                        }
-                    }
-                case .finished:
-                    break
                 }
             } receiveValue: { [weak self] result in
                 self?.cartResult = result
@@ -168,21 +141,10 @@ public final class CartViewModel: ObservableObject {
         isLoading = true
         cartService.deleteCartItem(idrfNomenclature: idrfNomenclature, count: count)
             .receive(on: DispatchQueue.main)
-            .sink { [weak self] completion in
+            .sink { [weak self] in
                 self?.isLoading = false
-                switch completion {
-                case .failure(let error):
+                if case .failure(let error) = $0 {
                     self?.error = error
-                    if error == .unauthorized {
-                        AuthorizationViewModel.shared.refreshTokenAnd {
-                            self?.deleteCartItem(
-                                idrfNomenclature: idrfNomenclature,
-                                count: count
-                            )
-                        }
-                    }
-                case .finished:
-                    break
                 }
             } receiveValue: { [weak self] result in
                 self?.cartResult = result
@@ -195,18 +157,10 @@ public final class CartViewModel: ObservableObject {
         
         cartService.addAddressToCart(addressString: address, idAddress: UUID().uuidString)
             .receive(on: DispatchQueue.main)
-            .sink { [weak self] completion in
+            .sink { [weak self] in
                 self?.isLoading = false
-                switch completion {
-                case .failure(let error):
+                if case .failure(let error) = $0 {
                     self?.error = error
-                    if error == .unauthorized {
-                        AuthorizationViewModel.shared.refreshTokenAnd {
-                            self?.addAddress()
-                        }
-                    }
-                case .finished:
-                    break
                 }
             } receiveValue: { [weak self] result in
                 self?.cartResult = result
@@ -220,18 +174,10 @@ public final class CartViewModel: ObservableObject {
         
         cartService.addCommentToCart(comment)
             .receive(on: DispatchQueue.main)
-            .sink { [weak self] completion in
+            .sink { [weak self] in
                 self?.isLoading = false
-                switch completion {
-                case .failure(let error):
+                if case .failure(let error) = $0 {
                     self?.error = error
-                    if error == .unauthorized {
-                        AuthorizationViewModel.shared.refreshTokenAnd {
-                            self?.addComment()
-                        }
-                    }
-                case .finished:
-                    break
                 }
             } receiveValue: { [weak self] result in
                 self?.cartResult = result
@@ -244,18 +190,10 @@ public final class CartViewModel: ObservableObject {
         
         cartService.addBonusesToCart(amount)
             .receive(on: DispatchQueue.main)
-            .sink { [weak self] completion in
+            .sink { [weak self] in
                 self?.isLoading = false
-                switch completion {
-                case .failure(let error):
+                if case .failure(let error) = $0 {
                     self?.error = error
-                    if error == .unauthorized {
-                        AuthorizationViewModel.shared.refreshTokenAnd {
-                            self?.confirmCart()
-                        }
-                    }
-                case .finished:
-                    break
                 }
             } receiveValue: { [weak self] result in
                 self?.cartResult = result
@@ -266,18 +204,10 @@ public final class CartViewModel: ObservableObject {
     public func deleteBonuses() {
         cartService.deleteBonusesFromCart()
             .receive(on: DispatchQueue.main)
-            .sink { [weak self] completion in
+            .sink { [weak self] in
                 self?.isLoading = false
-                switch completion {
-                case .failure(let error):
+                if case .failure(let error) = $0 {
                     self?.error = error
-                    if error == .unauthorized {
-                        AuthorizationViewModel.shared.refreshTokenAnd {
-                            self?.confirmCart()
-                        }
-                    }
-                case .finished:
-                    break
                 }
             } receiveValue: { [weak self] result in
                 self?.cartResult = result
@@ -289,18 +219,10 @@ public final class CartViewModel: ObservableObject {
         isLoading = true
         cartService.confirmCart()
             .receive(on: DispatchQueue.main)
-            .sink { [weak self] completion in
+            .sink { [weak self] in
                 self?.isLoading = false
-                switch completion {
-                case .failure(let error):
+                if case .failure(let error) = $0 {
                     self?.error = error
-                    if error == .unauthorized {
-                        AuthorizationViewModel.shared.refreshTokenAnd {
-                            self?.confirmCart()
-                        }
-                    }
-                case .finished:
-                    break
                 }
             } receiveValue: { [weak self] result in
                 self?.order = result.data
@@ -322,12 +244,9 @@ extension CartViewModel {
                 return self?.daDataService.getSuggestions(for: address) ?? Empty().eraseToAnyPublisher()
             }
             .receive(on: DispatchQueue.main)
-            .sink { [weak self] completion in
+            .sink { [weak self] in
                 self?.isLoading = false
-                switch completion {
-                case .finished:
-                    break
-                case .failure(let error):
+                if case .failure(let error) = $0 {
                     self?.error = error
                 }
             } receiveValue: { [weak self] newSuggestions in

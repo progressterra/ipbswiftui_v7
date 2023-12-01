@@ -73,18 +73,10 @@ public class WantThisViewModel: ObservableObject {
         
         documentService.fetchCharacteristicType(for: IPBSettings.wantThisDocumentID)
             .receive(on: DispatchQueue.main)
-            .sink { [weak self] completion in
+            .sink { [weak self] in
                 self?.isLoading = false
-                switch completion {
-                case .failure(let error):
+                if case .failure(let error) = $0 {
                     self?.error = error
-                    if error == .unauthorized {
-                        AuthorizationViewModel.shared.refreshTokenAnd {
-                            self?.fetchFieldsData()
-                        }
-                    }
-                case .finished:
-                    break
                 }
             } receiveValue: { [weak self] result in
                 do {
@@ -154,18 +146,10 @@ public class WantThisViewModel: ObservableObject {
                 }
             }
             .receive(on: DispatchQueue.main)
-            .sink { [unowned self] completion in
-                self.isLoading = false
-                switch completion {
-                case .failure(let error):
-                    self.error = error
-                    if error == .unauthorized {
-                        AuthorizationViewModel.shared.refreshTokenAnd {
-                            self.fillDocument()
-                        }
-                    }
-                case .finished:
-                    break
+            .sink { [weak self] in
+                self?.isLoading = false
+                if case .failure(let error) = $0 {
+                    self?.error = error
                 }
             } receiveValue: { [unowned self] result in
                 self.document = result
@@ -199,18 +183,10 @@ public class WantThisViewModel: ObservableObject {
         
         documentService.fetchDocumentList(with: filter)
             .receive(on: DispatchQueue.main)
-            .sink { [weak self] completion in
+            .sink { [weak self] in
                 self?.isLoading = false
-                switch completion {
-                case .failure(let error):
+                if case .failure(let error) = $0 {
                     self?.error = error
-                    if error == .unauthorized {
-                        AuthorizationViewModel.shared.refreshTokenAnd {
-                            self?.fetchDocumentList()
-                        }
-                    }
-                case .finished:
-                    break
                 }
             } receiveValue: { [weak self] result in
                 self?.documentList = result
@@ -263,18 +239,10 @@ extension WantThisViewModel {
                     }
                 }
                 .receive(on: DispatchQueue.main)
-                .sink { [unowned self] completion in
-                    self.isLoading = false
-                    switch completion {
-                    case .failure(let error):
-                        self.error = error
-                        if error == .unauthorized {
-                            AuthorizationViewModel.shared.refreshTokenAnd {
-                                self.editDocument()
-                            }
-                        }
-                    case .finished:
-                        break
+                .sink { [weak self] in
+                    self?.isLoading = false
+                    if case .failure(let error) = $0 {
+                        self?.error = error
                     }
                 } receiveValue: { [unowned self] result in
                     self.document = result

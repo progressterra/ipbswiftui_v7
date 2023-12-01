@@ -56,13 +56,10 @@ public class AuthorizationViewModel: ObservableObject {
         isLoading = true
         authService.startLogin(with: phoneNumber)
             .receive(on: DispatchQueue.main)
-            .sink { [weak self] completion in
+            .sink { [weak self] in
                 self?.isLoading = false
-                switch completion {
-                case .failure(let error):
+                if case .failure(let error) = $0 {
                     self?.error = error
-                case .finished:
-                    break
                 }
             } receiveValue: { [weak self] result in
                 self?.tempToken = result.data?.tempToken
@@ -77,13 +74,10 @@ public class AuthorizationViewModel: ObservableObject {
         isLoading = true
         authService.endLogin(with: codeFromSMS, tempToken: tempToken)
             .receive(on: DispatchQueue.main)
-            .sink { [weak self] completion in
+            .sink { [weak self] in
                 self?.isLoading = false
-                switch completion {
-                case .failure(let error):
+                if case .failure(let error) = $0 {
                     self?.error = error
-                case .finished:
-                    break
                 }
             } receiveValue: { [unowned self] value in
                 self.endLoginStatus = value.result.status
@@ -121,18 +115,10 @@ public class AuthorizationViewModel: ObservableObject {
                 accessToken: AuthStorage.shared.getAccessToken()
             )
             .receive(on: DispatchQueue.main)
-            .sink { [weak self] completion in
+            .sink { [weak self] in
                 self?.isLoading = false
-                switch completion {
-                case .failure(let error):
+                if case .failure(let error) = $0 {
                     self?.error = error
-                    if error == .unauthorized {
-                        self?.refreshTokenAnd {
-                            self?.logoutAllTokens(userId: userId)
-                        }
-                    }
-                case .finished:
-                    break
                 }
             } receiveValue: { [weak self] result in
                 if result.result.status == .success {
@@ -151,52 +137,15 @@ public class AuthorizationViewModel: ObservableObject {
                 accessToken: AuthStorage.shared.getAccessToken()
             )
             .receive(on: DispatchQueue.main)
-            .sink(receiveCompletion: { [weak self] completion in
+            .sink { [weak self] in
                 self?.isLoading = false
-                switch completion {
-                case .failure(let error):
-                    if error == .unauthorized {
-                        self?.refreshTokenAnd {
-                            self?.logoutToken()
-                        }
-                    }
-                case .finished:
-                    break
+                if case .failure(let error) = $0 {
+                    self?.error = error
                 }
-            }, receiveValue: { [weak self] result in
+            } receiveValue: { [weak self] result in
                 if result.result.status == .success {
                     AuthStorage.shared.logout()
                     self?.isLoggedIn = false
-                }
-            })
-            .store(in: &subscriptions)
-    }
-    
-    public func refreshTokenAnd(_ retry: @escaping () -> Void) {
-        if refreshTokenPublisher == nil {
-            refreshTokenPublisher = authService.refreshToken(with: AuthStorage.shared.getRefreshToken())
-                .share()
-                .eraseToAnyPublisher()
-        }
-        
-        isLoading = true
-        
-        refreshTokenPublisher?
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] completion in
-                self?.isLoading = false
-                switch completion {
-                case .failure(let error):
-                    print("Refresh token error: \(error)")
-                case .finished:
-                    self?.refreshTokenPublisher = nil
-                    break
-                }
-            } receiveValue: { result in
-                if result.result.status == .success {
-                    AuthStorage.shared.updateTokenStorage(for: result.data)
-                    print("Token refreshed ✅")
-                    retry()
                 }
             }
             .store(in: &subscriptions)

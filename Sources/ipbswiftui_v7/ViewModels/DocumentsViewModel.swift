@@ -96,18 +96,10 @@ public class DocumentsViewModel: ObservableObject {
         
         documentService.fetchDocSet(for: id)
             .receive(on: DispatchQueue.main)
-            .sink { [weak self] completion in
+            .sink { [weak self] in
                 self?.isLoading = false
-                switch completion {
-                case .failure(let error):
+                if case .failure(let error) = $0 {
                     self?.error = error
-                    if error == .unauthorized {
-                        AuthorizationViewModel.shared.refreshTokenAnd {
-                            self?.fetchDocumentSet()
-                        }
-                    }
-                case .finished:
-                    break
                 }
             } receiveValue: { [weak self] result in
                 self?.documentSet = result
@@ -163,18 +155,10 @@ public class DocumentsViewModel: ObservableObject {
                     return documentService.setImage(for: idUnique, with: MediaModel(data: imageData))
                 }
                 .receive(on: DispatchQueue.main)
-                .sink { [unowned self] completion in
-                    self.isLoading = false
-                    switch completion {
-                    case .failure(let error):
-                        self.error = error
-                        if error == .unauthorized {
-                            AuthorizationViewModel.shared.refreshTokenAnd {
-                                self.fillDocument(with: idUnique)
-                            }
-                        }
-                    case .finished:
-                        break
+                .sink { [weak self] in
+                    self?.isLoading = false
+                    if case .failure(let error) = $0 {
+                        self?.error = error
                     }
                 } receiveValue: { [unowned self] result in
                     self.document = result

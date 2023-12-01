@@ -67,18 +67,10 @@ public class MainViewModel: ObservableObject {
         
         productService.fetchProductList(for: idCategory, using: filter)
             .receive(on: DispatchQueue.main)
-            .sink { [weak self] completion in
+            .sink { [weak self] in
                 self?.isLoading = false
-                switch completion {
-                case .failure(let error):
+                if case .failure(let error) = $0 {
                     self?.error = error
-                    if error == .unauthorized {
-                        AuthorizationViewModel.shared.refreshTokenAnd {
-                            self?.fetchProductList(for: idCategory)
-                        }
-                    }
-                case .finished:
-                    break
                 }
             } receiveValue: { [weak self] result in
                 if result.result.status == .success {

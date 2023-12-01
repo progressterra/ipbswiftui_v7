@@ -108,18 +108,10 @@ public class WithdrawalViewModel: ObservableObject {
         isLoading = true
         documentService.fetchCharacteristicType(for: IPBSettings.bankCardDocumentID)
             .receive(on: DispatchQueue.main)
-            .sink { [weak self] completion in
+            .sink { [weak self] in
                 self?.isLoading = false
-                switch completion {
-                case .failure(let error):
+                if case .failure(let error) = $0 {
                     self?.error = error
-                    if error == .unauthorized {
-                        AuthorizationViewModel.shared.refreshTokenAnd {
-                            self?.fetchFieldsData()
-                        }
-                    }
-                case .finished:
-                    break
                 }
             } receiveValue: { [weak self] result in
                 do {
@@ -184,18 +176,10 @@ public class WithdrawalViewModel: ObservableObject {
                 return documentService.setImage(for: currentDocumentID, with: MediaModel(data: imageData))
             }
             .receive(on: DispatchQueue.main)
-            .sink { [unowned self] completion in
-                self.isLoading = false
-                switch completion {
-                case .failure(let error):
-                    self.error = error
-                    if error == .unauthorized {
-                        AuthorizationViewModel.shared.refreshTokenAnd {
-                            self.fillDocument()
-                        }
-                    }
-                case .finished:
-                    break
+            .sink { [weak self] in
+                self?.isLoading = false
+                if case .failure(let error) = $0 {
+                    self?.error = error
                 }
             } receiveValue: { [unowned self] result in
                 self.document = result
@@ -229,18 +213,10 @@ public class WithdrawalViewModel: ObservableObject {
         
         documentService.fetchDocumentList(with: filter)
             .receive(on: DispatchQueue.main)
-            .sink { [weak self] completion in
+            .sink { [weak self] in
                 self?.isLoading = false
-                switch completion {
-                case .failure(let error):
+                if case .failure(let error) = $0 {
                     self?.error = error
-                    if error == .unauthorized {
-                        AuthorizationViewModel.shared.refreshTokenAnd {
-                            self?.fetchDocumentList()
-                        }
-                    }
-                case .finished:
-                    break
                 }
             } receiveValue: { [weak self] result in
                 self?.documentList = result
@@ -261,18 +237,10 @@ public class WithdrawalViewModel: ObservableObject {
         
         paymentDataService.fetchPaymentDataList(with: filter)
             .receive(on: DispatchQueue.main)
-            .sink { [weak self] completion in
+            .sink { [weak self] in
                 self?.isLoading = false
-                switch completion {
-                case .failure(let error):
+                if case .failure(let error) = $0 {
                     self?.error = error
-                    if error == .unauthorized {
-                        AuthorizationViewModel.shared.refreshTokenAnd {
-                            self?.fetchPaymentDataList()
-                        }
-                    }
-                case .finished:
-                    break
                 }
             } receiveValue: { [weak self] result in
                 self?.paymentDataList = result
@@ -292,18 +260,10 @@ public class WithdrawalViewModel: ObservableObject {
         
         paymentsService.createPayment(with: entity)
             .receive(on: DispatchQueue.main)
-            .sink { [weak self] completion in
+            .sink { [weak self] in
                 self?.isLoading = false
-                switch completion {
-                case .failure(let error):
+                if case .failure(let error) = $0 {
                     self?.error = error
-                    if error == .unauthorized {
-                        AuthorizationViewModel.shared.refreshTokenAnd {
-                            self?.createPayment()
-                        }
-                    }
-                case .finished:
-                    break
                 }
             } receiveValue: { [weak self] result in
                 self?.payment = result
@@ -336,18 +296,10 @@ public class WithdrawalViewModel: ObservableObject {
         
         paymentsService.fetchPaymentList(with: filter)
             .receive(on: DispatchQueue.main)
-            .sink { [weak self] completion in
+            .sink { [weak self] in
                 self?.isLoading = false
-                switch completion {
-                case .failure(let error):
+                if case .failure(let error) = $0 {
                     self?.error = error
-                    if error == .unauthorized {
-                        AuthorizationViewModel.shared.refreshTokenAnd {
-                            self?.fetchPaymentList()
-                        }
-                    }
-                case .finished:
-                    break
                 }
             } receiveValue: { [weak self] result in
                 self?.paymentList = result
@@ -360,18 +312,10 @@ public class WithdrawalViewModel: ObservableObject {
         
         balanceService.getClientBalance()
             .receive(on: DispatchQueue.main)
-            .sink { [weak self] completion in
+            .sink { [weak self] in
                 self?.isLoading = false
-                switch completion {
-                case .failure(let error):
+                if case .failure(let error) = $0 {
                     self?.error = error
-                    if error == .unauthorized {
-                        AuthorizationViewModel.shared.refreshTokenAnd {
-                            self?.getClientBalance()
-                        }
-                    }
-                case .finished:
-                    break
                 }
             } receiveValue: { [weak self] result in
                 self?.clientBalanceAmount = result.data?.amount
@@ -443,18 +387,10 @@ extension WithdrawalViewModel {
                     return documentService.setImage(for: currentDocumentID, with: MediaModel(data: imageData))
                 }
                 .receive(on: DispatchQueue.main)
-                .sink { [unowned self] completion in
-                    self.isLoading = false
-                    switch completion {
-                    case .failure(let error):
-                        self.error = error
-                        if error == .unauthorized {
-                            AuthorizationViewModel.shared.refreshTokenAnd {
-                                self.editDocument()
-                            }
-                        }
-                    case .finished:
-                        break
+                .sink { [weak self] in
+                    self?.isLoading = false
+                    if case .failure(let error) = $0 {
+                        self?.error = error
                     }
                 } receiveValue: { [unowned self] result in
                     self.document = result

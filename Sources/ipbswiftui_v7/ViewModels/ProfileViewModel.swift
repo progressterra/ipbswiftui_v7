@@ -57,8 +57,6 @@ public class ProfileViewModel: ObservableObject {
     public init(clientService: SCRMService = SCRMService(), mediaDataService: MediaDataService = MediaDataService()) {
         self.sCRMService = clientService
         self.mediaDataService = mediaDataService
-        
-        setUpView()
     }
     
     public func setUpView() {

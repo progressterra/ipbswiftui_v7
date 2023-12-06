@@ -78,6 +78,8 @@ public struct ProfileView: View {
             .background(Style.background)
             .navigationBarTitleDisplayMode(.inline)
             .toolbar(.visible, for: .navigationBar)
+            .onAppear(perform: profileVM.setUpView)
+            .refreshable { profileVM.setUpView() }
             .navigationDestination(isPresented: $isAuthViewPresented) {
                 AuthorizationView().toolbarRole(.editor)
             }

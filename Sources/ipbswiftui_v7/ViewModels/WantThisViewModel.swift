@@ -57,8 +57,6 @@ public class WantThisViewModel: ObservableObject {
             .combineLatest($itemName, $itemImage)
             .map { $0.isEmpty && $1.isEmpty && $2 == nil }
             .assign(to: &$isSubmitButtonDisabled)
-        
-        fetchFieldsData()
     }
     
     public func eraseDocumentData() {

@@ -57,7 +57,6 @@ public struct ProfileLinkCardView: View {
         }
         .background(Style.surface)
         .cornerRadius(8)
-        .onAppear(perform: vm.setUpView)
     }
 }
 

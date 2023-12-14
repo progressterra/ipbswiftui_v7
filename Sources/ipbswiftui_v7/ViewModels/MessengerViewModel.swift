@@ -271,6 +271,8 @@ public class MessengerViewModel: ObservableObject {
 
 extension MessengerViewModel {
     public func checkDialogsNotifications() {
+        guard !AuthStorage.shared.getRefreshToken().isEmpty else { return }
+        
         let filter = FilterAndSort(
             listFields: nil, sort: nil, searchData: nil, skip: 0, take: 50
         )

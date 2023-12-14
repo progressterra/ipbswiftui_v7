@@ -12,6 +12,8 @@ public struct ItemDetailView: View {
     @EnvironmentObject var cartVM: CartViewModel
     @EnvironmentObject var vm: MainViewModel
     
+    @State private var isAuthAlertPresented: Bool?
+    
     let product: ProductViewDataModel
     
     public init(product: ProductViewDataModel) {
@@ -55,7 +57,11 @@ public struct ItemDetailView: View {
                     .padding(.horizontal, 12)
                     
                     CustomButtonView(title: "Добавить в корзину") {
-                        cartVM.addCartItem(idrfNomenclature: product.nomenclature.idUnique, count: 1)
+                        if AuthStorage.shared.getRefreshToken().isEmpty {
+                            isAuthAlertPresented = true
+                        } else {
+                            cartVM.addCartItem(idrfNomenclature: product.nomenclature.idUnique, count: 1)
+                        }
                     }
                 }
                 .padding(.horizontal)
@@ -73,5 +79,26 @@ public struct ItemDetailView: View {
             }
         }
         .background(Style.background)
+        .overlay {
+            ZStack {
+                if isAuthAlertPresented ?? false {
+                    Rectangle()
+                        .foregroundStyle(.ultraThinMaterial)
+                        .transition(.opacity)
+                    
+                    AuthAlertView(
+                        isPresented: $isAuthAlertPresented,
+                        message: IPBSettings.authDescription
+                    ) {
+                        AuthorizationViewModel.shared.isLoggedIn = false
+                        AuthorizationViewModel.shared.isNewUser = true
+                    }
+                    .padding()
+                    .shadow(radius: 10)
+                    .transition(.asymmetric(insertion: .scale, removal: .scale.combined(with: .opacity)))
+                }
+            }
+        }
+        .animation(.bouncy, value: isAuthAlertPresented)
     }
 }

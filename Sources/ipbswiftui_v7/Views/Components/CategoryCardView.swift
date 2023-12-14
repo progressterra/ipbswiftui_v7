@@ -33,7 +33,7 @@ public struct CategoryCardView: View {
                 .lineLimit(2)
                 .font(Style.footnoteRegular)
                 .foregroundColor(Style.textPrimary)
-                .frame(width: width, height: 32, alignment: .top)
+                .frame(width: width, height: 36, alignment: .top)
                 .multilineTextAlignment(.center)
         }
     }

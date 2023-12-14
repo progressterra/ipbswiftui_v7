@@ -32,7 +32,7 @@ public struct CatalogProductListView: View {
                             price: product.inventoryData.currentPrice,
                             originalPrice: product.inventoryData.beginPrice,
                             imageURL: product.nomenclature.listImages?.first?.urlData ?? "",
-                            isAddToCartShowing: true,
+                            isAddToCartShowing: !AuthStorage.shared.getRefreshToken().isEmpty,
                             countMonthPayment: product.installmentPlanValue.countMonthPayment,
                             amountPaymentInMonth: product.installmentPlanValue.amountPaymentInMonth
                         )

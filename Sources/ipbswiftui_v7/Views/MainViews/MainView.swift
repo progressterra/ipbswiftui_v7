@@ -33,7 +33,7 @@ public struct MainView: View {
                         availableInstalmentAmount: 0,
                         isButtonsShowing: true,
                         authDescription: IPBSettings.authDescription,
-                        isAuthorized: !AuthStorage.shared.getAccessToken().isEmpty,
+                        isAuthorized: !AuthStorage.shared.getRefreshToken().isEmpty,
                         isCardAdded: withdrawalVM.documentList?.dataList != nil,
                         addCardAction: { isAddCardViewPresented = true },
                         authAction: {
@@ -119,7 +119,7 @@ extension MainView {
                             price: product.inventoryData.currentPrice,
                             originalPrice: product.inventoryData.beginPrice,
                             imageURL: product.nomenclature.listImages?.first?.urlData ?? "",
-                            isAddToCartShowing: true,
+                            isAddToCartShowing: !AuthStorage.shared.getRefreshToken().isEmpty,
                             countMonthPayment: product.installmentPlanValue.countMonthPayment,
                             amountPaymentInMonth: product.installmentPlanValue.amountPaymentInMonth
                         )

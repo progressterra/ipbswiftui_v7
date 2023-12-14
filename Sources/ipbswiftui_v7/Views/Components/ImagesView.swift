@@ -1,6 +1,6 @@
 //
 //  ImagesView.swift
-//  
+//
 //
 //  Created by Artemy Volkov on 20.07.2023.
 //
@@ -54,23 +54,32 @@ public struct ImagesView: View {
             .frame(height: size)
             
             VStack(spacing: 8) {
-                ScrollView(.horizontal, showsIndicators: false) {
-                    HStack(spacing: 8) {
-                        ForEach(0..<imageURLs.count, id: \.self) { index in
-                            SelectImageButtonView(imageURL: imageURLs[index]) {
-                                selector = index
-                            }
-                            .scaleEffect(selector == index ? 0.9 : 1)
-                            .overlay {
-                                if selector == index {
-                                    RoundedRectangle(cornerRadius: 8)
-                                        .inset(by: 1)
-                                        .strokeBorder()
-                                        .gradientColor(gradient: Style.primary)
+                ScrollViewReader { proxy in
+                    ScrollView(.horizontal, showsIndicators: false) {
+                        HStack(spacing: 8) {
+                            ForEach(0..<imageURLs.count, id: \.self) { index in
+                                SelectImageButtonView(imageURL: imageURLs[index]) {
+                                    selector = index
+                                }
+                                .scaleEffect(selector == index ? 0.9 : 1)
+                                .overlay {
+                                    if selector == index {
+                                        RoundedRectangle(cornerRadius: 8)
+                                            .inset(by: 1)
+                                            .strokeBorder()
+                                            .gradientColor(gradient: Style.primary)
+                                    }
                                 }
                             }
+                            Spacer()
                         }
-                        Spacer()
+                        .padding(.horizontal, 12)
+                    }
+                    .padding(.horizontal, -12)
+                    .onChange(of: selector) { newIndex in
+                        withAnimation {
+                            proxy.scrollTo(newIndex, anchor: .center)
+                        }
                     }
                 }
                 

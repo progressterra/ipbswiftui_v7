@@ -23,7 +23,7 @@ public struct AuthorizationBannerView: View {
                 .padding()
                 .overlay {
                     VStack(spacing: 150) {
-                        Image("rediLogo", bundle: .module)
+                        Image("EnterpriseLogo")
                         VStack {
                             Text("Легко накопить")
                             Text("—")

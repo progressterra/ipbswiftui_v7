@@ -34,6 +34,7 @@ public struct AuthorizationView: View {
                     phoneNumber: $vm.phoneNumber,
                     offerLink: Style.offerURL,
                     privacyPolicyLink: Style.privacyURL,
+                    presentKeyboardDelay: 0.5,
                     authAction: {
                         vm.startLogin()
                         isSignInViewPresented = false

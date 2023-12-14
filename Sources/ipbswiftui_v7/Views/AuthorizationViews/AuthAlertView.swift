@@ -8,11 +8,11 @@
 import SwiftUI
 
 public struct AuthAlertView: View {
-    @Binding var isPresented: Bool
+    @Binding var isPresented: Bool?
     let message: String
     let authAction: () -> ()
     
-    public init(isPresented: Binding<Bool>, message: String, authAction: @escaping () -> Void) {
+    public init(isPresented: Binding<Bool?> = .constant(nil), message: String, authAction: @escaping () -> Void) {
         self._isPresented = isPresented
         self.message = message
         self.authAction = authAction
@@ -20,14 +20,16 @@ public struct AuthAlertView: View {
     
     public var body: some View {
         VStack(spacing: 20) {
-            HStack {
-                Spacer()
-                
-                Button(action: { isPresented = false }) {
-                    Image("xmark", bundle: .module)
-                        .resizable()
-                        .frame(width: 20, height: 20)
-                        .foregroundColor(Style.iconsTertiary)
+            if isPresented != nil {
+                HStack {
+                    Spacer()
+                    
+                    Button(action: { isPresented = false }) {
+                        Image("xmark", bundle: .module)
+                            .resizable()
+                            .frame(width: 20, height: 20)
+                            .foregroundColor(Style.iconsTertiary)
+                    }
                 }
             }
             

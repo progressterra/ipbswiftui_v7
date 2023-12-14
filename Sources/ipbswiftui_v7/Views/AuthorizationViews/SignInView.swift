@@ -11,6 +11,7 @@ public struct SignInView: View {
     @Binding var phoneNumber: String
     let offerLink: String
     let privacyPolicyLink: String
+    let presentKeyboardDelay: Double
     let authAction: () -> ()
     let skipAction: (() -> ())?
     
@@ -22,12 +23,14 @@ public struct SignInView: View {
         phoneNumber: Binding<String>,
         offerLink: String,
         privacyPolicyLink: String,
+        presentKeyboardDelay: Double = 3,
         authAction: @escaping () -> (),
         skipAction: (() -> ())? = nil
     ) {
         self._phoneNumber = phoneNumber
         self.offerLink = offerLink
         self.privacyPolicyLink = privacyPolicyLink
+        self.presentKeyboardDelay = presentKeyboardDelay
         self.authAction = authAction
         self.skipAction = skipAction
     }
@@ -44,7 +47,7 @@ public struct SignInView: View {
                     .onChange(of: phoneNumber) { isAuthButtonDisabled = $0.count < 11 }
                     .onAppear {
                         isAuthButtonDisabled = phoneNumber.count < 11
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + presentKeyboardDelay) {
                             isFocused = true
                         }
                     }

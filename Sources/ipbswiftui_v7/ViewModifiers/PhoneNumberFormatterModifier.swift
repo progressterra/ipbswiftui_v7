@@ -29,7 +29,7 @@ public struct PhoneNumberFormatterModifier: ViewModifier {
                 }
             }
             .onAppear {
-                phoneNumber = "7"
+                if phoneNumber.isEmpty { phoneNumber = "7" }
                 displayedPhoneNumber = format(phoneNumber: phoneNumber)
             }
     }

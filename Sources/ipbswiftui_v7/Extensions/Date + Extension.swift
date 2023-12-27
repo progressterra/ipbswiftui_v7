@@ -1,6 +1,6 @@
 //
 //  Date + Extension.swift
-//  
+//
 //
 //  Created by Artemy Volkov on 29.08.2023.
 //
@@ -30,5 +30,9 @@ public extension Date {
         } else {
             return ""
         }
+    }
+    
+    func startOfDay() -> Date {
+        Calendar.current.startOfDay(for: self)
     }
 }

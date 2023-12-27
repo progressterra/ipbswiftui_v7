@@ -66,6 +66,8 @@ public class ProfileViewModel: ObservableObject {
     
     public func patchClientData() {
         
+        setClientsEmail()
+        
         let clientsEntity = ClientsEntity(
             name: name,
             soname: surname,
@@ -82,6 +84,21 @@ public class ProfileViewModel: ObservableObject {
             .receive(on: DispatchQueue.main)
             .sink { [weak self] in
                 self?.isLoading = false
+                if case .failure(let error) = $0 {
+                    self?.error = error
+                }
+            } receiveValue: { [weak self] result in
+                self?.getClientData()
+            }
+            .store(in: &subscriptions)
+    }
+    
+    public func setClientsEmail() {
+        guard !email.isEmpty else { return }
+        
+        sCRMService.setEmail(email)
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] in
                 if case .failure(let error) = $0 {
                     self?.error = error
                 }

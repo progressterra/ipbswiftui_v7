@@ -8,11 +8,11 @@
 import SwiftUI
 
 public struct OrderStageView: View {
-    @Binding var currentStageIndex: Int
+    var currentStageIndex: Int
     let stages: [String]
     
-    public init(currentStageIndex: Binding<Int>, stages: [String]) {
-        self._currentStageIndex = currentStageIndex
+    public init(currentStageIndex: Int, stages: [String]) {
+        self.currentStageIndex = currentStageIndex
         self.stages = stages
     }
     

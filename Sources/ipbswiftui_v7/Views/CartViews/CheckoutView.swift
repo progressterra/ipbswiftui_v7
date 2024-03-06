@@ -12,6 +12,10 @@ public struct CheckoutView: View {
     
     public init() {}
     
+    var currentStageIndex: Int {
+        vm.checkoutStage.rawValue == 0 ? 2 : vm.checkoutStage.rawValue
+    }
+    
     public var body: some View {
         ZStack {
             Style.background.ignoresSafeArea()
@@ -19,24 +23,24 @@ public struct CheckoutView: View {
             ScrollView {
                 VStack(spacing: 40) {
                     OrderStageView(
-                        currentStageIndex: $vm.currentCheckoutStageIndex,
+                        currentStageIndex: currentStageIndex,
                         stages: ["Детали", "Доставка", "Оплата"]
                     )
                     .onTapGesture(coordinateSpace: CoordinateSpace.local) {
-                        if $0.y < 100, vm.currentCheckoutStageIndex == 2 {
-                            vm.currentCheckoutStageIndex -= 1
+                        if $0.y < 100, vm.checkoutStage == .payment {
+                            vm.checkoutStage = .delivery
                         }
                     }
                     
-                    if vm.currentCheckoutStageIndex == 1 {
+                    if vm.checkoutStage == .delivery {
                         DeliveryOptionFillView()
                             .padding(.horizontal)
                             .transition(.slide)
-                    } else if vm.currentCheckoutStageIndex == 2 {
+                    } else if vm.checkoutStage == .payment || vm.checkoutStage == .paymentProvider {
                         PaymentFillView()
                             .padding(.horizontal)
                             .transition(.slide)
-                    } else if vm.currentCheckoutStageIndex == 3 {
+                    } else if vm.checkoutStage == .final {
                         CheckoutFinalView()
                             .padding(.horizontal)
                             .transition(.slide)
@@ -45,7 +49,7 @@ public struct CheckoutView: View {
             }
             .onTapGesture(perform: hideKeyboard)
             
-            if vm.currentCheckoutStageIndex == 1 {
+            if vm.checkoutStage == .delivery {
                 VStack {
                     Spacer()
                     
@@ -53,7 +57,7 @@ public struct CheckoutView: View {
                         title: "Далее",
                         isDisabled: $vm.isDeliveryButtonDisabled
                     ) {
-                        vm.currentCheckoutStageIndex += 1
+                        vm.checkoutStage = .payment
                         vm.addAddress()
                         vm.addComment()
                     }
@@ -70,7 +74,7 @@ public struct CheckoutView: View {
                 Color.clear.transition(.slide)
             }
         }
-        .animation(.default, value: vm.currentCheckoutStageIndex)
+        .animation(.default, value: vm.checkoutStage)
         .animation(.default, value: vm.cartResult?.result.xRequestID)
         .safeAreaPadding(value: 50)
         .toolbar {

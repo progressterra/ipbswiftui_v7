@@ -22,11 +22,20 @@ public final class CartViewModel: ObservableObject {
     @Published public var productDictionary: [String: ProductViewDataModel] = [:]
     @Published public var cartItemsCount: Int? = nil
     
-    @Published public var currentCheckoutStageIndex: Int = 1
+    @Published public var paymentOption: PaymentFillView.PaymentOption = .internalPay
+    
+    public enum CheckoutStage: Int {
+        case paymentProvider
+        case delivery
+        case payment
+        case final
+    }
+    
+    @Published public var checkoutStage: CheckoutStage = .delivery
     
     // Delivery properties
     @Published public var address: String = ""
-    @Published var suggestions: [Suggestion]?
+    @Published public var suggestions: [Suggestion]?
     @Published public var comment: String = ""
     @Published public var isDeliveryButtonDisabled: Bool = true
     

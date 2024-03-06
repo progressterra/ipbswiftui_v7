@@ -60,8 +60,8 @@ public struct ReceiptView: View {
             }
             
             CustomButtonView(title: "Оплатить", isDisabled: $vm.isLoading) {
-                vm.confirmCart()
-                vm.currentCheckoutStageIndex += 1
+                vm.checkoutStage = vm.paymentOption == .internalPay ? .final : .paymentProvider
+                if vm.paymentOption == .internalPay { vm.confirmCart() }
             }
             .padding(.vertical, 20)
             

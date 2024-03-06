@@ -78,6 +78,7 @@ public struct CompactChatView: View {
                     sendMessageAction: vm.sendMessage
                 )
                 .focused($isFocused)
+                .onAppear { isFocused = true }
             }
             .transition(
                 .asymmetric(insertion: .push(from: .bottom), removal: .push(from: .top))

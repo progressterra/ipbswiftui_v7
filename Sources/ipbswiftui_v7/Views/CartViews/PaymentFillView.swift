@@ -28,8 +28,6 @@ public struct PaymentFillView: View {
         }
     }
     
-    @State private var paymentOption: PaymentOption = .internalPay
-    
     @State private var promoCode: String = ""
     @State private var isReceiveReceiptOnEmail: Bool = false
     @State private var email: String = ""
@@ -37,8 +35,8 @@ public struct PaymentFillView: View {
     public var body: some View {
         VStack(spacing: 8) {
             PaymentMethodPickerView(
-                value: $paymentOption,
-                options: [.internalPay]
+                value: $vm.paymentOption,
+                options: [.internalPay, .onlineByCard]
             )
             
             BonusesToggleView(

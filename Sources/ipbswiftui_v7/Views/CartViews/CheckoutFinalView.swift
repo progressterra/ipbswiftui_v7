@@ -24,30 +24,28 @@ public struct CheckoutFinalView: View {
                     .foregroundColor(Style.textTertiary)
             }
             
-            if let itemsCount = vm.cartItemsCount {
-                VStack(spacing: 4) {
-                    Text(getProductWord(count: itemsCount))
-                        .font(Style.subheadlineBold)
-                        .foregroundColor(Style.onBackground)
+            VStack(spacing: 4) {
+                Text(getProductWord(count: vm.cartItemsCount))
+                    .font(Style.subheadlineBold)
+                    .foregroundColor(Style.onBackground)
+                
+                if let dateTranssferToSend = vm.cartResult?.data?.dateTranssferToSend {
+                    Text("Доставка ожидается:")
+                        .font(Style.footnoteBold)
+                        .foregroundColor(Style.textTertiary)
+                    Text(dateTranssferToSend.format(as: "dd.MM.yyyy"))
+                        .font(Style.footnoteRegular)
+                        .foregroundColor(Style.textSecondary)
                     
-                    if let dateTranssferToSend = vm.cartResult?.data?.dateTranssferToSend {
-                        Text("Доставка ожидается:")
-                            .font(Style.footnoteBold)
-                            .foregroundColor(Style.textTertiary)
-                        Text(dateTranssferToSend.format(as: "dd.MM.yyyy"))
-                            .font(Style.footnoteRegular)
-                            .foregroundColor(Style.textSecondary)
-                        
-                    }
-                    
-                    if let address = vm.cartResult?.data?.adressString {
-                        Text("Адрес доставки:")
-                            .font(Style.footnoteBold)
-                            .foregroundColor(Style.textTertiary)
-                        Text(address)
-                            .font(Style.footnoteRegular)
-                            .foregroundColor(Style.textSecondary)
-                    }
+                }
+                
+                if let address = vm.cartResult?.data?.adressString {
+                    Text("Адрес доставки:")
+                        .font(Style.footnoteBold)
+                        .foregroundColor(Style.textTertiary)
+                    Text(address)
+                        .font(Style.footnoteRegular)
+                        .foregroundColor(Style.textSecondary)
                 }
             }
             

@@ -69,15 +69,12 @@ public struct ChatView: View {
                 }
                 .onTapGesture { isFocused = false }
             }
-            
-            VStack {
-                Spacer()
-                SendMessageBarView(currentMessageText: $vm.currentMessageText, sendMessageAction: vm.sendMessage)
-                    .focused($isFocused)
-            }
-            .padding(.horizontal)
-            .safeAreaPadding(value: isFocused ? 0 : 65)
         }
         .onDisappear { vm.messages = nil }
+        .overlay(alignment: .bottom) {
+            SendMessageBarView(currentMessageText: $vm.currentMessageText, sendMessageAction: vm.sendMessage)
+                .focused($isFocused)
+                .padding(.horizontal)
+        }
     }
 }

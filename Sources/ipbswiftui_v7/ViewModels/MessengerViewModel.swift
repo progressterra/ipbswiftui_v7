@@ -59,7 +59,7 @@ public class MessengerViewModel: ObservableObject {
     }
     
     public func sendMessage() {
-        guard let currentDialog = currentDialog, !currentMessageText.isEmpty else { return }
+        guard let currentDialog, !currentMessageText.isEmpty else { return }
 
         isLoading = true
         

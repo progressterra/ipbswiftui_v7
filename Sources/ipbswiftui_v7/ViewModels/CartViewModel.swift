@@ -15,12 +15,12 @@ public final class CartViewModel: ObservableObject {
     
     @Published public var cartResult: ResultData<DHSaleHeadAsOrderViewModel>? {
         didSet {
-            cartItemsCount = cartResult?.data?.listDRSale?.reduce(0, { $0 + $1.quantity })
+            cartItemsCount = cartResult?.data?.listDRSale?.reduce(0, { $0 + $1.quantity }) ?? 0
         }
     }
     @Published public var order: DHSaleHeadAsOrderViewModel?
     @Published public var productDictionary: [String: ProductViewDataModel] = [:]
-    @Published public var cartItemsCount: Int? = nil
+    @Published public var cartItemsCount: Int = 0
     
     @Published public var paymentOption: PaymentFillView.PaymentOption = .internalPay
     

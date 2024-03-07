@@ -28,7 +28,7 @@ public struct AsyncImageView: View {
             .fade(duration: 0.25)
             .resizable()
             .scaledToFill()
-            .frame(width: width, height: height)
+            .frame(maxWidth: width, maxHeight: height)
             .cornerRadius(cornerRadius)
     }
 }

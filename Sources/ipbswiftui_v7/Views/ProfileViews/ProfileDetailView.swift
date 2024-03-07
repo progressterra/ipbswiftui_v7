@@ -182,7 +182,6 @@ public struct ProfileDetailView: View {
                                     .onAppear {
                                         displayingBirthday = vm.birthday.format(as: "dd.MM.yyyy")
                                     }
-                                    .animation(.default, value: displayingBirthday)
                                     .onReceive(vm.$birthday) {
                                         displayingBirthday = $0.format(as: "dd.MM.yyyy")
                                     }
@@ -217,6 +216,7 @@ public struct ProfileDetailView: View {
                                     .cornerRadius(8)
                                     .onChange(of: vm.birthday) { displayingBirthday = $0.format(as: "dd.MM.yyyy") }
                                     .transition(.scale.combined(with: .push(from: .top)).combined(with: .opacity))
+                                    .frame(width: 300)
                             }
                         }
                         
@@ -302,7 +302,6 @@ public struct ProfileDetailView: View {
             }
             .safeAreaPadding(value: 130)
             .refreshable { vm.setUpView() }
-            .onAppear(perform: vm.setUpView)
             .onTapGesture(perform: hideKeyboard)
             .overlay(alignment: .bottom) {
                 VStack {

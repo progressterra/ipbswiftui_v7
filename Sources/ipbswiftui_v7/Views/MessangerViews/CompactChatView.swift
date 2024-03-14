@@ -49,6 +49,12 @@ public struct CompactChatView: View {
                                             isOwnMessage: message.isOwnMessage,
                                             backgroundColor: Style.background
                                         )
+                                        .id(message.idUnique)
+                                    }
+                                    .onAppear {
+                                        withAnimation(.default.speed(0.25)) {
+                                            proxy.scrollTo(messages.last?.idUnique ?? "")
+                                        }
                                     }
                                 } else {
                                     Text("")

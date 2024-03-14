@@ -27,9 +27,10 @@ public struct StatusAlertView: View {
                 .background(Style.primary)
                 .cornerRadius(8)
                 .shadow(radius: 10)
-                .transition(AnyTransition.scale.combined(with: .opacity).animation(bouncyAnimation))
+                .multilineTextAlignment(.center)
+                .transition(.scale.combined(with: .opacity).animation(bouncyAnimation))
                 .onAppear {
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
                         withAnimation {
                             self.status = nil
                             onDisappear()

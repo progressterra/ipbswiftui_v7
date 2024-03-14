@@ -9,7 +9,6 @@ import SwiftUI
 import ipbswiftapi_v7
 
 struct OrderStatusView: View {
-    @EnvironmentObject var vm: CartViewModel
     
     let order: DHSaleHeadAsOrderViewModel
     
@@ -31,7 +30,6 @@ struct OrderStatusView: View {
                         .font(Style.footnoteRegular)
                         .foregroundColor(Style.textTertiary)
                 }
-                
                 
                 VStack(alignment: .leading, spacing: 16) {
                     ForEach(orderStatuses, id: \.self) { status in

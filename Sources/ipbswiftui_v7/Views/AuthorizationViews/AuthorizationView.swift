@@ -77,7 +77,10 @@ public struct AuthorizationView: View {
                 Alert(
                     title: Text("Ошибка"),
                     message: Text(vm.errorMessage),
-                    dismissButton: .default(Text("OK")) { vm.error = nil }
+                    dismissButton: .default(Text("OK")) { 
+                        vm.error = nil
+                        vm.codeFromSMS = ""
+                    }
                 )
             }
         }

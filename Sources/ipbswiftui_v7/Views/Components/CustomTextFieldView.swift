@@ -12,6 +12,7 @@ public struct CustomTextFieldView: View {
     let prompt: String
     let backgroundColor: Color
     let isSecured: Bool
+    let axis: Axis
     
     @FocusState private var isFocused: Bool
     
@@ -19,12 +20,14 @@ public struct CustomTextFieldView: View {
         text: Binding<String>,
         prompt: String,
         backgroundColor: Color = Style.surface,
-        isSecured: Bool = false
+        isSecured: Bool = false,
+        axis: Axis = .horizontal
     ) {
         self._text = text
         self.prompt = prompt
         self.backgroundColor = backgroundColor
         self.isSecured = isSecured
+        self.axis = axis
     }
     
     public var body: some View {
@@ -44,7 +47,7 @@ public struct CustomTextFieldView: View {
                             .foregroundColor(Style.textDisabled)
                     }
                 } else {
-                    TextField(text: $text) {
+                    TextField(text: $text, axis: axis) {
                         Text(prompt)
                             .foregroundColor(Style.textDisabled)
                     }

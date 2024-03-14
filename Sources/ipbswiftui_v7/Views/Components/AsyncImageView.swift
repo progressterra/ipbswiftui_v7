@@ -22,13 +22,15 @@ public struct AsyncImageView: View {
     }
     
     public var body: some View {
-        KFImage.url(URL(string: imageURL))
+        KFImage(URL(string: imageURL))
             .loadDiskFileSynchronously()
             .placeholder { ProgressView() }
-            .fade(duration: 0.25)
+            .onFailureImage(KFCrossPlatformImage(named: "placeholder", in: .module, with: .none))
+            .retry(maxCount: 3)
+            .fade(duration: 0.5)
             .resizable()
             .scaledToFill()
-            .frame(maxWidth: width, maxHeight: height)
+            .frame(maxWidth: width, minHeight: height, maxHeight: height)
             .cornerRadius(cornerRadius)
     }
 }

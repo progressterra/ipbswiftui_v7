@@ -18,21 +18,12 @@ public struct AuthorizationBannerView: View {
     
     public var body: some View {
         VStack {
-            Image("authorizationBackground", bundle: .module)
+            Spacer()
+            
+            Image("authorizationBanner")
                 .resizable()
+                .scaledToFit()
                 .padding()
-                .overlay {
-                    VStack(spacing: 150) {
-                        Image("EnterpriseLogo")
-                        VStack {
-                            Text("Легко накопить")
-                            Text("—")
-                            Text("легко потратить")
-                        }
-                        .foregroundColor(Style.onSurface.opacity(0.65))
-                        .font(Style.title)
-                    }
-                }
             
             Spacer(minLength: 80)
             

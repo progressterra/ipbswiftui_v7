@@ -23,6 +23,7 @@ public class MessengerViewModel: ObservableObject {
     @Published public var dialogList: ResultDataList<RGDialogsViewModel>?
     @Published public var message: ResultData<RGMessagesViewModel>?
     @Published public var messages: ResultDataList<RGMessagesViewModel>?
+    @Published public var messageToUpdate: RGMessagesViewModel?
     @Published public var currentMessageText = ""
     @Published public var totalUnreadMessages: Int?
     @Published public var dialogsNotifications: [String: DialogNotifications]?
@@ -101,6 +102,42 @@ public class MessengerViewModel: ObservableObject {
             } receiveValue: { [weak self] result in
                 self?.message = result
                 self?.getMessageList()
+                self?.currentMessageText = ""
+            }
+            .store(in: &subscriptions)
+    }
+    
+    func updateMessage(_ message: RGMessagesViewModel) {
+        isLoading = true
+        
+        let message = RGMessages(
+            idDialog: message.idDialog,
+            contentText: currentMessageText,
+            idQuotedMessage: message.idQuotedMessage,
+            idClient: message.idClient,
+            dataClientJSONData: message.dataClientJSONData,
+            quotedMessageJSONData: message.quotedMessageJSONData,
+            dateRead: message.dateRead,
+            agileListReactionData: message.agileListReactionData,
+            idLastRRGHistory: message.idLastRRGHistory,
+            idUnique: message.idUnique,
+            idEnterprise: message.idEnterprise,
+            dateAdded: message.dateAdded,
+            dateUpdated: message.dateUpdated,
+            dateSoftRemoved: message.dateSoftRemoved
+        )
+        
+        messengerService.patchMessage(with: message)
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] in
+                self?.isLoading = false
+                if case .failure(let error) = $0 {
+                    self?.error = error
+                }
+            } receiveValue: { [weak self] result in
+                self?.message = result
+                self?.getMessageList()
+                self?.messageToUpdate = nil
                 self?.currentMessageText = ""
             }
             .store(in: &subscriptions)
@@ -184,6 +221,22 @@ public class MessengerViewModel: ObservableObject {
             .store(in: &subscriptions)
     }
     
+    public func fetchOrCreateDialog(with incomeDataForCreateDialog: IncomeDataForCreateDialog) {
+        isLoading = true
+        
+        messengerService.createDialog(with: incomeDataForCreateDialog)
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] in
+                self?.isLoading = false
+                if case .failure(let error) = $0 {
+                    self?.error = error
+                }
+            } receiveValue: { [weak self] result in
+                self?.currentDialog = result.data
+            }
+            .store(in: &subscriptions)
+    }
+    
     /// - Parameters:
     ///   - dataSourceType: The type of data source for the dialog.
     ///   - name: The name or title for the dialog. Do not fill it if you need to use target as description.
@@ -253,19 +306,7 @@ public class MessengerViewModel: ObservableObject {
             additionalDataJSON: additionalDataJSON
         )
         
-        isLoading = true
-        
-        messengerService.createDialog(with: incomeDataForCreateDialog)
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] in
-                self?.isLoading = false
-                if case .failure(let error) = $0 {
-                    self?.error = error
-                }
-            } receiveValue: { [weak self] result in
-                self?.currentDialog = result.data
-            }
-            .store(in: &subscriptions)
+        fetchOrCreateDialog(with: incomeDataForCreateDialog)
     }
 }
 

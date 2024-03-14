@@ -39,6 +39,13 @@ public struct ChatView: View {
                                         }
                                     }
                                 }
+                                .contextMenu {
+                                    Button("Изменить") {
+                                        vm.currentMessageText = message.contentText ?? ""
+                                        vm.messageToUpdate = message
+                                        isFocused = true
+                                    }
+                                }
                             }
                         } else {
                             Text("Сообщений пока нет")
@@ -70,11 +77,22 @@ public struct ChatView: View {
                 .onTapGesture { isFocused = false }
             }
         }
-        .onDisappear { vm.messages = nil }
+        .onDisappear {
+            vm.messages = nil
+            vm.messageToUpdate = nil
+            vm.currentDialog = nil
+            vm.currentMessageText = ""
+        }
         .overlay(alignment: .bottom) {
-            SendMessageBarView(currentMessageText: $vm.currentMessageText, sendMessageAction: vm.sendMessage)
-                .focused($isFocused)
-                .padding(.horizontal)
+            SendMessageBarView(currentMessageText: $vm.currentMessageText) {
+                if let messageToUpdate = vm.messageToUpdate {
+                    vm.updateMessage(messageToUpdate)
+                } else {
+                    vm.sendMessage()
+                }
+            }
+            .focused($isFocused)
+            .padding(.horizontal)
         }
     }
 }

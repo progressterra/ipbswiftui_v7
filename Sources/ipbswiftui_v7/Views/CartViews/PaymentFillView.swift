@@ -32,6 +32,8 @@ public struct PaymentFillView: View {
     @State private var isReceiveReceiptOnEmail: Bool = false
     @State private var email: String = ""
     
+    public init() {}
+    
     public var body: some View {
         VStack(spacing: 8) {
             PaymentMethodPickerView(

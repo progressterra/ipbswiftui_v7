@@ -170,7 +170,7 @@ public struct Style {
             let config = try decoder.decode(StyleConfiguration.self, from: data)
             configure(with: config)
         } catch {
-            fatalError("Failed to decode StyleConfig.json file: \(error.localizedDescription)")
+            fatalError("Failed to decode StyleConfig.json file: \(error)")
         }
     }
     

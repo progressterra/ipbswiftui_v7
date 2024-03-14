@@ -109,11 +109,13 @@ extension ItemCardView {
                         alignment: .topLeading
                     )
                     .minimumScaleFactor(0.8)
+                    .multilineTextAlignment(.leading)
                 
                 if let brandName = details.brandName {
                     Text(brandName)
                         .font(Style.footnoteRegular)
                         .foregroundColor(Style.textTertiary)
+                        .multilineTextAlignment(.leading)
                 }
                 
                 originalPrice
@@ -157,11 +159,15 @@ extension ItemCardView {
                         alignment: .topLeading
                     )
                     .minimumScaleFactor(0.8)
+                    .multilineTextAlignment(.leading)
+                    .lineLimit(2)
                 
                 if let brandName = details.brandName {
                     Text(brandName)
                         .font(Style.footnoteRegular)
                         .foregroundColor(Style.textTertiary)
+                        .multilineTextAlignment(.leading)
+                        .lineLimit(2)
                 }
                 
                 if let sizeDescription = details.sizeDescription {
@@ -205,7 +211,11 @@ extension ItemCardView {
                 }
                 
                 if format != .inOrder {
-                    quantityPicker
+                    QuantityPicker(
+                        currentQuantity: $currentItemsAdded,
+                        decreaseAction: actions.deleteAction,
+                        increaseAction: actions.addItemAction
+                    )
                 }
             }
             
@@ -249,55 +259,18 @@ extension ItemCardView {
     var button: some View {
         ZStack {
             if currentItemsAdded == 0 {
-                Button(action: increaseItemQuantity) {
+                Button(action: actions.addItemAction) {
                     Image("shoppingCart", bundle: .module)
                         .foregroundColor(Style.iconsPrimary)
                 }
             } else {
-                quantityPicker
+                QuantityPicker(
+                    currentQuantity: $currentItemsAdded,
+                    decreaseAction: actions.deleteAction,
+                    increaseAction: actions.addItemAction
+                )
             }
         }.frame(height: 28)
-    }
-    
-    var quantityPicker: some View {
-        HStack(spacing: 2) {
-            Button(action: decreaseItemQuantity) {
-                Image(systemName: "minus")
-                    .font(.system(size: 10))
-                    .frame(width: 24, height: 24)
-                    .background(Style.iconsSecondary)
-                    .clipShape(Circle())
-            }
-            
-            Text(currentItemsAdded.formatted())
-                .frame(width: 28, height: 28)
-                .background(Style.iconsSecondary)
-                .clipShape(Circle())
-            
-            Button(action: increaseItemQuantity) {
-                Image(systemName: "plus")
-                    .font(.system(size: 10))
-                    .frame(width: 24, height: 24)
-                    .background(Style.iconsSecondary)
-                    .clipShape(Circle())
-            }
-        }
-        .foregroundColor(Style.textPrimary)
-        .font(Style.footnoteRegular)
-    }
-    
-    private func decreaseItemQuantity() {
-        if currentItemsAdded > 0 {
-            currentItemsAdded -= 1
-            actions.removeItemAction()
-        } else {
-            currentItemsAdded = 0
-        }
-    }
-    
-    private func increaseItemQuantity() {
-        currentItemsAdded += 1
-        actions.addItemAction()
     }
 }
 

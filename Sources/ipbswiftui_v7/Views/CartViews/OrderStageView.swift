@@ -35,7 +35,7 @@ public struct OrderStageView: View {
                     passedStage.overlay {
                         Text(stages[stageIndex])
                             .font(Style.body)
-                            .gradientColor(gradient: Style.primary)
+                            .foregroundStyle( Style.primary)
                             .offset(y: 30)
                             .frame(width: 80, height: 20)
                     }
@@ -45,7 +45,7 @@ public struct OrderStageView: View {
                         .overlay {
                             Text(stages[stageIndex])
                                 .font(Style.body)
-                                .foregroundColor(Style.textDisabled)
+                                .foregroundStyle(Style.textDisabled)
                                 .offset(y: 30)
                                 .frame(width: 80, height: 20)
                         }
@@ -66,7 +66,7 @@ public struct OrderStageView: View {
     private var gradientLine: some View {
         Rectangle()
             .frame(height: 2)
-            .gradientColor(gradient: Style.primary)
+            .foregroundStyle( Style.primary)
     }
     
     private var line: some View {
@@ -79,7 +79,7 @@ public struct OrderStageView: View {
             .stroke()
             .frame(height: 12)
             .background(Style.surface)
-            .foregroundColor(Style.iconsPrimary)
+            .foregroundStyle(Style.iconsPrimary)
             .clipShape(Circle())
     }
     
@@ -88,7 +88,7 @@ public struct OrderStageView: View {
             .stroke()
             .frame(height: 12)
             .background(Style.surface)
-            .foregroundColor(Style.iconsDisabled)
+            .foregroundStyle(Style.iconsDisabled)
             .clipShape(Circle())
     }
     
@@ -96,12 +96,12 @@ public struct OrderStageView: View {
         Image("checkMark", bundle: .module)
             .resizable()
             .frame(width: 16, height: 16)
-            .gradientColor(gradient: Style.primary)
+            .foregroundStyle( Style.primary)
             .background(Style.surface)
             .overlay {
                 Circle()
                     .stroke()
-                    .gradientColor(gradient: Style.primary)
+                    .foregroundStyle( Style.primary)
             }
             .clipShape(Circle())
     }

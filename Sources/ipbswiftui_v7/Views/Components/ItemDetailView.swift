@@ -41,17 +41,17 @@ public struct ItemDetailView: View {
                     VStack(alignment: .leading, spacing: 4) {
                         Text(product.inventoryData.beginPrice.asCurrency())
                             .font(Style.title)
-                            .foregroundColor(Style.textTertiary)
+                            .foregroundStyle(Style.textTertiary)
                             .bold()
                             .strikethrough()
                         
                         Text("Цена для вас:")
-                            .foregroundColor(Style.textPrimary)
+                            .foregroundStyle(Style.textPrimary)
                             .font(Style.footnoteRegular)
                         
                         Text(product.inventoryData.currentPrice.asCurrency())
                             .font(Style.title)
-                            .foregroundColor(Style.textPrimary)
+                            .foregroundStyle(Style.textPrimary)
                             .bold()
                     }
                     .padding(.horizontal, 12)
@@ -70,12 +70,11 @@ public struct ItemDetailView: View {
                 Spacer()
             }
         }
-        .safeAreaPadding()
         .toolbar {
             ToolbarItem(placement: .principal) {
                 Text(product.nomenclature.name ?? "")
                     .font(Style.title)
-                    .foregroundColor(Style.textPrimary)
+                    .foregroundStyle(Style.textPrimary)
             }
         }
         .background(Style.background)

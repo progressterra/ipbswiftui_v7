@@ -45,7 +45,7 @@ public struct NewWithdrawalView: View {
                                             RoundedRectangle(cornerRadius: 8)
                                                 .stroke()
                                                 .cornerRadius(8)
-                                                .gradientColor(gradient: Style.primary)
+                                                .foregroundStyle( Style.primary)
                                                 .transition(.opacity)
                                         }
                                     }
@@ -73,7 +73,7 @@ public struct NewWithdrawalView: View {
                         }) {
                             Text("Вывести всё")
                                 .font(Style.subheadlineBold)
-                                .foregroundColor(Style.textTertiary)
+                                .foregroundStyle(Style.textTertiary)
                         }
                     }
                     .padding(.top, -8)
@@ -105,8 +105,6 @@ public struct NewWithdrawalView: View {
                 isPresented = false
             }
         }
-        .safeAreaPadding()
-        .edgesIgnoringSafeArea(.bottom)
         .padding(.horizontal)
         .background(Style.background)
         .onAppear {
@@ -117,7 +115,7 @@ public struct NewWithdrawalView: View {
             ToolbarItem(placement: .principal) {
                 Text("Вывод средств")
                     .font(Style.title)
-                    .foregroundColor(Style.textPrimary)
+                    .foregroundStyle(Style.textPrimary)
             }
             
             ToolbarItem(placement: .navigationBarTrailing) {

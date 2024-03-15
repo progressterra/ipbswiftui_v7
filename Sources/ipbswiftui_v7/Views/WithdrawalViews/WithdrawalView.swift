@@ -33,13 +33,12 @@ public struct WithdrawalView: View {
         .onAppear(perform: vm.getClientBalance)
         .animation(.default, value: vm.paymentList?.result.xRequestID)
         .padding(.horizontal)
-        .safeAreaPadding(value: 35)
         .background(Style.background)
         .toolbar {
             ToolbarItem(placement: .principal) {
                 Text("Вывод средств")
                     .font(Style.title)
-                    .foregroundColor(Style.textPrimary)
+                    .foregroundStyle(Style.textPrimary)
             }
             
             ToolbarItem(placement: .navigationBarTrailing) {
@@ -78,7 +77,7 @@ public struct WithdrawalView: View {
                 VStack(spacing: 20) {
                     Text("История выводов")
                         .font(Style.title)
-                        .foregroundColor(Style.textPrimary)
+                        .foregroundStyle(Style.textPrimary)
                     
                     ScrollView {
                         VStack(spacing: 8) {
@@ -99,7 +98,7 @@ public struct WithdrawalView: View {
             } else {
                 Text("Выводов пока нет")
                     .font(Style.title)
-                    .foregroundColor(Style.textPrimary)
+                    .foregroundStyle(Style.textPrimary)
             }
             
             Spacer()
@@ -111,7 +110,7 @@ public struct WithdrawalView: View {
             Spacer()
             
             Text("Чтобы получать оплату и делать выгодные покупки необходимо добавить карту")
-                .foregroundColor(Style.textPrimary)
+                .foregroundStyle(Style.textPrimary)
                 .font(Style.title)
                 .multilineTextAlignment(.center)
             

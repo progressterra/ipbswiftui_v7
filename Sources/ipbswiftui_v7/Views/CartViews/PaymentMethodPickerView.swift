@@ -19,7 +19,7 @@ public struct PaymentMethodPickerView<T: DisplayOptionProtocol>: View {
     public var body: some View {
         VStack(alignment: .leading, spacing: 8) {
             Text("Оплата")
-                .foregroundColor(Style.textPrimary)
+                .foregroundStyle(Style.textPrimary)
                 .font(Style.title)
             
             VStack(spacing: 4) {
@@ -31,7 +31,7 @@ public struct PaymentMethodPickerView<T: DisplayOptionProtocol>: View {
                             
                             Text(option.rawValue)
                                 .font(Style.body)
-                                .foregroundColor(Style.textPrimary)
+                                .foregroundStyle(Style.textPrimary)
                             
                             Spacer()
                         }

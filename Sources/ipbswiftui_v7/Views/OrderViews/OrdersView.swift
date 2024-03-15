@@ -11,14 +11,20 @@ import ipbswiftapi_v7
 public struct OrdersView: View {
     @EnvironmentObject var vm: OrdersViewModel
     
-    public init() {}
+    let isTrackable: Bool
+    let isProductCouldBePresented: Bool
+    
+    public init(isTrackable: Bool = true, isProductCouldBePresented: Bool = true) {
+        self.isTrackable = isTrackable
+        self.isProductCouldBePresented = isProductCouldBePresented
+    }
     
     public var body: some View {
         ScrollView {
             VStack(spacing: 8) {
                 if let orders = vm.orderList?.dataList {
                     ForEach(orders, id: \.idUnique) { order in
-                        NavigationLink(destination: OrderDetailView(order: order).toolbarRole(.editor)) {
+                        NavigationLink(destination: OrderDetailView(order: order, isTrackable: isTrackable, isProductCouldBePresented: isProductCouldBePresented).toolbarRole(.editor)) {
                             OrderDetailView(order: order, isInList: true)
                         }
                     }
@@ -28,13 +34,12 @@ public struct OrdersView: View {
         }
         .frame(maxWidth: .infinity)
         .background(Style.background)
-        .safeAreaPadding()
         .refreshable { vm.getOrderList() }
         .onAppear(perform: vm.getOrderList)
         .toolbar {
             ToolbarItem(placement: .principal) {
                 Text("Мои заказы")
-                    .foregroundColor(Style.textPrimary)
+                    .foregroundStyle(Style.textPrimary)
                     .font(Style.title)
             }
 

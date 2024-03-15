@@ -26,17 +26,17 @@ public struct WithdrawalHistoryCardView: View {
             HStack {
                 Text(amount.asCurrency())
                     .font(Style.headline)
-                    .foregroundColor(Style.textPrimary)
+                    .foregroundStyle(Style.textPrimary)
                 Spacer()
                 Text(dateString.convertDateFormat(to: "dd.MM.yyyy"))
             }
             
             Text(cardNumber)
                 .font(Style.subheadlineRegular)
-                .foregroundColor(Style.textPrimary)
+                .foregroundStyle(Style.textPrimary)
             Text(statusString)
                 .font(Style.footnoteRegular)
-                .foregroundColor(statusColor)
+                .foregroundStyle(statusColor)
         }
         .padding(.vertical, 8)
         .padding(.horizontal)

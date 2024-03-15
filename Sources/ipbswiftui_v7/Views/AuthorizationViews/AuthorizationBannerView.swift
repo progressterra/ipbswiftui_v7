@@ -32,7 +32,7 @@ public struct AuthorizationBannerView: View {
                 
                 Button(action: skipAction) {
                     Text("Пока пропустить")
-                        .foregroundColor(Style.textDisabled)
+                        .foregroundStyle(Style.textDisabled)
                         .font(Style.body)
                         .bold()
                         .padding(.vertical, 15)

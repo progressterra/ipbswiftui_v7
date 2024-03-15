@@ -47,7 +47,7 @@ public struct WantThisRequestsView: View {
                                 if let name = fields.first?.valueData {
                                     Text(name)
                                         .font(Style.footnoteRegular)
-                                        .foregroundColor(Style.textPrimary)
+                                        .foregroundStyle(Style.textPrimary)
                                 }
                                 if let statusDoc = document.statusDoc {
                                     displayDocStatus(statusDoc)
@@ -77,14 +77,13 @@ public struct WantThisRequestsView: View {
             }
         }
         .animation(.default, value: vm.documentList?.result.xRequestID)
-        .safeAreaPadding()
         .background(Style.background)
         .onAppear { vm.fetchDocumentList() }
         .refreshable { vm.fetchDocumentList() }
         .toolbar {
             ToolbarItem(placement: .principal) {
                 Text("Запросы Хочу это")
-                    .foregroundColor(Style.textPrimary)
+                    .foregroundStyle(Style.textPrimary)
                     .font(Style.title)
             }
             
@@ -104,16 +103,16 @@ public struct WantThisRequestsView: View {
         switch statusDoc {
         case .confirmed:
             return Text("Запрос подтвержден")
-                .foregroundColor(Style.onBackground)
+                .foregroundStyle(Style.onBackground)
         case .waitReview, .waitImage:
             return Text("Ожидает подтверждения")
-                .foregroundColor(Style.textTertiary)
+                .foregroundStyle(Style.textTertiary)
         case .rejected:
             return Text("Запрос отклонен")
-                .foregroundColor(Style.textPrimary2)
+                .foregroundStyle(Style.textPrimary2)
         case .notFill:
             return Text("Документ не заполнен")
-                .foregroundColor(Style.textPrimary2)
+                .foregroundStyle(Style.textPrimary2)
         }
     }
 }

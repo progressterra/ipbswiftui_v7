@@ -22,7 +22,7 @@ public struct PromotionCardView: View {
     
     public var body: some View {
         Rectangle()
-            .foregroundColor(.clear)
+            .foregroundStyle(.clear)
             .frame(width: size, height: size)
             .background(
                 LinearGradient(
@@ -51,7 +51,7 @@ public struct PromotionCardView: View {
                 Text(title)
                     .padding(10)
                     .font(Style.body)
-                    .foregroundColor(.white)
+                    .foregroundStyle(.white)
             }
             .onTapGesture(perform: onTapAction)
             .cornerRadius(8)

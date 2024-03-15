@@ -19,62 +19,65 @@ public struct ChatView: View {
     }
     
     public var body: some View {
-        ZStack {
-            ScrollViewReader { proxy in
-                ScrollView {
-                    VStack(spacing: 8) {
-                        if let messages = vm.messages?.dataList, !messages.isEmpty {
-                            ForEach(messages, id: \.idUnique) { message in
-                                MessageView(
-                                    contentText: message.contentText ?? "",
-                                    dateAdded: message.dateAdded,
-                                    isOwnMessage: message.isOwnMessage,
-                                    backgroundColor: Style.surface
-                                )
-                                .id(message.idUnique)
-                                .onAppear {
-                                    if messages.last?.idUnique == message.idUnique {
-                                        withAnimation(.default.speed(0.25)) {
-                                            proxy.scrollTo(messages.last?.idUnique)
-                                        }
-                                    }
-                                }
-                                .contextMenu {
-                                    Button("Изменить") {
-                                        vm.currentMessageText = message.contentText ?? ""
-                                        vm.messageToUpdate = message
-                                        isFocused = true
-                                    }
+        ScrollViewReader { proxy in
+            ScrollView {
+                VStack(spacing: 8) {
+                    if let messages = vm.messages?.dataList, !messages.isEmpty {
+                        ForEach(messages, id: \.idUnique) { message in
+                            MessageView(
+                                contentText: message.contentText ?? "",
+                                dateAdded: message.dateAdded,
+                                isOwnMessage: message.isOwnMessage,
+                                backgroundColor: Style.surface
+                            )
+                            .id(message.idUnique)
+                            .contextMenu {
+                                Button("Изменить") {
+                                    vm.currentMessageText = message.contentText ?? ""
+                                    vm.messageToUpdate = message
+                                    isFocused = true
                                 }
                             }
-                        } else {
-                            Text("Сообщений пока нет")
-                                .font(Style.title)
-                                .padding()
-                                .opacity(vm.messages == nil ? 0 : 1)
-                                .animation(.default.delay(0.5), value: vm.messages == nil)
                         }
-                    }
-                    .padding()
-                }
-                .id(vm.messages?.result.xRequestID)
-                .animation(.default, value: vm.messages?.result.xRequestID)
-                .refreshable { vm.getMessageList() }
-                .frame(maxWidth: .infinity)
-                .safeAreaPadding(value: 130)
-                .background(Style.background)
-                .toolbar {
-                    ToolbarItem(placement: .principal) {
-                        Text(vm.currentDialog?.description ?? "")
-                            .foregroundColor(Style.textPrimary)
+                    } else {
+                        Text("Сообщений пока нет")
                             .font(Style.title)
-                    }
-                    
-                    ToolbarItem(placement: .navigationBarTrailing) {
-                        CustomProgressView(isLoading: vm.isLoading)
+                            .padding()
+                            .opacity(vm.messages == nil ? 0 : 1)
+                            .animation(.default.delay(0.5), value: vm.messages == nil)
                     }
                 }
-                .onTapGesture { isFocused = false }
+                .padding()
+            }
+            .animation(.default, value: vm.messages?.dataList?.count)
+            .onReceive(vm.$messages) { proxy.scrollTo($0?.dataList?.last?.idUnique) }
+            .id(vm.messages?.result.xRequestID)
+            .refreshable { vm.getMessageList() }
+            .frame(maxWidth: .infinity)
+            .background(Style.background)
+            .toolbar {
+                ToolbarItem(placement: .principal) {
+                    Text(vm.currentDialog?.description ?? "")
+                        .foregroundStyle(Style.textPrimary)
+                        .font(Style.title)
+                }
+                
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    CustomProgressView(isLoading: vm.isLoading)
+                }
+            }
+            .toolbarBackground(.visible, for: .navigationBar)
+            .onTapGesture { isFocused = false }
+            .safeAreaInset(edge: .bottom) {
+                SendMessageBarView(currentMessageText: $vm.currentMessageText) {
+                    if let messageToUpdate = vm.messageToUpdate {
+                        vm.updateMessage(messageToUpdate)
+                    } else {
+                        vm.sendMessage()
+                    }
+                }
+                .focused($isFocused)
+                .padding(.horizontal)
             }
         }
         .onDisappear {
@@ -82,17 +85,6 @@ public struct ChatView: View {
             vm.messageToUpdate = nil
             vm.currentDialog = nil
             vm.currentMessageText = ""
-        }
-        .overlay(alignment: .bottom) {
-            SendMessageBarView(currentMessageText: $vm.currentMessageText) {
-                if let messageToUpdate = vm.messageToUpdate {
-                    vm.updateMessage(messageToUpdate)
-                } else {
-                    vm.sendMessage()
-                }
-            }
-            .focused($isFocused)
-            .padding(.horizontal)
         }
     }
 }

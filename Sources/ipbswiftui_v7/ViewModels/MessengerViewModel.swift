@@ -242,6 +242,7 @@ public class MessengerViewModel: ObservableObject {
     ///   - name: The name or title for the dialog. Do not fill it if you need to use target as description.
     ///   - reasonID: Optional specific identifier for a type of message addressed to order, docset or iwantit data source.
     ///   - customID: Optional custom identifier, primarily used for custom and client data source type. By default client data source represents empty guid value.
+    ///   - description: Description for custom or reason client
     ///   - targetListImages: Use to provide image for target of dialog.
     ///   - additionalDataJSON: Optional JSON string for any additional data.
     public func fetchOrCreateDialog(
@@ -249,6 +250,7 @@ public class MessengerViewModel: ObservableObject {
         with name: String = "",
         reasonID: String? = nil,
         customID: String? = nil,
+        description: String = "",
         targetListImages: [RGEntityMediaDataViewModel] = [],
         additionalDataJSON: String = ""
     ) {
@@ -275,14 +277,14 @@ public class MessengerViewModel: ObservableObject {
                     MetaDataClientWithID(
                         dataSourceType: dataSourceType,
                         dataSourceName: "",
-                        description: "",
+                        description: dataSourceType.rawValue,
                         listImages: [],
                         idClient: idClient
                     ),
                     MetaDataClientWithID(
                         dataSourceType: dataSourceType,
                         dataSourceName: "",
-                        description: "",
+                        description: description.isEmpty ? dataSourceType.rawValue : description,
                         listImages: targetListImages,
                         idClient: reasonID
                     )
@@ -292,7 +294,7 @@ public class MessengerViewModel: ObservableObject {
                     MetaDataClientWithID(
                         dataSourceType: dataSourceType,
                         dataSourceName: "",
-                        description: "",
+                        description: description.isEmpty ? dataSourceType.rawValue : description,
                         listImages: targetListImages,
                         idClient: idClient
                     )

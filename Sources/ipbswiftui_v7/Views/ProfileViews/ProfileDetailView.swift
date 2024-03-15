@@ -132,7 +132,7 @@ public struct ProfileDetailView: View {
                                     Text("Сменить аватар")
                                     Image("pencilIcon", bundle: .module)
                                 }
-                                .foregroundColor(Style.textTertiary)
+                                .foregroundStyle(Style.textTertiary)
                                 .font(Style.subheadlineBold)
                                 
                                 Spacer()
@@ -190,7 +190,7 @@ public struct ProfileDetailView: View {
                                     .overlay(alignment: .trailing) {
                                         if isInEditMode {
                                             Image("calendarIcon", bundle: .module)
-                                                .gradientColor(gradient:
+                                                .foregroundStyle(
                                                                 isDatePickerPresented
                                                                ? Style.primary
                                                                : LinearGradient(colors: [Style.textDisabled], startPoint: .center, endPoint: .center)
@@ -267,7 +267,7 @@ public struct ProfileDetailView: View {
                                     .overlay(alignment: .trailing) {
                                         if isInEditMode {
                                             Image(systemName: "chevron.down")
-                                                .foregroundColor(Style.iconsTertiary)
+                                                .foregroundStyle(Style.iconsTertiary)
                                                 .rotationEffect(.degrees(isTypeSexPickerPresented ? 180 : 0))
                                                 .padding(.trailing, 8)
                                         }
@@ -300,7 +300,6 @@ public struct ProfileDetailView: View {
                     .autocorrectionDisabled()
                 }
             }
-            .safeAreaPadding(value: 130)
             .refreshable { vm.setUpView() }
             .onTapGesture(perform: hideKeyboard)
             .overlay(alignment: .bottom) {
@@ -320,7 +319,7 @@ public struct ProfileDetailView: View {
                         if let skipAction, focusedField == nil {
                             Button(action: skipAction) {
                                 Text("Пока пропустить")
-                                    .foregroundColor(Style.textDisabled)
+                                    .foregroundStyle(Style.textDisabled)
                                     .font(Style.body)
                                     .bold()
                                     .padding(.vertical, 15)
@@ -328,15 +327,15 @@ public struct ProfileDetailView: View {
                         }
                     }
                     .padding(.horizontal)
+                    .padding(.bottom)
                 }
-                .safeAreaPadding(value: mode == .custom ? 0 : 65)
             }
         }
         .toolbar {
             ToolbarItem(placement: .principal) {
                 Text(navigationTitle)
                     .font(Style.title)
-                    .foregroundColor(Style.textPrimary)
+                    .foregroundStyle(Style.textPrimary)
             }
             
             ToolbarItem(placement: .navigationBarTrailing) {

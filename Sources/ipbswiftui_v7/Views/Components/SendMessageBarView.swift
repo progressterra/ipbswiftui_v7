@@ -23,9 +23,9 @@ public struct SendMessageBarView: View {
         HStack(spacing: 8) {
             TextField(text: $currentMessageText, axis: .vertical) {
                 Text("Сообщение")
-                    .foregroundColor(Style.textDisabled)
+                    .foregroundStyle(Style.textDisabled)
             }
-            .foregroundColor(Style.textPrimary)
+            .foregroundStyle(Style.textPrimary)
             .focused($isFocused)
             .animation(.default, value: currentMessageText)
             
@@ -36,17 +36,23 @@ public struct SendMessageBarView: View {
         .padding(.vertical, 6)
         .background(Style.onSurface)
         .overlay {
+            RoundedRectangle(cornerRadius: 8)
+                .stroke(lineWidth: 1)
+                .foregroundStyle(Style.iconsTertiary)
+                .clipped()
+        }
+        .overlay {
             if isFocused {
                 RoundedRectangle(cornerRadius: 8)
                     .stroke(lineWidth: 2)
-                    .gradientColor(gradient: Style.primary)
+                    .foregroundStyle( Style.primary)
                     .clipped()
             }
         }
         .overlay(alignment: .trailing) {
             Button(action: sendMessageAction) {
                 Image("fluentSendIcon", bundle: .module)
-                    .gradientColor(gradient: Style.primary)
+                    .foregroundStyle( Style.primary)
             }
             .disabled(currentMessageText.isEmpty)
             .padding(.trailing, 8)

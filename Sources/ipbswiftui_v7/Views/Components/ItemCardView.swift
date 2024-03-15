@@ -101,7 +101,7 @@ extension ItemCardView {
             VStack(alignment: .leading, spacing: 4) {
                 Text(details.name)
                     .font(Style.footnoteRegular)
-                    .foregroundColor(Style.textPrimary)
+                    .foregroundStyle(Style.textPrimary)
                     .frame(
                         maxWidth: .infinity,
                         minHeight: 16,
@@ -114,7 +114,7 @@ extension ItemCardView {
                 if let brandName = details.brandName {
                     Text(brandName)
                         .font(Style.footnoteRegular)
-                        .foregroundColor(Style.textTertiary)
+                        .foregroundStyle(Style.textTertiary)
                         .multilineTextAlignment(.leading)
                 }
                 
@@ -124,12 +124,12 @@ extension ItemCardView {
                     VStack(alignment: .leading, spacing: 4) {
                         Text(details.price.asCurrency())
                             .font(Style.subheadlineRegular)
-                            .foregroundColor(Style.iconsPrimary2)
+                            .foregroundStyle(Style.iconsPrimary2)
                         
                         if details.countMonthPayment != 0 && details.amountPaymentInMonth != 0 {
                             Text("Рассрочка:\n\(details.countMonthPayment) платежей\nпо \(details.amountPaymentInMonth.asCurrency())")
                                 .font(Style.footnoteRegular)
-                                .foregroundColor(Style.textTertiary)
+                                .foregroundStyle(Style.textTertiary)
                             
                         }
                     }
@@ -151,7 +151,7 @@ extension ItemCardView {
             VStack(alignment: .leading, spacing: 4) {
                 Text(details.name)
                     .font(Style.footnoteRegular)
-                    .foregroundColor(Style.textPrimary)
+                    .foregroundStyle(Style.textPrimary)
                     .frame(
                         maxWidth: .infinity,
                         minHeight: 16,
@@ -165,7 +165,7 @@ extension ItemCardView {
                 if let brandName = details.brandName {
                     Text(brandName)
                         .font(Style.footnoteRegular)
-                        .foregroundColor(Style.textTertiary)
+                        .foregroundStyle(Style.textTertiary)
                         .multilineTextAlignment(.leading)
                         .lineLimit(2)
                 }
@@ -173,23 +173,23 @@ extension ItemCardView {
                 if let sizeDescription = details.sizeDescription {
                     Text("Размер: \(sizeDescription)")
                         .font(Style.footnoteRegular)
-                        .foregroundColor(Style.textSecondary)
+                        .foregroundStyle(Style.textSecondary)
                 }
                 
                 if let colorAsHex = details.colorAsHex {
                     HStack {
                         Text("Цвет: ")
                             .font(Style.footnoteRegular)
-                            .foregroundColor(Style.textSecondary)
+                            .foregroundStyle(Style.textSecondary)
                             .padding(.trailing)
                         
                         Circle()
                             .frame(width: 14, height: 14)
-                            .foregroundColor(Color(hex: colorAsHex))
+                            .foregroundStyle(Color(hex: colorAsHex))
                             .overlay {
                                 Circle()
                                     .stroke()
-                                    .foregroundColor(Style.secondary)
+                                    .foregroundStyle(Style.secondary)
                             }
                     }
                 }
@@ -197,23 +197,23 @@ extension ItemCardView {
                 if details.countMonthPayment != 0 && details.amountPaymentInMonth != 0 {
                     Text("по \(details.amountPaymentInMonth.asCurrency())\n\(details.countMonthPayment) платежей")
                         .font(Style.subheadlineRegular)
-                        .foregroundColor(Style.textPrimary2)
+                        .foregroundStyle(Style.textPrimary2)
                         .frame(height: 36)
                     Text("(Рассрочка)")
                         .font(Style.subheadlineRegular)
-                        .foregroundColor(Style.textTertiary)
+                        .foregroundStyle(Style.textTertiary)
                 } else {
                     originalPrice
                     
                     Text(details.price.asCurrency())
                         .font(Style.subheadlineRegular)
-                        .foregroundColor(Style.iconsPrimary2)
+                        .foregroundStyle(Style.iconsPrimary2)
                 }
                 
                 if format != .inOrder {
                     QuantityPicker(
                         currentQuantity: $currentItemsAdded,
-                        decreaseAction: actions.deleteAction,
+                        decreaseAction: actions.removeItemAction,
                         increaseAction: actions.addItemAction
                     )
                 }
@@ -223,7 +223,7 @@ extension ItemCardView {
                 VStack {
                     Button(action: actions.deleteAction) {
                         Image("trashCan", bundle: .module)
-                            .foregroundColor(Style.iconsTertiary)
+                            .foregroundStyle(Style.iconsTertiary)
                     }
                     Spacer()
                 }
@@ -237,11 +237,11 @@ extension ItemCardView {
             if let originalPrice = details.originalPrice {
                 Text(originalPrice.asCurrency())
                     .font(Style.subheadlineRegular)
-                    .foregroundColor(Style.textTertiary)
+                    .foregroundStyle(Style.textTertiary)
                     .strikethrough()
                 Text("Цена для вас:")
                     .font(Style.footnoteRegular)
-                    .foregroundColor(Style.textPrimary)
+                    .foregroundStyle(Style.textPrimary)
             }
         }
     }
@@ -261,12 +261,12 @@ extension ItemCardView {
             if currentItemsAdded == 0 {
                 Button(action: actions.addItemAction) {
                     Image("shoppingCart", bundle: .module)
-                        .foregroundColor(Style.iconsPrimary)
+                        .foregroundStyle(Style.iconsPrimary)
                 }
             } else {
                 QuantityPicker(
                     currentQuantity: $currentItemsAdded,
-                    decreaseAction: actions.deleteAction,
+                    decreaseAction: actions.removeItemAction,
                     increaseAction: actions.addItemAction
                 )
             }

@@ -20,12 +20,12 @@ public struct BonusesToggleView: View {
         VStack(alignment: .leading, spacing: 12) {
             Text("Использовать бонусы")
                 .font(Style.title)
-                .foregroundColor(Style.textPrimary)
+                .foregroundStyle(Style.textPrimary)
             
             HStack {
                 Text("\(availableBonuses.clean) Б")
                     .font(Style.body)
-                    .foregroundColor(Style.textTertiary)
+                    .foregroundStyle(Style.textTertiary)
                 Spacer()
                 CustomToggleView(isOn: $isBonusesApplied)
             }

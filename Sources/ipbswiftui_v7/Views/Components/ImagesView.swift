@@ -41,7 +41,7 @@ public struct ImagesView: View {
                                         Image(systemName: "xmark")
                                             .font(.headline)
                                     }
-                                    .foregroundColor(.black)
+                                    .foregroundStyle(.black)
                                     .buttonStyle(.bordered)
                                     .clipShape(Circle())
                                     .padding()
@@ -67,7 +67,7 @@ public struct ImagesView: View {
                                         RoundedRectangle(cornerRadius: 8)
                                             .inset(by: 1)
                                             .strokeBorder()
-                                            .gradientColor(gradient: Style.primary)
+                                            .foregroundStyle( Style.primary)
                                     }
                                 }
                             }
@@ -87,17 +87,17 @@ public struct ImagesView: View {
                     HStack(spacing: 4) {
                         Text("Цвет:")
                             .font(Style.footnoteRegular)
-                            .foregroundColor(Style.textPrimary)
+                            .foregroundStyle(Style.textPrimary)
                         ForEach(0..<colours.count, id: \.self) { index in
                             Button(action: { withAnimation { currentColor = index } }) {
                                 if currentColor == index {
                                     Text(colours[index])
                                         .font(Style.footnoteRegular)
-                                        .gradientColor(gradient: Style.primary)
+                                        .foregroundStyle( Style.primary)
                                 } else {
                                     Text(colours[index])
                                         .font(Style.footnoteRegular)
-                                        .foregroundColor(Style.textDisabled)
+                                        .foregroundStyle(Style.textDisabled)
                                 }
                             }
                             .buttonStyle(.plain)

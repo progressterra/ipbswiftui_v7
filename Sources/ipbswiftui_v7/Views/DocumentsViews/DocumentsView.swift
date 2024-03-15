@@ -50,7 +50,7 @@ public struct DocumentsView: View {
         .toolbar {
             ToolbarItem(placement: .principal) {
                 Text("Документы")
-                    .foregroundColor(Style.textPrimary)
+                    .foregroundStyle(Style.textPrimary)
                     .font(Style.title)
             }
             

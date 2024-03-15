@@ -63,7 +63,6 @@ public struct CatalogView: View {
                     .padding(.horizontal)
                 }
             }
-            .safeAreaPadding()
             .background(Style.background)
             .refreshable { vm.getCatalog() }
             .onAppear(perform: vm.getCatalog)

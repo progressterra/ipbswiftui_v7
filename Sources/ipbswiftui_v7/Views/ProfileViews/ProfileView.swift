@@ -32,7 +32,7 @@ public struct ProfileView: View {
                         VStack(spacing: 12) {
                             Text(IPBSettings.authDescription)
                                 .font(Style.title)
-                                .foregroundColor(Style.textPrimary)
+                                .foregroundStyle(Style.textPrimary)
                                 .multilineTextAlignment(.center)
                             
                             CustomButtonView(title: "Авторизоваться") {

@@ -13,7 +13,9 @@ public struct OrderDetailView: View {
     @EnvironmentObject var supportServiceVM: MessengerViewModel
     
     let order: DHSaleHeadAsOrderViewModel
-    var isInList = false
+    let isInList: Bool
+    let isTrackable: Bool
+    let isProductCouldBePresented: Bool
     
     @State private var currentProduct: ProductViewDataModel?
     @State private var isProductDetailViewPresented = false
@@ -21,9 +23,11 @@ public struct OrderDetailView: View {
     @State private var isOrderStatusInfoViewPresented = false
     @FocusState private var isFocused: Bool
     
-    public init(order: DHSaleHeadAsOrderViewModel, isInList: Bool = false, isFocused: Bool = false) {
+    public init(order: DHSaleHeadAsOrderViewModel, isInList: Bool = false, isTrackable: Bool = false, isProductCouldBePresented: Bool = false, isFocused: Bool = false) {
         self.order = order
         self.isInList = isInList
+        self.isTrackable = isTrackable
+        self.isProductCouldBePresented = isProductCouldBePresented
         self.isFocused = isFocused
     }
     
@@ -50,7 +54,7 @@ public struct OrderDetailView: View {
         .toolbar {
             ToolbarItem(placement: .principal) {
                 Text("Заказ")
-                    .foregroundColor(Style.textPrimary)
+                    .foregroundStyle(Style.textPrimary)
                     .font(Style.title)
             }
         }
@@ -91,6 +95,7 @@ public struct OrderDetailView: View {
                             currentItemsAdded: item.quantity,
                             actions: actions
                         )
+                        .disabled(!isProductCouldBePresented)
                     }
                 }
                 .padding(8)
@@ -106,37 +111,44 @@ public struct OrderDetailView: View {
             .padding()
             .onAppear { vm.fetchProductsInformation(for: order) }
         }
-        .safeAreaPadding()
         .animation(.default, value: isChatOrderPresented)
         .onTapGesture { isFocused = false }
     }
     
     var orderButtons: some View {
         VStack(spacing: 4) {
-            Button(action: {
-                isOrderStatusInfoViewPresented = true
-            }) {
-                VStack(spacing: 2) {
-                    Image("orderTrackIcon", bundle: .module)
-                        .foregroundColor(Style.iconsTertiary)
-                    Text("Отследить")
-                        .foregroundColor(Style.textTertiary)
-                        .font(Style.footnoteRegular)
+            if isTrackable {
+                Button(action: {
+                    isOrderStatusInfoViewPresented = true
+                }) {
+                    VStack(spacing: 2) {
+                        Image("orderTrackIcon", bundle: .module)
+                            .foregroundStyle(Style.iconsTertiary)
+                        Text("Отследить")
+                            .foregroundStyle(Style.textTertiary)
+                            .font(Style.captionBold)
+                    }
                 }
             }
             Button(action: {
-                supportServiceVM.fetchOrCreateDialog(for: .order, with: "Заказ \(order.numberInt)", reasonID: order.idUnique)
+                supportServiceVM.fetchOrCreateDialog(
+                    for: .order,
+                    with: "Заказ \(order.numberInt)",
+                    reasonID: order.idUnique,
+                    description: "Заказ \(order.numberInt)"
+                )
                 isChatOrderPresented = true
             }) {
                 VStack(spacing: 2) {
                     Image("chatIcon", bundle: .module)
-                        .foregroundColor(Style.iconsTertiary)
+                        .foregroundStyle(Style.iconsTertiary)
                     Text("Чат по заказу")
-                        .foregroundColor(Style.textTertiary)
-                        .font(Style.footnoteRegular)
+                        .foregroundStyle(Style.textTertiary)
+                        .font(Style.captionBold)
                 }
             }
+            .disabled(isChatOrderPresented)
+            Spacer()
         }
-        .padding(.vertical, 8)
     }
 }

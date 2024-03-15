@@ -38,11 +38,11 @@ public struct RadioButtonView: View {
         Circle()
             .stroke(lineWidth: 2)
             .frame(width: 16)
-            .gradientColor(gradient: Style.primary)
+            .foregroundStyle( Style.primary)
             .overlay {
                 Circle()
                     .frame(width: 10)
-                    .gradientColor(gradient: Style.primary)
+                    .foregroundStyle( Style.primary)
             }
     }
 }

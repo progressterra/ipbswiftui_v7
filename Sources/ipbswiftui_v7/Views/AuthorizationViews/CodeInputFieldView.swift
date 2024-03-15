@@ -24,7 +24,7 @@ public struct CodeInputFieldView: View {
         VStack(spacing: 16) {
             Text("Код из смс на номер:\n\(displayedPhoneNumber)")
                 .multilineTextAlignment(.center)
-                .foregroundColor(Style.textSecondary)
+                .foregroundStyle(Style.textSecondary)
                 .font(Style.body)
                 .modifier(PhoneNumberFormatterModifier(phoneNumber: .constant(phoneNumber), displayedPhoneNumber: $displayedPhoneNumber))
             
@@ -36,7 +36,7 @@ public struct CodeInputFieldView: View {
                             .frame(width: 56, height: 56)
                         
                         Text(index < codeString.count ? String(codeString[codeString.index(codeString.startIndex, offsetBy: index)]) : "")
-                            .foregroundColor(Style.textPrimary)
+                            .foregroundStyle(Style.textPrimary)
                             .font(Style.largeTitle)
                             .multilineTextAlignment(.center)
                             .frame(width: 56, height: 56)
@@ -44,7 +44,7 @@ public struct CodeInputFieldView: View {
                                 if isFocused && index == codeString.count {
                                     RoundedRectangle(cornerRadius: 8)
                                         .stroke()
-                                        .gradientColor(gradient: Style.primary)
+                                        .foregroundStyle( Style.primary)
                                 }
                             }
                     }
@@ -53,7 +53,7 @@ public struct CodeInputFieldView: View {
             
             TextField("", text: $codeString)
                 .font(Style.largeTitle)
-                .foregroundColor(Style.textPrimary)
+                .foregroundStyle(Style.textPrimary)
                 .multilineTextAlignment(.center)
                 .keyboardType(.numberPad)
                 .textContentType(.oneTimeCode)

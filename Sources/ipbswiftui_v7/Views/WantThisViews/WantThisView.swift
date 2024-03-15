@@ -33,7 +33,7 @@ public struct WantThisView: View {
                         
                         HStack {
                             Text("Прикрепите фото и ссылку на товар, который вы хотите")
-                                .foregroundColor(Style.textPrimary)
+                                .foregroundStyle(Style.textPrimary)
                                 .font(Style.body)
                             Spacer(minLength: 12)
                             CameraButtonView(inputImage: $vm.itemImage)
@@ -49,7 +49,7 @@ public struct WantThisView: View {
                                     .overlay(alignment: .topTrailing) {
                                         Button(action: { vm.itemImage = nil }) {
                                             Image("xmark", bundle: .module)
-                                                .foregroundColor(Style.error)
+                                                .foregroundStyle(Style.error)
                                                 .font(.title)
                                         }
                                         .padding(8)
@@ -86,7 +86,6 @@ public struct WantThisView: View {
                 
                 StatusAlertView(status: $vm.status, onDisappear: vm.eraseDocumentData)
             }
-            .safeAreaPadding()
             .frame(maxWidth: .infinity)
             .background(Style.background)
             .onTapGesture { focusedField = nil }
@@ -96,7 +95,7 @@ public struct WantThisView: View {
             .toolbar {
                 ToolbarItem(placement: .principal) {
                     Text("Хочу это")
-                        .foregroundColor(Style.textPrimary)
+                        .foregroundStyle(Style.textPrimary)
                         .font(Style.title)
                 }
                 

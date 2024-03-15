@@ -97,12 +97,13 @@ public struct SupportServiceView: View {
         .toolbar {
             ToolbarItem(placement: .principal) {
                 Text("Служба поддержки")
-                    .foregroundColor(Style.textPrimary)
+                    .foregroundStyle(Style.textPrimary)
                     .font(Style.title)
             }
         }
         .navigationDestination(isPresented: $isChatPresented) {
-            ChatView().toolbarRole(.editor)
+            ChatView()
+                .toolbarRole(.editor)
         }
         .navigationDestination(isPresented: $isChatsPresented) {
             ChatsView(category: currentCategory).toolbarRole(.editor)

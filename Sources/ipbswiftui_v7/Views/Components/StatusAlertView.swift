@@ -22,7 +22,7 @@ public struct StatusAlertView: View {
         if let status {
             Text(status)
                 .padding()
-                .foregroundColor(Style.textButtonPrimary)
+                .foregroundStyle(Style.textButtonPrimary)
                 .font(Style.headline)
                 .background(Style.primary)
                 .cornerRadius(8)

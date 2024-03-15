@@ -39,11 +39,11 @@ public struct ProfileLinkCardView: View {
                 VStack(alignment: .leading, spacing: 16) {
                     Text(vm.name + " " + vm.surname)
                         .font(Style.title)
-                        .foregroundColor(Style.textSecondary)
+                        .foregroundStyle(Style.textSecondary)
                         .multilineTextAlignment(.leading)
                     Text(vm.email)
                         .font(Style.footnoteRegular)
-                        .foregroundColor(Style.textTertiary)
+                        .foregroundStyle(Style.textTertiary)
                         .lineLimit(1)
                         .minimumScaleFactor(0.8)
                 }
@@ -51,7 +51,7 @@ public struct ProfileLinkCardView: View {
                 Spacer()
                 
                 Image(systemName: "chevron.right")
-                    .foregroundColor(Style.iconsPrimary)
+                    .foregroundStyle(Style.iconsPrimary)
             }
             .padding()
         }

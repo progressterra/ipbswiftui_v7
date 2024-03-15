@@ -43,19 +43,19 @@ public struct BankCardRowView: View {
             VStack(alignment: .leading) {
                 Text("Номер карты " + maskCreditCardNumber(cardNumber))
                     .font(Style.subheadlineRegular)
-                    .foregroundColor(Style.textPrimary)
+                    .foregroundStyle(Style.textPrimary)
                 
                 if let _ = cardStatus {
                     Text(statusTitle)
                         .font(Style.footnoteRegular)
-                        .foregroundColor(statusColor)
+                        .foregroundStyle(statusColor)
                 }
             }
             Spacer()
             
             Button(action: removeAction) {
                 Image("trashCan", bundle: .module)
-                    .foregroundColor(Style.iconsTertiary)
+                    .foregroundStyle(Style.iconsTertiary)
             }
         }
         .padding(.horizontal)

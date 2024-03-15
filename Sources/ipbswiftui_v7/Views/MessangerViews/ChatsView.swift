@@ -39,12 +39,11 @@ public struct ChatsView: View {
             .padding()
         }
         .animation(.default, value: vm.dialogList?.result.xRequestID)
-        .safeAreaPadding()
         .background(Style.background)
         .toolbar {
             ToolbarItem(placement: .principal) {
                 Text(category)
-                    .foregroundColor(Style.textPrimary)
+                    .foregroundStyle(Style.textPrimary)
                     .font(Style.title)
             }
             

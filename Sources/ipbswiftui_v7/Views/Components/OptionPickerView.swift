@@ -36,12 +36,12 @@ public struct OptionPickerView<T: DisplayOptionProtocol>: View {
                     Text(option.rawValue)
                         .padding(12)
                         .opacity(value == option ? 0 : 1)
-                        .foregroundColor(Style.textSecondary)
+                        .foregroundStyle(Style.textSecondary)
                         .overlay(
                             Text(option.rawValue)
                                 .bold()
                                 .opacity(value == option ? 1 : 0)
-                                .foregroundColor(Style.textPressed)
+                                .foregroundStyle(Style.textPressed)
                         )
                         .frame(maxWidth: .infinity)
                         .onTapGesture { value = option }

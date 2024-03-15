@@ -23,7 +23,7 @@ public struct ReceiptView: View {
                     Text(totalPrice.asCurrency())
                 }
                 .font(Style.title)
-                .foregroundColor(Style.textPrimary)
+                .foregroundStyle(Style.textPrimary)
             }
             
             Divider()
@@ -44,11 +44,11 @@ public struct ReceiptView: View {
                                 }
                                 Text(item.amountEndPrice.asCurrency())
                             }
-                            .foregroundColor(Style.textSecondary)
+                            .foregroundStyle(Style.textSecondary)
                             
                             if item.numberInstallmentMonths > 0 {
                                 Text("(в рассрочку - останется \(item.numberInstallmentMonths - 1) платежей)")
-                                    .foregroundColor(Style.textTertiary)
+                                    .foregroundStyle(Style.textTertiary)
                             }
                         }
                         .font(Style.footnoteRegular)
@@ -95,8 +95,8 @@ public struct ReceiptView: View {
                     }
             }
             .font(Style.footnoteRegular)
-            .foregroundColor(Style.textSecondary)
-            .padding(.bottom, 50)
+            .foregroundStyle(Style.textSecondary)
+            .padding(.bottom, 100)
         }
         .padding(12)
         .background(Style.surface)

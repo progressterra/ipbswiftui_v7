@@ -53,7 +53,7 @@ public struct BankCardView: View {
                 
                 HStack {
                     Text(statusTitle)
-                        .foregroundColor(statusColor)
+                        .foregroundStyle(statusColor)
                         .font(Style.subheadlineBold)
                     Spacer()
                 }
@@ -128,7 +128,7 @@ public struct BankCardView: View {
                     HStack(spacing: 12) {
                         Text("Фото банковской карты")
                             .font(Style.body)
-                            .foregroundColor(Style.textPrimary)
+                            .foregroundStyle(Style.textPrimary)
                         
                         CameraButtonView(inputImage: $vm.cardPhoto)
                         Spacer()
@@ -185,14 +185,13 @@ public struct BankCardView: View {
                 isPresented = false
             }
         }
-        .safeAreaPadding()
         .edgesIgnoringSafeArea(.bottom)
         .background(Style.background)
         .toolbar {
             ToolbarItem(placement: .principal) {
                 Text(isNewCard ? "Добавление карты" : "Просмотр карты")
                     .font(Style.title)
-                    .foregroundColor(Style.textPrimary)
+                    .foregroundStyle(Style.textPrimary)
             }
             
             ToolbarItem(placement: .navigationBarTrailing) {

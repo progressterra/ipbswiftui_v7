@@ -20,12 +20,12 @@ public struct CustomToggleView: View {
     public var body: some View {
         Capsule(style: .continuous)
             .frame(width: 36, height: 18)
-            .foregroundColor(Style.background)
+            .foregroundStyle(Style.background)
             .overlay(alignment: .leading) {
                 if !isOn {
                     Circle()
                         .padding(2)
-                        .foregroundColor(Style.textDisabled)
+                        .foregroundStyle(Style.textDisabled)
                         .matchedGeometryEffect(id: "Circle", in: animation)
                 }
             }
@@ -33,7 +33,7 @@ public struct CustomToggleView: View {
                 if isOn {
                     Circle()
                         .padding(2)
-                        .gradientColor(gradient: Style.primary)
+                        .foregroundStyle( Style.primary)
                         .matchedGeometryEffect(id: "Circle", in: animation)
                 }
             }

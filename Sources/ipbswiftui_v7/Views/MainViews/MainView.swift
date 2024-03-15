@@ -70,7 +70,6 @@ public struct MainView: View {
                     .transition(.slide)
                 }
             }
-            .safeAreaPadding()
             .refreshable {
                 vm.setUpView()
                 refreshFlag.toggle()
@@ -108,7 +107,7 @@ extension MainView {
             Text(headerTitle)
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .padding(.leading)
-                .foregroundColor(Style.textPrimary)
+                .foregroundStyle(Style.textPrimary)
                 .font(Style.title)
             
             ScrollView(.horizontal, showsIndicators: false) {

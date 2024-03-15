@@ -1,6 +1,6 @@
 //
 //  TabBarView.swift
-//  
+//
 //
 //  Created by Artemy Volkov on 19.07.2023.
 //
@@ -50,21 +50,12 @@ public struct TabBarView<Tab: TabBarItem, Content: View>: View {
     public var body: some View {
         ZStack {
             content
-            
-            VStack(spacing: 0) {
-                Spacer()
-                
-                ZStack(alignment: .bottom) {
-                    Style.surface
-                        .frame(maxWidth: .infinity)
-                        .frame(height: UIScreen.main.bounds.height < 800 ? 65 : 95)
-                    TabBarItemsView(selector: $selection, tabs: tabs, badgeCount: badgeRefreshFlag)
-                        .frame(height: 85)
-                        .padding(.bottom, UIScreen.main.bounds.height < 800 ? 0 : 30)
-                }
-                .shadow(color: Style.textSecondary.opacity(0.1), radius: 5, y: -5)
+        }
+        .toolbar {
+            ToolbarItem(placement: .bottomBar) {
+                TabBarItemsView(selector: $selection, tabs: tabs, badgeCount: badgeRefreshFlag)
+                    .shadow(color: Style.textSecondary.opacity(0.1), radius: 5, y: -5)
             }
-            .edgesIgnoringSafeArea(.bottom)
         }
         .onPreferenceChange(TabBarPreferenceKey.self) { tabs = $0 }
     }
@@ -111,17 +102,17 @@ struct IndividualTabView<Tab: TabBarItem>: View {
             ZStack {
                 if isSelected {
                     Image(tab.imageName)
-                        .gradientColor(gradient: Style.primary)
+                        .foregroundStyle( Style.primary)
                 } else {
                     Image(tab.imageName)
-                        .foregroundColor(Style.iconsPrimary)
+                        .foregroundStyle(Style.iconsPrimary)
                 }
             }
             .overlay(alignment: .topTrailing) {
                 if let count = tab.badgeCount, count > 0 {
                     Text("\(count)")
                         .font(Style.captionBold)
-                        .foregroundColor(Style.surface)
+                        .foregroundStyle(Style.surface)
                         .minimumScaleFactor(0.9)
                         .frame(width: 13, height: 13)
                         .padding(1)
@@ -146,11 +137,11 @@ struct IndividualTabView<Tab: TabBarItem>: View {
                         if isSelected {
                             Circle()
                                 .stroke(lineWidth: 3)
-                                .gradientColor(gradient: Style.primary)
+                                .foregroundStyle( Style.primary)
                         } else {
                             Circle()
                                 .stroke(lineWidth: 3)
-                                .foregroundColor(Style.surface)
+                                .foregroundStyle(Style.surface)
                         }
                     }
                 }
@@ -161,10 +152,10 @@ struct IndividualTabView<Tab: TabBarItem>: View {
             ZStack {
                 if isSelected {
                     Text(tab.title)
-                        .gradientColor(gradient: Style.primary)
+                        .foregroundStyle( Style.primary)
                 } else {
                     Text(tab.title)
-                        .foregroundColor(Style.iconsPrimary)
+                        .foregroundStyle(Style.iconsPrimary)
                 }
             }
             .frame(width: 60, height: 16)

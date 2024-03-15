@@ -28,7 +28,7 @@ public struct CustomButtonView: View {
     public var body: some View {
         Button(action: { if !isDisabled { action() } }) {
             Text(title)
-                .gradientColor(gradient: gradient)
+                .foregroundStyle( gradient)
                 .font(Style.headline)
                 .bold()
                 .multilineTextAlignment(.center)
@@ -40,7 +40,7 @@ public struct CustomButtonView: View {
                     if isOpaque {
                         RoundedRectangle(cornerRadius: Style.buttonCornerRadius)
                             .stroke(lineWidth: 2)
-                            .gradientColor(gradient: Style.primary)
+                            .foregroundStyle( Style.primary)
                     }
                 }
         }

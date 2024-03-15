@@ -68,9 +68,6 @@ public struct DeliveryOptionFillView: View {
             }
         }
         .onTapGesture(perform: dismissKeyboardAndSuggestionsList)
-        .safeAreaPadding(
-            value: vm.suggestions?.isEmpty ?? true ? 0 : 65
-        )
         .animation(.default, value: vm.suggestions)
     }
     

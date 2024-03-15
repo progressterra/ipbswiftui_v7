@@ -44,7 +44,7 @@ public struct ChatRowView<ImageView: View>: View {
                 if let badgeCount = badgeCount, badgeCount > 0 {
                     Text("\(badgeCount)")
                         .font(Style.captionBold)
-                        .foregroundColor(Style.surface)
+                        .foregroundStyle(Style.surface)
                         .minimumScaleFactor(0.7)
                         .frame(width: 15, height: 15)
                         .padding(1)
@@ -60,7 +60,7 @@ public struct ChatRowView<ImageView: View>: View {
                 }
             }
         }
-        .foregroundColor(Style.textPrimary)
+        .foregroundStyle(Style.textPrimary)
         .padding(.vertical, 12)
         .padding(.horizontal, 8)
         .background(backgroundColor)

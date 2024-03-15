@@ -20,7 +20,7 @@ public struct CameraButtonView: View {
             .padding(.horizontal)
             .padding(.vertical, 12)
             .frame(width: 56, height: 48)
-            .gradientColor(gradient:
+            .foregroundStyle(
                             showingImagePicker
                            ? Style.primary
                            : LinearGradient(colors: [Style.textDisabled],

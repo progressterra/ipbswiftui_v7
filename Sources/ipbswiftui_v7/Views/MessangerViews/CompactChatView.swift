@@ -34,7 +34,7 @@ public struct CompactChatView: View {
                                     .font(Style.subheadlineRegular)
                                 Image("xmark", bundle: .module)
                             }
-                            .foregroundColor(Style.iconsPrimary2)
+                            .foregroundStyle(Style.iconsPrimary2)
                         }
                     }
                     

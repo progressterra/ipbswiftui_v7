@@ -62,26 +62,23 @@ public struct CheckoutView: View {
                         vm.addComment()
                     }
                     .padding(8)
-                    .padding(.bottom, 45)
+                    .padding(.bottom)
                     .background(Style.surface)
                     .cornerRadius(20, corners: [.topLeft, .topRight])
                 }
                 .padding(.horizontal, 8)
                 .transition(.slide)
-                .safeAreaPadding()
-                .edgesIgnoringSafeArea(.bottom)
             } else {
                 Color.clear.transition(.slide)
             }
         }
         .animation(.default, value: vm.checkoutStage)
         .animation(.default, value: vm.cartResult?.result.xRequestID)
-        .safeAreaPadding(value: 50)
         .toolbar {
             ToolbarItem(placement: .principal) {
                 Text("Оформление заказа")
                     .font(Style.title)
-                    .foregroundColor(Style.textPrimary)
+                    .foregroundStyle(Style.textPrimary)
             }
             
             ToolbarItem(placement: .navigationBarTrailing) {

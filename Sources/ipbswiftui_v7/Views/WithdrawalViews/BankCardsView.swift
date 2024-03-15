@@ -59,7 +59,7 @@ public struct BankCardsView: View {
                                             Spacer()
                                             Button(action: {}) { // delete action
                                                 Image("trashCan", bundle: .module)
-                                                    .foregroundColor(Style.iconsTertiary)
+                                                    .foregroundStyle(Style.iconsTertiary)
                                             }
                                             .padding(.trailing)
                                         }
@@ -116,7 +116,6 @@ public struct BankCardsView: View {
                         .animation(.default, value: vm.documentList?.result.xRequestID)
                     }
                 }
-                .safeAreaPadding(value: 100)
                 .refreshable {
                     displayOption == .confirmedCards
                     ? vm.fetchPaymentDataList()
@@ -138,8 +137,6 @@ public struct BankCardsView: View {
             }
             .padding(.horizontal, 8)
         }
-        .safeAreaPadding()
-        .edgesIgnoringSafeArea(.bottom)
         .background(Style.background)
         .onAppear {
             vm.fetchFieldsData()
@@ -150,7 +147,7 @@ public struct BankCardsView: View {
             ToolbarItem(placement: .principal) {
                 Text("Банковские карты")
                     .font(Style.title)
-                    .foregroundColor(Style.textPrimary)
+                    .foregroundStyle(Style.textPrimary)
             }
             
             ToolbarItem(placement: .navigationBarTrailing) {

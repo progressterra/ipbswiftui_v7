@@ -7,48 +7,6 @@
 
 import SwiftUI
 
-public struct SafeAreaPadding: ViewModifier {
-    public let edge: VerticalEdge
-    public let value: CGFloat
-    
-    public init(edge: VerticalEdge, value: CGFloat) {
-        self.edge = edge
-        self.value = value
-    }
-    
-    public func body(content: Content) -> some View {
-        content
-            .safeAreaInset(edge: edge) {
-                EmptyView().frame(height: value)
-            }
-    }
-}
-
-public extension View {
-    /// Padding for safe area to extend size
-    /// * Default value is 65 for bottom edge
-    func safeAreaPadding(edge: VerticalEdge = .bottom, value: CGFloat = 65) -> some View {
-        modifier(SafeAreaPadding(edge: edge, value: value))
-    }
-}
-
-struct GradientModifier: ViewModifier {
-    var gradient: LinearGradient
-
-    func body(content: Content) -> some View {
-        content
-            .foregroundColor(.clear)
-            .background(gradient)
-            .mask(content)
-    }
-}
-
-public extension View {
-    func gradientColor(gradient: LinearGradient) -> some View {
-        modifier(GradientModifier(gradient: gradient))
-    }
-}
-
 struct CornerRadiusStyle: ViewModifier {
     var radius: CGFloat
     var corners: UIRectCorner

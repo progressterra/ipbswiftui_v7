@@ -42,7 +42,7 @@ public struct QuantityPicker: View {
                     .clipShape(Circle())
             }
         }
-        .foregroundColor(Style.textPrimary)
+        .foregroundStyle(Style.textPrimary)
         .font(Style.footnoteRegular)
     }
     

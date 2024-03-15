@@ -49,7 +49,7 @@ public struct VerificationCodeInputView: View {
                 ToolbarItem(placement: .principal) {
                     Text("Код подтверждения")
                         .font(Style.title)
-                        .foregroundColor(Style.textPrimary)
+                        .foregroundStyle(Style.textPrimary)
                 }
             }
             .onChange(of: codeFromSMS) { isAuthButtonDisabled = $0.count != 4 }

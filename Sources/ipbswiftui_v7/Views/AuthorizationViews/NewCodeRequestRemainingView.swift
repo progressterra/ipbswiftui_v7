@@ -37,7 +37,7 @@ public struct NewCodeRequestRemainingView: View {
             }
         }
         .font(Style.headline)
-        .foregroundColor(Style.textDisabled)
+        .foregroundStyle(Style.textDisabled)
         .animation(.default, value: timeRemaining != 0)
     }
     

@@ -28,14 +28,14 @@ public struct AuthAlertView: View {
                         Image("xmark", bundle: .module)
                             .resizable()
                             .frame(width: 20, height: 20)
-                            .foregroundColor(Style.iconsTertiary)
+                            .foregroundStyle(Style.iconsTertiary)
                     }
                 }
             }
             
             Text(message)
                 .font(Style.title)
-                .foregroundColor(Style.textPrimary)
+                .foregroundStyle(Style.textPrimary)
                 .multilineTextAlignment(.center)
             
             CustomButtonView(title: "Авторизоваться", action: authAction)

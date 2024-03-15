@@ -76,7 +76,7 @@ public struct SignInView: View {
                         }
                     }
                     .font(Style.footnoteRegular)
-                    .foregroundColor(Style.textDisabled)
+                    .foregroundStyle(Style.textDisabled)
                 }
                 
                 Spacer()
@@ -88,7 +88,7 @@ public struct SignInView: View {
                     if let skipAction, !isFocused {
                         Button(action: skipAction) {
                             Text("Пока пропустить")
-                                .foregroundColor(Style.textDisabled)
+                                .foregroundStyle(Style.textDisabled)
                                 .font(Style.body)
                                 .bold()
                                 .padding(.vertical, 15)
@@ -105,7 +105,7 @@ public struct SignInView: View {
                 ToolbarItem(placement: .principal) {
                     Text("Авторизация")
                         .font(Style.title)
-                        .foregroundColor(Style.textPrimary)
+                        .foregroundStyle(Style.textPrimary)
                 }
             }
         }

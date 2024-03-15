@@ -18,20 +18,20 @@ public struct OrderInfoView: View {
     public var body: some View {
         VStack(alignment: .leading, spacing: 2) {
             Text("Заказ от \(order.dateAdded.format(as: "d MMMM"))")
-                .foregroundColor(Style.textPrimary)
+                .foregroundStyle(Style.textPrimary)
                 .font(Style.title)
             Text(order.numberInt.formatted())
-                .foregroundColor(Style.textTertiary)
+                .foregroundStyle(Style.textTertiary)
                 .font(Style.footnoteRegular)
             Text(getStatusString(for: order.statusOrder))
-                .foregroundColor(Style.textPrimary)
+                .foregroundStyle(Style.textPrimary)
                 .font(Style.subheadlineBold)
             
             HStack(spacing: 5) {
                 Text(getOrderQuantityString(order.listDRSale))
-                    .foregroundColor(Style.textPrimary)
+                    .foregroundStyle(Style.textPrimary)
                 Text(getOrderEndPriceString(order.listDRSale))
-                    .gradientColor(gradient: Style.primary)
+                    .foregroundStyle( Style.primary)
                 Spacer()
             }
             .font(Style.body)

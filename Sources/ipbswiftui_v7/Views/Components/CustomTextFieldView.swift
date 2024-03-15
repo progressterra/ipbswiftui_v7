@@ -35,7 +35,7 @@ public struct CustomTextFieldView: View {
             if !text.isEmpty {
                 Text(prompt)
                     .font(Style.captionBold)
-                    .foregroundColor(Style.textTertiary)
+                    .foregroundStyle(Style.textTertiary)
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .transition(.push(from: .bottom))
             }
@@ -44,16 +44,16 @@ public struct CustomTextFieldView: View {
                 if isSecured {
                     SecureField(text: $text) {
                         Text(prompt)
-                            .foregroundColor(Style.textDisabled)
+                            .foregroundStyle(Style.textDisabled)
                     }
                 } else {
                     TextField(text: $text, axis: axis) {
                         Text(prompt)
-                            .foregroundColor(Style.textDisabled)
+                            .foregroundStyle(Style.textDisabled)
                     }
                 }
             }
-            .foregroundColor(Style.textPrimary)
+            .foregroundStyle(Style.textPrimary)
             .focused($isFocused)
         }
         .frame(minHeight: 46)
@@ -67,14 +67,14 @@ public struct CustomTextFieldView: View {
             if isFocused {
                 RoundedRectangle(cornerRadius: 8)
                     .stroke()
-                    .gradientColor(gradient: Style.primary)
+                    .foregroundStyle( Style.primary)
             }
         }
         .overlay(alignment: .trailing) {
             if !text.isEmpty && isFocused && !isSecured {
                 Button(action: { text = "" }) {
                     Image("xmark", bundle: .module)
-                        .foregroundColor(Style.iconsPrimary)
+                        .foregroundStyle(Style.iconsPrimary)
                         .transition(.slide.combined(with: .scale))
                 }
                 .padding(.trailing, 8)

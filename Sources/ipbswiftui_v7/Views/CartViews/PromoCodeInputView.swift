@@ -27,7 +27,7 @@ public struct PromoCodeInputView: View {
             if let description {
                 Text(description)
                     .font(Style.subheadlineRegular)
-                    .foregroundColor(Style.textSecondary)
+                    .foregroundStyle(Style.textSecondary)
                     .transition(.push(from: .top))
                     .animation(.default, value: description)
             }

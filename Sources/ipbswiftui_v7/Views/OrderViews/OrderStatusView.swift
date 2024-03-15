@@ -25,10 +25,10 @@ struct OrderStatusView: View {
                 VStack(alignment: .leading, spacing: 2) {
                     Text(getOrderDescription(from: order.statusOrder))
                         .font(Style.title)
-                        .foregroundColor(Style.textPrimary)
+                        .foregroundStyle(Style.textPrimary)
                     Text("Заказ от \(order.dateAdded.format(as: "d MMMM")) № \(order.numberInt)")
                         .font(Style.footnoteRegular)
-                        .foregroundColor(Style.textTertiary)
+                        .foregroundStyle(Style.textTertiary)
                 }
                 
                 VStack(alignment: .leading, spacing: 16) {
@@ -36,12 +36,12 @@ struct OrderStatusView: View {
                         VStack(alignment: .leading, spacing: 2) {
                             Text(getOrderDescription(from: status))
                                 .font(order.statusOrder == status ? Style.body : Style.subheadlineRegular)
-                                .foregroundColor(order.statusOrder == status ? Style.textPrimary : Style.textSecondary)
+                                .foregroundStyle(order.statusOrder == status ? Style.textPrimary : Style.textSecondary)
                             
                             if let date = getOrderStatusDate(for: status) {
                                 Text(date.format(as: "dd MMM yyyy, HH:mm"))
                                     .font(Style.footnoteRegular)
-                                    .foregroundColor(Style.textTertiary)
+                                    .foregroundStyle(Style.textTertiary)
                             }
                         }
                     }
@@ -58,7 +58,7 @@ struct OrderStatusView: View {
         .toolbar {
             ToolbarItem(placement: .principal) {
                 Text("Отслеживание")
-                    .foregroundColor(Style.textPrimary)
+                    .foregroundStyle(Style.textPrimary)
                     .font(Style.title)
             }
         }

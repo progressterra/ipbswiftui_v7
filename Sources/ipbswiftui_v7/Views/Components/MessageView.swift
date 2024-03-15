@@ -28,7 +28,7 @@ public struct MessageView: View {
             
             VStack(alignment: isOwnMessage ? .trailing : .leading, spacing: 2) {
                 Text(contentText)
-                    .foregroundColor(Style.textPrimary)
+                    .foregroundStyle(Style.textPrimary)
                     .font(Style.body)
                     .multilineTextAlignment(isOwnMessage ? .trailing : .leading)
                 Text(
@@ -38,7 +38,7 @@ public struct MessageView: View {
                         locale: Locale(identifier: "ru_RU")
                     )
                 )
-                .foregroundColor(Style.textTertiary)
+                .foregroundStyle(Style.textTertiary)
                 .font(Style.footnoteRegular)
             }
             .padding(12)

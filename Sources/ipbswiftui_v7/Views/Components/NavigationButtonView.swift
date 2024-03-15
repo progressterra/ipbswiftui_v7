@@ -43,11 +43,11 @@ public struct NavigationButtonView: View {
                 VStack(alignment: .leading, spacing: -2) {
                     Text(title)
                         .font(Style.body)
-                        .foregroundColor(isDestructive ? Style.textPrimary2 : Style.textPrimary)
+                        .foregroundStyle(isDestructive ? Style.textPrimary2 : Style.textPrimary)
                     if let prompt {
                         Text(prompt)
                             .font(Style.footnoteRegular)
-                            .foregroundColor(promptColor)
+                            .foregroundStyle(promptColor)
                             .lineLimit(1)
                     }
                 }
@@ -57,7 +57,7 @@ public struct NavigationButtonView: View {
                 if let badgeCount, badgeCount > 0 {
                     Text("\(badgeCount)")
                         .font(Style.captionBold)
-                        .foregroundColor(Style.surface)
+                        .foregroundStyle(Style.surface)
                         .minimumScaleFactor(0.7)
                         .frame(width: 15, height: 15)
                         .padding(1)
@@ -68,7 +68,7 @@ public struct NavigationButtonView: View {
                 }
                 
                 Image(systemName: "chevron.right")
-                    .foregroundColor(isDestructive ? Style.iconsPrimary2 : Style.iconsPrimary)
+                    .foregroundStyle(isDestructive ? Style.iconsPrimary2 : Style.iconsPrimary)
                     .font(.footnote)
                     .frame(width: 16, height: 16)
             }

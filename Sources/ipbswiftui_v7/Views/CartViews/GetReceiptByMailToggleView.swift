@@ -21,7 +21,7 @@ public struct GetReceiptByMailToggleView: View {
             HStack {
                 Text("Получить чек на почту")
                     .font(Style.title)
-                    .foregroundColor(Style.textPrimary)
+                    .foregroundStyle(Style.textPrimary)
                 Spacer()
                 
                 CustomToggleView(isOn: $isReceiveOnMail)

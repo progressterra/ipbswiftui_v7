@@ -44,7 +44,7 @@ public struct WantThisDetailView: View {
                         VStack(alignment: .leading) {
                             Text("Запрос от " + document.dateAdded.convertDateFormat(to: "d MMMM"))
                                 .font(Style.title)
-                                .foregroundColor(Style.textPrimary)
+                                .foregroundStyle(Style.textPrimary)
                             displayDocStatus(document.statusDoc ?? .notFill)
                                 .font(Style.subheadlineBold)
                         }
@@ -61,9 +61,9 @@ public struct WantThisDetailView: View {
                         }) {
                             VStack(spacing: 2) {
                                 Image("chatIcon", bundle: .module)
-                                    .foregroundColor(Style.iconsTertiary)
+                                    .foregroundStyle(Style.iconsTertiary)
                                 Text("Чат по запросу")
-                                    .foregroundColor(Style.textTertiary)
+                                    .foregroundStyle(Style.textTertiary)
                                     .font(Style.footnoteRegular)
                             }
                         }
@@ -86,7 +86,7 @@ public struct WantThisDetailView: View {
                     
                     HStack(spacing: 12) {
                         Text("Добавить фото")
-                            .foregroundColor(Style.textPrimary)
+                            .foregroundStyle(Style.textPrimary)
                             .font(Style.body)
                         CameraButtonView(inputImage: $vm.itemImage)
                         Spacer()
@@ -102,7 +102,7 @@ public struct WantThisDetailView: View {
                                 .overlay(alignment: .topTrailing) {
                                     Button(action: { vm.itemImage = nil }) {
                                         Image("xmark", bundle: .module)
-                                            .foregroundColor(Style.error)
+                                            .foregroundStyle(Style.error)
                                             .font(.title)
                                     }
                                     .padding(8)
@@ -120,7 +120,7 @@ public struct WantThisDetailView: View {
                                     vm.itemImageURL = nil
                                 }) {
                                     Image("xmark", bundle: .module)
-                                        .foregroundColor(Style.error)
+                                        .foregroundStyle(Style.error)
                                         .font(.title)
                                 }
                                 .padding(8)
@@ -136,7 +136,6 @@ public struct WantThisDetailView: View {
                 .padding(.horizontal)
             }
             .padding(.top)
-            .safeAreaPadding()
             .disabled(!canEdit)
             
             VStack {
@@ -150,7 +149,7 @@ public struct WantThisDetailView: View {
                     .background(
                         Rectangle()
                             .frame(maxWidth: .infinity)
-                            .foregroundColor(Style.surface)
+                            .foregroundStyle(Style.surface)
                             .cornerRadius(20, corners: [.topLeft, .topRight])
                             .edgesIgnoringSafeArea(.bottom)
                     )
@@ -163,13 +162,12 @@ public struct WantThisDetailView: View {
         }
         .onTapGesture { focusedField = nil }
         .onDisappear(perform: vm.eraseDocumentData)
-        .safeAreaPadding()
         .navigationBarTitleDisplayMode(.inline)
         .animation(.default, value: isChatPresented)
         .toolbar {
             ToolbarItem(placement: .principal) {
                 Text("Запрос Хочу это")
-                    .foregroundColor(Style.textPrimary)
+                    .foregroundStyle(Style.textPrimary)
                     .font(Style.title)
             }
             
@@ -183,16 +181,16 @@ public struct WantThisDetailView: View {
         switch statusDoc {
         case .confirmed:
             return Text("Запрос подтвержден")
-                .foregroundColor(Style.onBackground)
+                .foregroundStyle(Style.onBackground)
         case .waitReview, .waitImage:
             return Text("Ожидает подтверждения")
-                .foregroundColor(Style.textTertiary)
+                .foregroundStyle(Style.textTertiary)
         case .rejected:
             return Text("Запрос отклонен")
-                .foregroundColor(Style.textPrimary2)
+                .foregroundStyle(Style.textPrimary2)
         case .notFill:
             return Text("Документ не заполнен")
-                .foregroundColor(Style.textPrimary2)
+                .foregroundStyle(Style.textPrimary2)
         }
     }
 }

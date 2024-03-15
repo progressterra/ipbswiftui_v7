@@ -57,7 +57,7 @@ public struct FillDocumentView: View {
                         HStack(spacing: 12) {
                             Text("Фото")
                                 .font(Style.body)
-                                .foregroundColor(Style.textPrimary)
+                                .foregroundStyle(Style.textPrimary)
                             
                             CameraButtonView(inputImage: $vm.inputImage)
                             Spacer()
@@ -88,12 +88,11 @@ public struct FillDocumentView: View {
                 CompactChatView(isPresented: $isChatPresented)
                     .padding()
             }
-            .safeAreaPadding()
             .animation(.default, value: focusedField)
             .toolbar {
                 ToolbarItem(placement: .principal) {
                     Text(characteristic.characteristicType.name ?? "")
-                        .foregroundColor(Style.textPrimary)
+                        .foregroundStyle(Style.textPrimary)
                         .font(Style.title)
                 }
                 
@@ -112,10 +111,10 @@ public struct FillDocumentView: View {
                     }) {
                         HStack(spacing: 5) {
                             Text("Чат")
-                                .foregroundColor(Style.textTertiary)
+                                .foregroundStyle(Style.textTertiary)
                                 .font(Style.footnoteRegular)
                             Image("chatIcon", bundle: .module)
-                                .foregroundColor(Style.iconsTertiary)
+                                .foregroundStyle(Style.iconsTertiary)
                         }
                     }
                 }
@@ -157,7 +156,7 @@ public struct FillDocumentView: View {
                     .background(
                         Rectangle()
                             .frame(maxWidth: .infinity)
-                            .foregroundColor(Style.surface)
+                            .foregroundStyle(Style.surface)
                             .cornerRadius(20, corners: [.topLeft, .topRight])
                             .edgesIgnoringSafeArea(.bottom)
                     )
@@ -170,7 +169,6 @@ public struct FillDocumentView: View {
                 dismiss()
             }
         }
-        .safeAreaPadding()
         .animation(.default, value: isChatPresented)
         .onAppear {
             vm.currentDocumentID = characteristic.characteristicValue.idUnique

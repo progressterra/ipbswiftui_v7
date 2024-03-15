@@ -17,35 +17,35 @@ public struct CheckoutFinalView: View {
         VStack(spacing: 12) {
             Text("Заказ успешно оплачен")
                 .font(Style.title)
-                .foregroundColor(Style.onBackground)
+                .foregroundStyle(Style.onBackground)
             if let orderNumber = vm.cartResult?.data?.numberInt {
                 Text("Номер заказа: \(orderNumber)")
                     .font(Style.subheadlineRegular)
-                    .foregroundColor(Style.textTertiary)
+                    .foregroundStyle(Style.textTertiary)
             }
             
             VStack(spacing: 4) {
                 Text(getProductWord(count: vm.cartItemsCount))
                     .font(Style.subheadlineBold)
-                    .foregroundColor(Style.onBackground)
+                    .foregroundStyle(Style.onBackground)
                 
                 if let dateTranssferToSend = vm.cartResult?.data?.dateTranssferToSend {
                     Text("Доставка ожидается:")
                         .font(Style.footnoteBold)
-                        .foregroundColor(Style.textTertiary)
+                        .foregroundStyle(Style.textTertiary)
                     Text(dateTranssferToSend.format(as: "dd.MM.yyyy"))
                         .font(Style.footnoteRegular)
-                        .foregroundColor(Style.textSecondary)
+                        .foregroundStyle(Style.textSecondary)
                     
                 }
                 
                 if let address = vm.cartResult?.data?.adressString {
                     Text("Адрес доставки:")
                         .font(Style.footnoteBold)
-                        .foregroundColor(Style.textTertiary)
+                        .foregroundStyle(Style.textTertiary)
                     Text(address)
                         .font(Style.footnoteRegular)
-                        .foregroundColor(Style.textSecondary)
+                        .foregroundStyle(Style.textSecondary)
                 }
             }
             

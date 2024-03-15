@@ -20,11 +20,11 @@ public struct ConfirmedCardRowView: View {
         VStack(alignment: .leading) {
             Text(cardNumber)
                 .font(Style.subheadlineRegular)
-                .foregroundColor(Style.textPrimary)
+                .foregroundStyle(Style.textPrimary)
             if isMain {
                 Text("Основная")
                     .font(Style.footnoteRegular)
-                    .foregroundColor(Style.textTertiary)
+                    .foregroundStyle(Style.textTertiary)
             }
         }
         .frame(maxWidth: .infinity, alignment: .leading)

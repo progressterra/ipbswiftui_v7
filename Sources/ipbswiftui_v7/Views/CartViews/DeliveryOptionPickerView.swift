@@ -24,7 +24,7 @@ public struct DeliveryOptionPickerView<T: DeliveryOptionProtocol>: View {
         VStack(alignment: .leading, spacing: 24) {
             Text("Выберите способ доставки")
                 .font(Style.title)
-                .foregroundColor(Style.textPrimary)
+                .foregroundStyle(Style.textPrimary)
             
             VStack(spacing: 36) {
                 ForEach(Array(T.allCases), id: \.self) { option in
@@ -35,7 +35,7 @@ public struct DeliveryOptionPickerView<T: DeliveryOptionProtocol>: View {
                             
                             Text(option.description)
                                 .multilineTextAlignment(.leading)
-                                .foregroundColor(
+                                .foregroundStyle(
                                     selectedOption == option
                                     ? Style.textPrimary
                                     : Style.textDisabled
@@ -48,7 +48,7 @@ public struct DeliveryOptionPickerView<T: DeliveryOptionProtocol>: View {
                                 .resizable()
                                 .scaledToFit()
                                 .frame(width: 25, height: 25)
-                                .gradientColor(gradient:
+                                .foregroundStyle(
                                                 selectedOption == option
                                                ? Style.primary
                                                : LinearGradient(colors: [Style.textDisabled],

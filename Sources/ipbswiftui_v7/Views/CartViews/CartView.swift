@@ -67,7 +67,6 @@ public struct CartView: View {
                     }
                     .padding(.vertical)
                 }
-                .safeAreaPadding(value: 130)
                 
                 if let totalPrice = vm.cartResult?.data?.listDRSale?.reduce(0.0, { $0 + $1.amountEndPrice }), totalPrice != 0 {
                     VStack {
@@ -79,7 +78,7 @@ public struct CartView: View {
                                 Spacer()
                                 Text(totalPrice.asCurrency())
                             }
-                            .foregroundColor(Style.textPrimary)
+                            .foregroundStyle(Style.textPrimary)
                             .font(Style.title)
                             .bold()
                             .padding(.vertical, 10)
@@ -94,16 +93,15 @@ public struct CartView: View {
                         .cornerRadius(20, corners: [.topLeft, .topRight])
                     }
                     .padding(8)
-                    .padding(.bottom, -30)
+                    .padding(.bottom, -16)
                 }
             }
             .animation(.default, value: vm.cartResult?.result.xRequestID)
-            .safeAreaPadding()
             .toolbar {
                 ToolbarItem(placement: .principal) {
                     Text("Корзина")
                         .font(Style.title)
-                        .foregroundColor(Style.textPrimary)
+                        .foregroundStyle(Style.textPrimary)
                 }
                 
                 ToolbarItem(placement: .navigationBarTrailing) {

@@ -57,7 +57,6 @@ public struct CatalogProductListView: View {
                 .padding(.top)
                 .padding(.horizontal)
             }
-            .safeAreaPadding()
             .background(Style.background)
             .animation(.default, value: vm.xRequestID)
             .refreshable { vm.fetchProductList(for: catalogItem.itemCategory.idUnique) }
@@ -66,7 +65,7 @@ public struct CatalogProductListView: View {
                 ToolbarItem(placement: .principal) {
                     Text((catalogItem.itemCategory.name ?? "").capitalized)
                         .font(Style.title)
-                        .foregroundColor(Style.textPrimary)
+                        .foregroundStyle(Style.textPrimary)
                 }
                 
                 ToolbarItem(placement: .navigationBarTrailing) {

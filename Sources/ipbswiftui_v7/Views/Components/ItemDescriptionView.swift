@@ -98,7 +98,7 @@ public struct ItemDescriptionView: View {
             HStack(alignment: .top) {
                 Text(descriptionTitle)
                     .font(Style.title)
-                    .foregroundColor(Style.textPrimary)
+                    .foregroundStyle(Style.textPrimary)
                 
                 Spacer()
                 
@@ -108,8 +108,7 @@ public struct ItemDescriptionView: View {
                         isFavourite.toggle()
                     }) {
                         Image(isFavourite ? "favoriteIconFilled" : "favoriteIcon", bundle: .module)
-                            .gradientColor(
-                                gradient: isFavourite
+                            .foregroundStyle(isFavourite
                                 ? Style.primary
                                 : LinearGradient(colors: [Style.iconsTertiary], startPoint: .center, endPoint: .center)
                             )
@@ -118,20 +117,20 @@ public struct ItemDescriptionView: View {
                         Image("shareIcon", bundle: .module)
                     }
                 }
-                .foregroundColor(Style.iconsTertiary)
+                .foregroundStyle(Style.iconsTertiary)
             }
             
             Text(description)
                 .padding(.top, 12)
                 .font(Style.subheadlineRegular)
-                .foregroundColor(Style.textSecondary)
+                .foregroundStyle(Style.textSecondary)
                 .lineLimit(isDescriptionFolding ? 5 : nil)
             
             Button(isDescriptionFolding ? "Развернуть" : "Свернуть") {
                 withAnimation { isDescriptionFolding.toggle() }
             }
             .font(Style.subheadlineRegular)
-            .foregroundColor(Style.onBackground)
+            .foregroundStyle(Style.onBackground)
             .padding(.top, 4)
         }
         .padding(12)
@@ -145,7 +144,7 @@ public struct ItemDescriptionView: View {
             HStack {
                 Text("Параметры")
                     .font(Style.title)
-                    .foregroundColor(Style.textPrimary)
+                    .foregroundStyle(Style.textPrimary)
                 Spacer()
             }
             
@@ -154,12 +153,12 @@ public struct ItemDescriptionView: View {
                     HStack(alignment: .top, spacing: 8) {
                         Text(parameters[index].0)
                             .font(Style.subheadlineRegular)
-                            .foregroundColor(Style.textSecondary)
+                            .foregroundStyle(Style.textSecondary)
                             .frame(width: 108, alignment: .leading)
                         
                         Text(parameters[index].1)
                             .font(Style.subheadlineRegular)
-                            .foregroundColor(Style.textPrimary)
+                            .foregroundStyle(Style.textPrimary)
                     }
                 }
             }
@@ -175,30 +174,30 @@ public struct ItemDescriptionView: View {
             HStack {
                 Text("Доставка")
                     .font(Style.title)
-                    .foregroundColor(Style.textPrimary)
+                    .foregroundStyle(Style.textPrimary)
                 Spacer()
             }
             
             if deliveryOptions.contains(.box) {
                 VStack(spacing: 0) {
                     Image("deliveryBoxIcon", bundle: .module)
-                        .gradientColor(gradient: Style.primary)
+                        .foregroundStyle( Style.primary)
                     Text("Доставка до постамата \n или пункта выдачи")
                         .multilineTextAlignment(.center)
                         .font(Style.body)
-                        .foregroundColor(Style.textPrimary)
+                        .foregroundStyle(Style.textPrimary)
                 }
             }
             
             if deliveryOptions.contains(.express) {
                 VStack(spacing: 0) {
                     Image("expressDeliveryIcon", bundle: .module)
-                        .gradientColor(gradient: Style.primary)
+                        .foregroundStyle( Style.primary)
                     Text("Курьерская доставка")
                         .padding(.horizontal, 32)
                         .multilineTextAlignment(.center)
                         .font(Style.body)
-                        .foregroundColor(Style.textPrimary)
+                        .foregroundStyle(Style.textPrimary)
                 }
             }
         }

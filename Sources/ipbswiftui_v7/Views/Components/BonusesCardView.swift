@@ -54,13 +54,13 @@ public struct BonusesCardView: View {
             HStack {
                 Text("У вас \(currentBonusesCount.clean) бонусов")
                     .font(Style.title)
-                    .foregroundColor(Style.textButtonPrimary)
+                    .foregroundStyle(Style.textButtonPrimary)
                 
                 Spacer()
                 if isButtonsShowing, isAuthorized {
                     Button(action: bonusesHistoryAction) {
                         Image("arrowLinkIcon", bundle: .module)
-                            .gradientColor(gradient: Style.primary)
+                            .foregroundStyle(Style.primary)
                     }
                 }
             }
@@ -69,11 +69,11 @@ public struct BonusesCardView: View {
                 if let equivalentOfOneBonus, isCardAdded {
                     Text("1 бонус = \(equivalentOfOneBonus.asCurrency(fractionDigits: 2))")
                         .font(Style.subheadlineRegular)
-                        .foregroundColor(Style.textSecondary)
+                        .foregroundStyle(Style.textSecondary)
                 } else {
                     Button(action: addCardAction) {
                         Text("Добавить карту")
-                            .foregroundColor(Style.textButtonPrimary)
+                            .foregroundStyle(Style.textButtonPrimary)
                             .font(Style.subheadlineBold)
                             .frame(height: 18)
                     }
@@ -82,14 +82,14 @@ public struct BonusesCardView: View {
                 HStack {
                     Text("Можно вывести \(availableWithdrawalAmount.asCurrency())")
                         .font(Style.subheadlineItalic)
-                        .foregroundColor(Style.textTertiary)
+                        .foregroundStyle(Style.textTertiary)
                         .bold()
                     
                     Spacer()
                     if isButtonsShowing {
                         Button(action: subtractAction) {
                             Image("subtractIcon", bundle: .module)
-                                .gradientColor(gradient: Style.primary)
+                                .foregroundStyle( Style.primary)
                         }
                     }
                 }
@@ -100,11 +100,11 @@ public struct BonusesCardView: View {
                         .bold()
                 }
                 .font(Style.subheadlineRegular)
-                .foregroundColor(Style.textButtonPrimary)
+                .foregroundStyle(Style.textButtonPrimary)
             } else {
                 Text(authDescription)
                     .font(Style.subheadlineBold)
-                    .foregroundColor(Style.textButtonPrimary)
+                    .foregroundStyle(Style.textButtonPrimary)
                     .multilineTextAlignment(.leading)
                     .padding(.vertical)
                 

@@ -31,6 +31,8 @@ public class CatalogViewModel: ObservableObject {
     /// Stores product data for each catalog category, indexed by category ID.
     @Published public var productListResults: [String: [ProductViewDataModel]] = [:]
     
+    @Published public var searchText: String = ""
+    
     /// Maintains a navigation stack of catalog items to manage hierarchical navigation.
     @Published public var navigationStack: [CatalogItem] = []
     
@@ -81,7 +83,7 @@ public class CatalogViewModel: ObservableObject {
                 FieldForFilter(fieldName: "", listValue: [], comparison: .equalsStrong)
             ],
             sort: nil,
-            searchData: nil,
+            searchData: searchText,
             skip: 0,
             take: 30
         )
@@ -133,7 +135,7 @@ public class CatalogViewModel: ObservableObject {
                 )
             ],
             sort: SortData(fieldName: "", variantSort: .asc),
-            searchData: "",
+            searchData: searchText,
             skip: 0,
             take: 25
         )

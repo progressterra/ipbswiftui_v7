@@ -37,7 +37,21 @@ public struct CatalogView: View {
     
     public var body: some View {
         NavigationStack(path: $vm.navigationStack) {
-            ScrollView { 
+            ScrollView {
+                TextField("Поиск", text: $vm.searchText)
+                    .padding()
+                    .frame(height: 36)
+                    .cornerRadius(40)
+                    .overlay {
+                        Capsule(style: .continuous)
+                            .stroke()
+                    }
+                    .overlay(alignment: .trailing) {
+                        Image(systemName: "magnifyingglass")
+                            .padding(.trailing)
+                    }
+                    .padding(20)
+                
                 if let catalogItems = catalogItem?.listChildItems {
                     LazyVGrid(columns: columns, spacing: 16) {
                         ForEach(catalogItems, id: \.itemCategory.idUnique) { item in

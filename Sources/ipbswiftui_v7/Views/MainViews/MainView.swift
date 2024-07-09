@@ -58,7 +58,7 @@ public struct MainView: View {
                 withdrawalVM.fetchDocumentList()
             }
             .edgesIgnoringSafeArea(.top)
-            .frame(height: UIScreen.main.bounds.size.height * 0.12)
+            .frame(height: UIScreen.main.bounds.size.height * 0.1)
             
             ScrollView {
                 VStack(spacing: 40) {

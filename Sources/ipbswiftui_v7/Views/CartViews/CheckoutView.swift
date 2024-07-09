@@ -17,59 +17,49 @@ public struct CheckoutView: View {
     }
     
     public var body: some View {
-        ZStack {
-            Style.background.ignoresSafeArea()
-            
-            ScrollView {
-                VStack(spacing: 40) {
-                    OrderStageView(
-                        currentStageIndex: currentStageIndex,
-                        stages: ["Детали", "Доставка", "Оплата"]
-                    )
-                    .onTapGesture(coordinateSpace: CoordinateSpace.local) {
-                        if $0.y < 100, vm.checkoutStage == .payment {
-                            vm.checkoutStage = .delivery
-                        }
+        ScrollView {
+            VStack(spacing: 40) {
+                OrderStageView(
+                    currentStageIndex: currentStageIndex,
+                    stages: ["Детали", "Доставка", "Оплата"]
+                )
+                .onTapGesture(coordinateSpace: .local) {
+                    if $0.y < 100, vm.checkoutStage == .payment {
+                        vm.checkoutStage = .delivery
                     }
-                    
-                    if vm.checkoutStage == .delivery {
-                        DeliveryOptionFillView()
-                            .padding(.horizontal)
-                            .transition(.slide)
-                    } else if vm.checkoutStage == .payment || vm.checkoutStage == .paymentProvider {
-                        PaymentFillView()
-                            .padding(.horizontal)
-                            .transition(.slide)
-                    } else if vm.checkoutStage == .final {
-                        CheckoutFinalView()
-                            .padding(.horizontal)
-                            .transition(.slide)
-                    }
+                }
+                
+                if vm.checkoutStage == .delivery {
+                    DeliveryOptionFillView()
+                        .padding(.horizontal)
+                        .transition(.slide)
+                } else if vm.checkoutStage == .payment || vm.checkoutStage == .paymentProvider {
+                    PaymentFillView()
+                        .padding(.horizontal)
+                        .transition(.slide)
+                } else if vm.checkoutStage == .final {
+                    CheckoutFinalView()
+                        .padding(.horizontal)
+                        .transition(.slide)
                 }
             }
-            .onTapGesture(perform: hideKeyboard)
-            
+        }
+        .onTapGesture(perform: hideKeyboard)
+        .safeAreaInset(edge: .bottom) {
             if vm.checkoutStage == .delivery {
-                VStack {
-                    Spacer()
-                    
-                    CustomButtonView(
-                        title: "Далее",
-                        isDisabled: $vm.isDeliveryButtonDisabled
-                    ) {
-                        vm.checkoutStage = .payment
-                        vm.addAddress()
-                        vm.addComment()
-                    }
-                    .padding(8)
-                    .padding(.bottom)
-                    .background(Style.surface)
-                    .cornerRadius(20, corners: [.topLeft, .topRight])
+                CustomButtonView(
+                    title: "Далее",
+                    isDisabled: $vm.isDeliveryButtonDisabled
+                ) {
+                    vm.checkoutStage = .payment
+                    vm.addAddress()
+                    vm.addComment()
                 }
+                .padding(8)
+                .padding(.bottom)
+                .background(Style.surface)
+                .cornerRadius(20, corners: [.topLeft, .topRight])
                 .padding(.horizontal, 8)
-                .transition(.slide)
-            } else {
-                Color.clear.transition(.slide)
             }
         }
         .animation(.default, value: vm.checkoutStage)

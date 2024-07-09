@@ -10,11 +10,15 @@ import Combine
 import ipbswiftapi_v7
 import SwiftUI
 
+/// A view model for managing the withdrawal process.
 public class WithdrawalViewModel: ObservableObject {
     
+    /// Stores the data for input fields for current document, if any.
     @Published public var fieldsData: [FieldData]?
     @Published public var documentsData: [String: [FieldData]]?
+    /// Current document ID.
     @Published public var document: ResultData<RFCharacteristicValueViewModel>?
+    
     @Published public var documentList: ResultDataList<RFCharacteristicValueViewModel>?
     @Published public var paymentDataList: ResultDataList<RFPaymentDataForClientViewModel>?
     @Published public var payment: ResultData<DHPaymentClientViewModel>?

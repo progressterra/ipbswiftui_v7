@@ -9,6 +9,33 @@ import SwiftUI
 import Combine
 import ipbswiftapi_v7
 
+/// Manages the cart and order process within the application.
+///
+/// `CartViewModel` provides a comprehensive interface for interacting with the cart, including adding or removing items, managing delivery information, applying bonuses, and handling payment options. It also integrates with the DaDataService for address suggestions and leverages Combine for reactive updates.
+///
+/// ## Features
+/// - Tracks and updates cart items, including product details and quantities.
+/// - Manages delivery address input with real-time suggestions from DaDataService.
+/// - Allows for adding comments and custom delivery instructions.
+/// - Supports applying available bonuses to the cart and managing payment options.
+/// - Coordinates the checkout process across multiple stages, from payment to final confirmation.
+///
+/// ## Usage
+/// Instantiate `CartViewModel` and use it as an environment object in SwiftUI views to access and manage cart data throughout the application flow. The ViewModel handles all interactions with the `CartService` and `ProductService` to fetch product details and cart information, and with `DaDataService` for address suggestions.
+///
+/// ## Example
+/// ```swift
+/// @StateObject private var cartViewModel = CartViewModel.shared
+///
+/// var body: some View {
+///     CartView()
+///         .environmentObject(cartViewModel)
+/// }
+/// ```
+///
+/// ## Observations
+/// This ViewModel publishes changes to the cart, including updates to the number of items, the current checkout stage, and any errors or loading states. It ensures the UI remains responsive and up-to-date with the latest cart data and user interactions.
+
 public final class CartViewModel: ObservableObject {
     
     public static let shared = CartViewModel()
@@ -31,6 +58,7 @@ public final class CartViewModel: ObservableObject {
         case final
     }
     
+    /// Current checkout stage. The `paymentProvider` case is a sign to display external payment provider.
     @Published public var checkoutStage: CheckoutStage = .delivery
     
     // Delivery properties

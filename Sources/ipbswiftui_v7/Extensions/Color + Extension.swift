@@ -8,6 +8,9 @@
 import SwiftUI
 
 extension Color {
+    
+    /// Initializes a color from a hex string.
+    /// - Parameter hex: Hex string as ``#000000`` or just ``000000``
     init(hex: String) {
         var hex = hex
         if hex.hasPrefix("#") { hex.remove(at: hex.startIndex) }

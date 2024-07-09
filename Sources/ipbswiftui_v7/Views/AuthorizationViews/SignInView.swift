@@ -7,6 +7,38 @@
 
 import SwiftUI
 
+/// `SignInView` provides a user interface for phone number input and authorization with additional links to the offer and privacy policy.
+///
+/// This view includes a text field for entering a phone number, a button to perform authorization, and optional links to legal documents like terms of service (offer) and privacy policy. It supports navigation to different authentication flows, such as skipping the sign-in process if the user chooses.
+///
+/// ## Features
+/// - **Phone Number Input:** Users can enter their phone number in a formatted field that validates the input based on the required number of digits.
+/// - **Dynamic Authorization:** Authorization is handled through a callback function that can be customized depending on the consuming view's context.
+/// - **Legal Agreements:** Provides hyperlinked text to detailed offer and privacy policy documents, ensuring compliance with legal standards.
+/// - **Delayed Keyboard Presentation:** Optionally delays the keyboard presentation to enhance user experience.
+/// - **Accessibility Features:** The view supports screen readers and provides adequate tap targets for users with motor disabilities.
+///
+/// ## Example Usage
+///
+///
+///
+/// ```swift
+/// SignInView(
+///     phoneNumber: $phoneNumber,
+///     offerLink: "https://example.com/offer",
+///     privacyPolicyLink: "https://example.com/privacy",
+///     authAction: {
+///         print("Authenticate")
+///     },
+///     skipAction: {
+///         print("Skip Authentication")
+///     }
+/// )
+/// ```
+///
+/// - Displayed number format +7(###)###-##-##
+/// - Actual number format 7##########
+///
 public struct SignInView: View {
     @Binding var phoneNumber: String
     let offerLink: String
@@ -75,7 +107,7 @@ public struct SignInView: View {
                                 }
                         }
                     }
-                    .font(Style.footnoteRegular)
+                    .font(.system(size: 13))
                     .foregroundStyle(Style.textDisabled)
                 }
                 
@@ -109,11 +141,5 @@ public struct SignInView: View {
                 }
             }
         }
-    }
-}
-
-struct Previews_SignInView_Previews: PreviewProvider {
-    static var previews: some View {
-        SignInView(phoneNumber: .constant("79000000000"), offerLink: "f", privacyPolicyLink: "f", authAction: {})
     }
 }

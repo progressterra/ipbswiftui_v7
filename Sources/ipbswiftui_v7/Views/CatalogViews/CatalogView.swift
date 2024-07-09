@@ -8,6 +8,21 @@
 import SwiftUI
 import ipbswiftapi_v7
 
+/// A view that presents a catalog of items using a grid layout.
+///
+/// This SwiftUI view is designed to display categories and products from a catalog dynamically loaded through a view model. It supports navigation through different levels of the catalog hierarchy, from root items to child categories and individual products.
+///
+/// ## Usage
+///
+/// `CatalogView` should be instantiated with an optional `CatalogItem`, which represents a specific point in the catalog hierarchy. If no item is provided, the view starts at the root of the catalog hierarchy.
+///
+/// ```swift
+/// CatalogView(catalogItem: someCatalogItem)
+///     .environmentObject(CatalogViewModel())
+/// ```
+///
+/// ## Environment Objects
+/// - `CatalogViewModel`: Handles fetching the catalog data and managing navigation state.
 public struct CatalogView: View {
     
     @EnvironmentObject var vm: CatalogViewModel
@@ -22,21 +37,7 @@ public struct CatalogView: View {
     
     public var body: some View {
         NavigationStack(path: $vm.navigationStack) {
-            ScrollView {
-                TextField("Поиск", text: .constant(""))
-                    .padding()
-                    .frame(height: 36)
-                    .cornerRadius(40)
-                    .overlay {
-                        Capsule(style: .continuous)
-                            .stroke()
-                    }
-                    .overlay(alignment: .trailing) {
-                        Image(systemName: "magnifyingglass")
-                            .padding(.trailing)
-                    }
-                    .padding(20)
-                
+            ScrollView { 
                 if let catalogItems = catalogItem?.listChildItems {
                     LazyVGrid(columns: columns, spacing: 16) {
                         ForEach(catalogItems, id: \.itemCategory.idUnique) { item in
@@ -82,14 +83,5 @@ public struct CatalogView: View {
                 }
             }
         }
-    }
-}
-
-
-
-struct Previews_CatalogView_Previews: PreviewProvider {
-    static var previews: some View {
-        CatalogView()
-            .environmentObject(CatalogViewModel())
     }
 }

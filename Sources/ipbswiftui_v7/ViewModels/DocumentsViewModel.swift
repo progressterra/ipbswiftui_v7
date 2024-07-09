@@ -10,6 +10,11 @@ import Foundation
 import ipbswiftapi_v7
 import SwiftUI
 
+/// A view model for managing and updating user documents based on citizenship.
+///
+/// `DocumentsViewModel` handles user inputs and document updates related to various citizenships. It integrates with a backend service to fetch and submit document data, managing the state and content of user documents. It also handles image processing for documents, providing functionalities to upload and validate document images.
+///
+/// Designed to use with ``DocumentsView`` and ``FillDocumentView``.
 public class DocumentsViewModel: ObservableObject {
     
     public enum Citizenship: String, CaseIterable {
@@ -24,8 +29,12 @@ public class DocumentsViewModel: ObservableObject {
         case none = ""
     }
     
+    /// Stores the images input by the user, mapped by document ID.
     @Published public var inputImages: [String: UIImage?] = [:]
+    
+    /// Stores the data for input fields for documents, mapped by document ID.
     @Published public var inputFields: [String: [FieldData]] = [:]
+    
     @Published public var inputImage: UIImage?
     @Published public var userInputs: [Int: String] = [:]
     @Published public var isButtonDisabled: Bool = true
@@ -36,6 +45,7 @@ public class DocumentsViewModel: ObservableObject {
     @Published public var documentSet: ResultData<DHDocSetFullData>?
     
     @Published public var citizenshipText: String = ""
+    /// Tracks the citizenship selection of the user and triggers document data fetching.
     @Published public var citizenship: Citizenship = .none {
         didSet {
             citizenshipText = citizenship.rawValue
@@ -86,7 +96,7 @@ public class DocumentsViewModel: ObservableObject {
             .assign(to: &$isButtonDisabled)
     }
     
-    
+    /// Fetches the document set for the current user's citizenship.
     public func fetchDocumentSet() {
         let id = idForCitizenship()
         
@@ -127,6 +137,7 @@ public class DocumentsViewModel: ObservableObject {
             .store(in: &subscriptions)
     }
     
+    /// Submits the document data including filled fields and associated images.
     public func fillDocument(with idUnique: String) {
         guard let fields = inputFields[idUnique] else {
             error = NetworkRequestError.customError("Missing required data")
@@ -176,6 +187,7 @@ public class DocumentsViewModel: ObservableObject {
 }
 
 extension DocumentsViewModel {
+    /// Returns a document ID specific to the user's citizenship.
     public func idForCitizenship() -> String {
         switch citizenship {
         case .ru:

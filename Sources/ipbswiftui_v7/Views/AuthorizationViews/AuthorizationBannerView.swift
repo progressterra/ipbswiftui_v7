@@ -7,6 +7,10 @@
 
 import SwiftUI
 
+/// The `AuthorizationBannerView` displays `authorizationBanner`
+/// image defined in project assets with two options:
+/// "Авторизоваться" and "Пока пропустить".
+/// It can be used to prompt users to log in or skip the process.
 public struct AuthorizationBannerView: View {
     let authAction: () -> ()
     let skipAction: () -> ()

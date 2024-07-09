@@ -35,107 +35,99 @@ public struct BankCardsView: View {
     public init() {}
     
     public var body: some View {
-        ZStack {
-            Style.background.ignoresSafeArea()
+        VStack(spacing: 0) {
+            OptionPickerView(value: $displayOption, options: displayOptions)
+                .padding(.horizontal)
+                .padding(.top)
+                .shadow(color: Style.textSecondary.opacity(0.1), radius: 5, y: 5)
+                .zIndex(10)
             
-            VStack(spacing: 0) {
-                OptionPickerView(value: $displayOption, options: displayOptions)
+            ScrollView {
+                if displayOption == .confirmedCards {
+                    VStack(spacing: 8) {
+                        if let cardList = vm.paymentDataList?.dataList, !cardList.isEmpty {
+                            ForEach(cardList, id: \.idUnique) { card in
+                                ConfirmedCardRowView(
+                                    cardNumber: "\(card.paymentSystemName ?? "") \(card.preiview ?? "")",
+                                    isMain: vm.idPaymentData == card.idUnique
+                                )
+                                .overlay(alignment: .trailing) {
+                                    HStack {
+                                        Spacer()
+                                        Button(action: {}) { // delete action
+                                            Image("trashCan", bundle: .module)
+                                                .foregroundStyle(Style.iconsTertiary)
+                                        }
+                                        .padding(.trailing)
+                                    }
+                                }
+                                .onAppear { vm.idPaymentData = cardList.first?.idUnique ?? "" }
+                            }
+                        } else {
+                            Text("Подтверждённых карт пока нет")
+                                .padding()
+                                .frame(maxWidth: .infinity)
+                                .background(Style.surface)
+                                .cornerRadius(8)
+                        }
+                    }
+                    .transition(
+                        .asymmetric(
+                            insertion: .move(edge: .trailing),
+                            removal: .move(edge: .leading)
+                        )
+                        .combined(with: .opacity)
+                    )
                     .padding(.horizontal)
                     .padding(.top)
-                    .shadow(color: Style.textSecondary.opacity(0.1), radius: 5, y: 5)
-                    .zIndex(10)
-                
-                ScrollView {
-                    if displayOption == .confirmedCards {
-                        VStack(spacing: 8) {
-                            if let cardList = vm.paymentDataList?.dataList, !cardList.isEmpty {
-                                ForEach(cardList, id: \.idUnique) { card in
-                                    ConfirmedCardRowView(
-                                        cardNumber: "\(card.paymentSystemName ?? "") \(card.preiview ?? "")",
-                                        isMain: vm.idPaymentData == card.idUnique
-                                    )
-                                    .overlay(alignment: .trailing) {
-                                        HStack {
-                                            Spacer()
-                                            Button(action: {}) { // delete action
-                                                Image("trashCan", bundle: .module)
-                                                    .foregroundStyle(Style.iconsTertiary)
-                                            }
-                                            .padding(.trailing)
-                                        }
-                                    }
-                                    .onAppear { vm.idPaymentData = cardList.first?.idUnique ?? "" }
-                                }
-                            } else {
-                                Text("Подтверждённых карт пока нет")
-                                    .padding()
-                                    .frame(maxWidth: .infinity)
-                                    .background(Style.surface)
-                                    .cornerRadius(8)
-                            }
-                        }
-                        .transition(
-                            .asymmetric(
-                                insertion: .move(edge: .trailing),
-                                removal: .move(edge: .leading)
-                            )
-                            .combined(with: .opacity)
-                        )
-                        .padding(.horizontal)
-                        .padding(.top)
-                        .onAppear(perform: vm.fetchPaymentDataList)
-                        .animation(.default, value: vm.paymentDataList?.result.xRequestID)
-                    } else {
-                        VStack(spacing: 8) {
-                            if let cardList = vm.documentList?.dataList?
-                                .filter({ $0.statusDoc != .confirmed }) {
-                                
-                                ForEach(cardList, id: \.idUnique) { card in
-                                    if let cardData = vm.documentsData?[card.idUnique] {
-                                        Button(action: { presentCardView(for: card) }) {
-                                            BankCardRowView(
-                                                cardNumber: cardData.first?.valueData ?? "",
-                                                cardStatus: card.statusDoc,
-                                                removeAction: {}
-                                            )
-                                        }
+                    .onAppear(perform: vm.fetchPaymentDataList)
+                    .animation(.default, value: vm.paymentDataList?.result.xRequestID)
+                } else {
+                    VStack(spacing: 8) {
+                        if let cardList = vm.documentList?.dataList?
+                            .filter({ $0.statusDoc != .confirmed }) {
+                            
+                            ForEach(cardList, id: \.idUnique) { card in
+                                if let cardData = vm.documentsData?[card.idUnique] {
+                                    Button(action: { presentCardView(for: card) }) {
+                                        BankCardRowView(
+                                            cardNumber: cardData.first?.valueData ?? "",
+                                            cardStatus: card.statusDoc,
+                                            removeAction: {}
+                                        )
                                     }
                                 }
                             }
                         }
-                        .transition(
-                            .asymmetric(
-                                insertion: .move(edge: .leading),
-                                removal: .move(edge: .trailing)
-                            )
-                            .combined(with: .opacity)
-                        )
-                        .padding(.horizontal)
-                        .padding(.top)
-                        .onAppear(perform: vm.fetchDocumentList)
-                        .animation(.default, value: vm.documentList?.result.xRequestID)
                     }
+                    .transition(
+                        .asymmetric(
+                            insertion: .move(edge: .leading),
+                            removal: .move(edge: .trailing)
+                        )
+                        .combined(with: .opacity)
+                    )
+                    .padding(.horizontal)
+                    .padding(.top)
+                    .onAppear(perform: vm.fetchDocumentList)
+                    .animation(.default, value: vm.documentList?.result.xRequestID)
                 }
-                .refreshable {
-                    displayOption == .confirmedCards
-                    ? vm.fetchPaymentDataList()
-                    : vm.fetchDocumentList()
-                }
-                .zIndex(1)
-                .animation(.easeInOut, value: displayOption)
             }
-            
-            VStack {
-                Spacer()
-                
-                CustomButtonView(title: "Добавить карту", action: presentAddCardView)
-                    .padding(8)
-                    .padding(.bottom, 35)
-                    .background(Style.surface)
-                    .cornerRadius(20, corners: [.topLeft, .topRight])
-                    .shadow(color: Style.textSecondary.opacity(0.1), radius: 5, y: -5)
+            .refreshable {
+                displayOption == .confirmedCards
+                ? vm.fetchPaymentDataList()
+                : vm.fetchDocumentList()
             }
-            .padding(.horizontal, 8)
+            .zIndex(1)
+            .animation(.easeInOut, value: displayOption)
+        }
+        .safeAreaInset(edge: .bottom) {
+            CustomButtonView(title: "Добавить карту", action: presentAddCardView)
+                .padding(8)
+                .background(Style.surface)
+                .cornerRadius(20, corners: [.topLeft, .topRight])
+                .shadow(color: Style.textSecondary.opacity(0.1), radius: 5, y: -5)
+                .padding(.horizontal, 8)
         }
         .background(Style.background)
         .onAppear {
@@ -170,7 +162,6 @@ public struct BankCardsView: View {
         isCardViewPresented = true
         cardStatus = .notFill
         vm.eraseFields()
-        vm.cardPhoto = UIImage(systemName: "photo")
     }
     
     private func presentCardView(for card: RFCharacteristicValueViewModel) {

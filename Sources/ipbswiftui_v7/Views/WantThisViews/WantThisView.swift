@@ -8,6 +8,10 @@
 import SwiftUI
 import ipbswiftapi_v7
 
+/// A view that allows users to submit requests for products they are interested in by uploading images and providing URLs.
+///
+/// This view integrates various UI components to let users upload a product image, input a product URL, and submit their request. The user's input is managed by `WantThisViewModel`. The view displays previous requests through a navigation button and shows a status alert for any operational feedback. It is designed to be user-friendly by using forms for input and validating the input before allowing the submission.
+///
 public struct WantThisView: View {
     @EnvironmentObject var vm: WantThisViewModel
     

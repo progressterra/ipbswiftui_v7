@@ -62,8 +62,10 @@ public struct ImageViewer: View {
                             withAnimation {
                                 if scale == 1 {
                                     scale *= 2
-                                    scaleEffectAnchor = UnitPoint(x: location.x / proxy.size.width,
-                                                                  y: location.y / proxy.size.height)
+                                    scaleEffectAnchor = UnitPoint(
+                                        x: location.x / proxy.size.width,
+                                        y: location.y / proxy.size.height
+                                    )
                                 } else {
                                     scale = 1
                                     scaleEffectAnchor = .center
@@ -83,8 +85,10 @@ public struct ImageViewer: View {
                             withAnimation {
                                 if scale == 1 {
                                     scale *= 2
-                                    scaleEffectAnchor = UnitPoint(x: location.x / proxy.size.width,
-                                                                  y: location.y / proxy.size.height)
+                                    scaleEffectAnchor = UnitPoint(
+                                        x: location.x / proxy.size.width,
+                                        y: location.y / proxy.size.height
+                                    )
                                 } else {
                                     scale = 1
                                     scaleEffectAnchor = .center

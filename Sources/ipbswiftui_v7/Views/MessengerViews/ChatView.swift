@@ -14,9 +14,7 @@ public struct ChatView: View {
     
     @FocusState private var isFocused: Bool
     
-    public init(isFocused: Bool = false) {
-        self.isFocused = isFocused
-    }
+    public init() {}
     
     public var body: some View {
         ScrollViewReader { proxy in

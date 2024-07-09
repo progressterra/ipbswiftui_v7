@@ -8,6 +8,21 @@
 import SwiftUI
 import ipbswiftapi_v7
 
+/// Displays a grid view of product requests ("Хочу это") submitted by user. Each grid item represents a product request, showing an image, name, and status.
+///
+/// This view fetches and displays a list of all product requests made by user from the `WantThisViewModel`. User can tap on any request to view detailed information about that request in `WantThisDetailView`. The view is capable of refreshing the list of requests and provides visual feedback on the status of each request, such as confirmed, pending review, or rejected.
+///
+/// ## Usage:
+/// Ensure that `WantThisViewModel` is properly injected into the environment before using this view.
+///
+/// ```swift
+/// WantThisRequestsView()
+///     .environmentObject(WantThisViewModel())
+/// ```
+///
+/// ## Navigation:
+/// - Navigates to `WantThisDetailView` when a request is tapped to show more detailed information about the request.
+///
 public struct WantThisRequestsView: View {
     @EnvironmentObject var vm: WantThisViewModel
     
@@ -77,6 +92,7 @@ public struct WantThisRequestsView: View {
             }
         }
         .animation(.default, value: vm.documentList?.result.xRequestID)
+        .frame(maxWidth: .infinity)
         .background(Style.background)
         .onAppear { vm.fetchDocumentList() }
         .refreshable { vm.fetchDocumentList() }

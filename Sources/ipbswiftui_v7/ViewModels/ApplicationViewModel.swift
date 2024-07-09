@@ -9,6 +9,21 @@ import Combine
 import Foundation
 import ipbswiftapi_v7
 
+/// A view model for managing the application request process.
+///
+/// This view model handles the logic for submitting a new application request, including validating user input and communicating with the `ApplicationService` to submit the data. It publishes properties for user input fields such as name, surname, phone number, and more, allowing the view to bind directly to these properties for interactive data entry.
+///
+/// ## Usage:
+/// Instantiate `ApplicationViewModel` and use it as an environment object in your SwiftUI view hierarchy. Bind the view model's published properties to your form inputs to allow for data entry and submit the application using the `createApplication` method.
+///
+/// ```swift
+/// @StateObject private var applicationViewModel = ApplicationViewModel()
+///
+/// var body: some View {
+///     ApplicationRequestView(idProduct: "123")
+///         .environmentObject(applicationViewModel)
+/// }
+/// ```
 public class ApplicationViewModel: ObservableObject {
     
     @Published public var idProduct: String = ""
@@ -22,6 +37,7 @@ public class ApplicationViewModel: ObservableObject {
     @Published public var message: String = ""
     @Published public var model: RGApplicationViewModel?
     
+    @Published public var error: NetworkRequestError?
     @Published public var isLoading = false
     
     private let applicationService = ApplicationService()
@@ -47,8 +63,11 @@ public class ApplicationViewModel: ObservableObject {
         
         applicationService.createApplication(with: applicationEntity)
             .receive(on: DispatchQueue.main)
-            .sink { [weak self] completion in
+            .sink { [weak self] in
                 self?.isLoading = false
+                if case .failure(let error) = $0 {
+                    self?.error = error
+                }
             } receiveValue: { [weak self] value in
                 self?.model = value.data
             }

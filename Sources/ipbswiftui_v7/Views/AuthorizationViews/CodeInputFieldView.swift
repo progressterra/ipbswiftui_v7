@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-public struct CodeInputFieldView: View {
+struct CodeInputFieldView: View {
     @Binding var codeString: String
     let phoneNumber: String
     
@@ -15,12 +15,12 @@ public struct CodeInputFieldView: View {
     @State private var isPlaceholderShowing: [Bool] = Array(repeating: false, count: 4)
     @State private var displayedPhoneNumber: String = ""
     
-    public init(codeString: Binding<String>, phoneNumber: String) {
+    init(codeString: Binding<String>, phoneNumber: String) {
         self._codeString = codeString
         self.phoneNumber = phoneNumber
     }
     
-    public var body: some View {
+    var body: some View {
         VStack(spacing: 16) {
             Text("Код из смс на номер:\n\(displayedPhoneNumber)")
                 .multilineTextAlignment(.center)

@@ -28,12 +28,14 @@ struct CornerRadiusStyle: ViewModifier {
 }
 
 public extension View {
+    /// Adds corner radius to the view at specified corners.
     func cornerRadius(_ radius: CGFloat, corners: UIRectCorner) -> some View {
         ModifiedContent(content: self, modifier: CornerRadiusStyle(radius: radius, corners: corners))
     }
 }
 
 public extension View {
+    /// Hides the keyboard.
     func hideKeyboard() {
         UIApplication.shared.hideKeyboard()
     }

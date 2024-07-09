@@ -10,6 +10,25 @@ import ipbswiftapi_v7
 import Foundation
 import SwiftUI
 
+/// Manages data and operations for "Хочу это" requests within the application.
+///
+/// `WantThisViewModel` coordinates activities related to creating, viewing, and editing "Хочу это" requests.
+/// It provides functionalities such as loading and submitting request details, handling user inputs for request forms,
+/// and managing interactions with the document service API for fetching and updating request data.
+///
+/// - Fetches and displays a list of all "Хочу это" requests.
+/// - Submits new requests or updates existing ones based on user inputs.
+/// - Handles image uploads associated with requests.
+/// - Manages UI states and data validation for form submissions.
+///
+/// ## Example Usage
+/// ```swift
+/// WantThisView()
+///     .environmentObject(WantThisViewModel())
+///     .environmentObject(MessengerViewModel.shared)
+/// ```
+///
+/// This class is essential for maintaining the business logic associated with "Хочу это" requests and should be used as an environment object in any SwiftUI view that requires access to this data.
 public class WantThisViewModel: ObservableObject {
     
     @Published public var currentDocumentID: String?
@@ -59,6 +78,7 @@ public class WantThisViewModel: ObservableObject {
             .assign(to: &$isSubmitButtonDisabled)
     }
     
+    /// Clears all user inputs and temporary data.
     public func eraseDocumentData() {
         itemImageURL = nil
         itemImage = nil
@@ -66,6 +86,7 @@ public class WantThisViewModel: ObservableObject {
         itemURL = ""
     }
     
+    /// Loads the form structure necessary for creating or editing requests.
     public func fetchFieldsData() {
         isLoading = true
         
@@ -88,6 +109,7 @@ public class WantThisViewModel: ObservableObject {
             .store(in: &subscriptions)
     }
     
+    /// Submits a new "Хочу это" request or updates an existing one based on the form data.
     public func fillDocument() {
         isLoading = true
         
@@ -159,6 +181,7 @@ public class WantThisViewModel: ObservableObject {
             .store(in: &subscriptions)
     }
     
+    /// Retrieves a list of all existing "Хочу это" requests.
     public func fetchDocumentList() {
         isLoading = true
         
@@ -194,6 +217,7 @@ public class WantThisViewModel: ObservableObject {
 }
 
 extension WantThisViewModel {
+    /// Updates an existing request with new data from the user.
     public func editDocument() {
         guard let currentDocumentID else {
             error = NetworkRequestError.customError("Missing Document ID")

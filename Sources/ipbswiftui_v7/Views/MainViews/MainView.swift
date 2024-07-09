@@ -8,7 +8,17 @@
 import SwiftUI
 import ipbswiftapi_v7
 
+/// The primary interface for the application showcasing various product categories and interactive elements like bonuses and promotional items.
+///
+/// `MainView` orchestrates several key functionalities within the app's main dashboard. It dynamically displays products sorted by categories such as "Хиты продаж" (Bestsellers), "Акции" (Promotions), and "Новинки" (New Arrivals) fetched via the `MainViewModel`. The view also integrates components for managing and viewing bonuses and withdrawal options, facilitating user interaction with financial features.
+///
+/// ## Functionality Includes:
+/// - Displaying cards for different product categories.
+/// - Navigation to detailed product views, authorization flows, withdrawal setups, and card addition via modals and sheets.
+/// - Utilizing `BonusesCardView` for displaying and interacting with user's bonuses and financial transactions.
+///
 public struct MainView: View {
+    
     @EnvironmentObject var vm: MainViewModel
     @EnvironmentObject var cartVM: CartViewModel
     @EnvironmentObject var withdrawalVM: WithdrawalViewModel

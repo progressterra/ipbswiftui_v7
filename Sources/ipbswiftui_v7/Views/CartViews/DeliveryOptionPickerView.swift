@@ -7,12 +7,6 @@
 
 import SwiftUI
 
-/// Protocol defining delivery options with associated image and description.
-public protocol DeliveryOptionProtocol: CaseIterable, Hashable {
-    var description: String { get }
-    var imageName: String { get }
-}
-
 public struct DeliveryOptionPickerView<T: DeliveryOptionProtocol>: View {
     @Binding var selectedOption: T
     

@@ -44,7 +44,7 @@ public struct CustomButtonView: View {
                     }
                 }
         }
-        .buttonStyle(.plain)
+        .buttonStyle(ButtonPressEffectStyle())
     }
     
     var gradient: LinearGradient {

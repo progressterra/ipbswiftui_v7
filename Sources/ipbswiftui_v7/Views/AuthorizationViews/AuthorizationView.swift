@@ -8,6 +8,34 @@
 import SwiftUI
 import ipbswiftapi_v7
 
+/// A SwiftUI view handling the authorization process.
+///
+/// `AuthorizationView` orchestrates the user authentication flow in a SwiftUI application, from presenting the initial authorization banner to navigating through sign-in, verification, and profile detail views as needed.
+///
+/// ## Overview
+/// This view acts as the entry point for user authentication, directing users through a sequence of steps:
+/// - Displaying a banner for initial authorization action. Provide banner image in app assets with name `authorizationBanner`.
+/// - Sign-in form where users enter their phone number.
+/// - Verification code input for SMS verification.
+/// - Profile detail view for new users to enter additional information. Necessary fields could be configured in `StyleConfig.json`
+///
+/// The view dynamically presents and dismisses these components based on the user's authentication state and actions.
+///
+/// ## Usage
+///
+/// To use `AuthorizationView`, ensure you have an instance of ``AuthorizationViewModel`` and ``ProfileViewModel`` ready to be injected as environment objects. This setup allows `AuthorizationView` to observe and react to changes in the authentication state:
+///
+/// ```swift
+/// AuthorizationView()
+///     .environmentObject(AuthorizationViewModel.shared)
+///     .environmentObject(ProfileViewModel())
+/// ```
+///
+/// ## Key Components
+/// - ``AuthorizationBannerView``: The initial view presenting users with the option to start the authorization process or skip it.
+/// - ``SignInView``: A view for entering the phone number and initiating the sign-in process.
+/// - ``VerificationCodeInputView``: A view for entering the verification code received via SMS.
+/// - ``ProfileDetailView``: A view for new users to enter additional profile information.
 public struct AuthorizationView: View {
     
     @EnvironmentObject var vm: AuthorizationViewModel
@@ -85,15 +113,5 @@ public struct AuthorizationView: View {
             }
         }
         .tint(Style.textPrimary)
-    }
-}
-
-
-
-struct Previews_AuthorizationView_Previews: PreviewProvider {
-    static var previews: some View {
-        AuthorizationView()
-            .environmentObject(AuthorizationViewModel.shared)
-            .environmentObject(ProfileViewModel())
     }
 }

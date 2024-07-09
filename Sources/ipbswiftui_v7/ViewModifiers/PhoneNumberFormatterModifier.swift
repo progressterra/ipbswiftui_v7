@@ -7,6 +7,25 @@
 
 import SwiftUI
 
+/// A `ViewModifier` for formatting phone numbers in a user-friendly way. 
+/// Number typed as `7##########` will be displayed as `+7(###)###-##-##`.
+///
+/// ## Usage Example
+/// This modifier can be applied to any `TextField` in SwiftUI to automatically format the entered phone number:
+///
+/// ```swift
+/// TextField("Phone Number", text: $displayedPhoneNumber)
+///     .modifier(PhoneNumberFormatterModifier(phoneNumber: $phoneNumber, displayedPhoneNumber: $displayedPhoneNumber))
+/// ```
+///
+/// ## Parameters:
+/// - `phoneNumber`: A `Binding<String>` that stores the raw phone number after removing non-numeric characters.
+/// - `displayedPhoneNumber`: A `Binding<String>` that shows the formatted phone number in the UI.
+///
+/// ## Behavior:
+/// - Automatically adds country codes, parentheses, and dashes for better readability.
+/// - Begins formatting with the country code `+7` for Russia as an example, adaptable for other locales.
+/// - Prevents non-numeric input and truncates to the maximum length typical for phone numbers (up to 11 digits).
 public struct PhoneNumberFormatterModifier: ViewModifier {
     @Binding public var phoneNumber: String
     @Binding public var displayedPhoneNumber: String

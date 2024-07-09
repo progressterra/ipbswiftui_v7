@@ -23,9 +23,9 @@ public struct ItemDetailView: View {
     public var body: some View {
         ScrollView {
             VStack(spacing: 8) {
-                let imageURLs = product.nomenclature.listImages?.compactMap { $0.urlData } ?? []
-                
-                ImagesView(imageURLs: imageURLs)
+                if let imageURLs = product.nomenclature.listImages?.compactMap({ $0.urlData }) {
+                    ImagesView(imageURLs: imageURLs)
+                }
                 
                 ItemDescriptionView(
                     descriptionTitle: product.nomenclature.name ?? "",
@@ -64,10 +64,7 @@ public struct ItemDetailView: View {
                         }
                     }
                 }
-                .padding(.horizontal)
-                .padding(.top, 25)
-                
-                Spacer()
+                .padding()
             }
         }
         .toolbar {

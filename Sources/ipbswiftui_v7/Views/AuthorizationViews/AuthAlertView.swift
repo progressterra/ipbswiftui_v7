@@ -7,6 +7,8 @@
 
 import SwiftUI
 
+/// The `AuthAlertView` displays an alert with an "Авторизоваться" button.
+/// It can be used to inform users about an action requiring authorization.
 public struct AuthAlertView: View {
     @Binding var isPresented: Bool?
     let message: String

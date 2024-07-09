@@ -7,6 +7,41 @@
 
 import SwiftUI
 
+/// `VerificationCodeInputView` provides an interface for users to enter a verification code received via SMS.
+///
+/// This view includes a text field for entering the code and two primary actions: submitting the code to log in and requesting a new code if necessary. The view updates dynamically based on the code entered and the remaining time for code validity.
+///
+/// ## Features
+/// - **Code Input:** Allows users to input the SMS verification code they received.
+/// - **Dynamic Interactions:** The login button is only enabled when the correct number of digits (typically 4) are entered to reduce errors.
+/// - **Automatic Progression:** Automatically attempts to log in once the correct number of digits are entered, improving user flow.
+/// - **Resend Option:** Users can request a new code if the current one expires or doesn't work, with a timer showing the remaining time until a new request is allowed.
+///
+/// ## Usage
+///
+/// This view is typically presented when a user needs to verify their phone number as part of an authentication process:
+///
+/// ```swift
+/// VerificationCodeInputView(
+///     timeRemaining: $timeRemaining,
+///     codeFromSMS: $codeFromSMS,
+///     phoneNumber: "79999999999",
+///     loginAction: {
+///         print("Login action triggered")
+///     },
+///     requestNewCodeAction: {
+///         print("Request new code action triggered")
+///     }
+/// )
+/// ```
+///
+/// ## Parameters
+/// - `timeRemaining`: A binding to an `Int` that tracks the remaining time to request a new code.
+/// - `codeFromSMS`: A binding to a `String` that holds the code entered by the user.
+/// - `phoneNumber`: A `String` representing the user's phone number, used for display or reference.
+/// - `loginAction`: A closure that is called when the user presses the login button and the input code is valid.
+/// - `requestNewCodeAction`: A closure that is called when the user requests a new verification code.
+///
 public struct VerificationCodeInputView: View {
     
     @Binding var timeRemaining: Int
@@ -50,6 +85,10 @@ public struct VerificationCodeInputView: View {
                     Text("Код подтверждения")
                         .font(Style.title)
                         .foregroundStyle(Style.textPrimary)
+                }
+                
+                ToolbarItem(placement: .topBarTrailing) {
+                    CustomProgressView(isLoading: codeFromSMS.count == 4)
                 }
             }
             .onChange(of: codeFromSMS) { isAuthButtonDisabled = $0.count != 4 }

@@ -11,11 +11,25 @@ import ipbswiftapi_v7
 import SwiftUI
 import PhotosUI
 
+/// Manages user profile data, interactions with SCRM services for data patching, and handles profile media.
+///
+/// `ProfileViewModel` facilitates the retrieval and updating of user profile details from a SCRM service. It supports image uploading using `MediaDataService` and provides functionality for handling form inputs related to the user's profile such as name, surname, and contact information. It also manages UI state based on the progress and results of these operations.
+///
+/// ## Usage
+/// This ViewModel is intended to be used as an environment object within SwiftUI views that present and modify user profile data.
+///
+/// ## Features
+/// - Fetch and update user profile information.
+/// - Upload and manage profile images.
+/// - Provide real-time validation and error handling.
+///
 public class ProfileViewModel: ObservableObject {
     
+    /// Currently selected photo item from the Photos app. Triggers image upload to the platform.
     @Published public var selectedPhoto: PhotosPickerItem? {
         didSet { selectPhoto(photo: selectedPhoto) }
     }
+    /// Optional URL string pointing to the user's profile image web location.
     @Published public var profileImageURL: String?
     
     @Published public var name: String = ""
@@ -49,7 +63,7 @@ public class ProfileViewModel: ObservableObject {
         }
     }
     
-    private var subscriptions = Set<AnyCancellable>()
+    private var subscriptions: Set<AnyCancellable> = []
     
     private let sCRMService: SCRMService
     private let mediaDataService: MediaDataService
@@ -59,11 +73,13 @@ public class ProfileViewModel: ObservableObject {
         self.mediaDataService = mediaDataService
     }
     
+    /// Initializes data loading for the user profile by fetching user data and photo.
     public func setUpView() {
         getClientData()
         getClientPhoto()
     }
     
+    /// Updates client data on the SCRM service and fetches the latest user data.
     public func patchClientData() {
         
         setClientsEmail()
@@ -93,6 +109,7 @@ public class ProfileViewModel: ObservableObject {
             .store(in: &subscriptions)
     }
     
+    /// Updates the email for the client on the SCRM service.
     public func setClientsEmail() {
         guard !email.isEmpty else { return }
         
@@ -108,6 +125,7 @@ public class ProfileViewModel: ObservableObject {
             .store(in: &subscriptions)
     }
     
+    /// Clears all editable fields in the profile form.
     public func clearData() {
         name = ""
         surname = ""
@@ -126,7 +144,7 @@ extension ProfileViewModel {
         name = data.name ?? ""
         surname = data.soname ?? ""
         patronymic = data.patronymic ?? ""
-        birthday = data.dateOfBirth?.toDate() ?? .now
+        birthday = data.dateOfBirth ?? .now
         phoneNumber = data.phoneGeneral ?? ""
         typeSex = data.sex ?? .male
         typeSexStr = data.sex == .male ? "Мужской" : "Женский"

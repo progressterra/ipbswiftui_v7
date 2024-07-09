@@ -107,7 +107,7 @@ public class MessengerViewModel: ObservableObject {
             .store(in: &subscriptions)
     }
     
-    func updateMessage(_ message: RGMessagesViewModel) {
+    public func updateMessage(_ message: RGMessagesViewModel) {
         isLoading = true
         
         let message = RGMessages(

@@ -9,9 +9,30 @@ import Combine
 import Foundation
 import ipbswiftapi_v7
 
+/// A view model for managing and fetching order data, including product details.
+///
+/// `OrdersViewModel` interacts with `OrderService` and `ProductService` to fetch and manage orders and their associated products. It provides functionality to load orders, display them, and retrieve detailed product information associated with each order.
+///
+/// ## Overview
+/// - Fetches and manages a list of orders.
+/// - Retrieves product details for items within each order.
+/// - Handles loading states and error reporting.
+///
+/// ## Usage
+///
+/// The view model is injected as an environment object in the `OrdersView` view.
+///
+/// ```swift
+/// OrdersView()
+///     .environmentObject(OrdersViewModel())
+/// ```
+///
+/// Or use it with your UI implementation.
 public class OrdersViewModel: ObservableObject {
     
+    /// Stores the list of orders fetched from the server.
     @Published public var orderList: ResultDataList<DHSaleHeadAsOrderViewModel>?
+    /// Maps product IDs to their models for easier access in the UI.
     @Published public var productDictionary: [String: ProductViewDataModel] = [:]
     
     @Published public var isLoading: Bool = false
@@ -45,6 +66,7 @@ public class OrdersViewModel: ObservableObject {
         self.productService = productService
     }
     
+    /// Fetches the list of all orders using `OrderService` with sorting by date added and assign them to orderList.
     public func getOrderList() {
         let filter = FilterAndSort(
             listFields: nil,
@@ -68,6 +90,7 @@ public class OrdersViewModel: ObservableObject {
             .store(in: &subscriptions)
     }
     
+    /// Fetches detailed product information for each item in an order and updates the `productDictionary`.
     public func fetchProductsInformation(for order: DHSaleHeadAsOrderViewModel) {
         guard let listDRSale = order.listDRSale else { return }
         

@@ -8,14 +8,14 @@
 import SwiftUI
 import ipbswiftapi_v7
 
-public struct OrderInfoView: View {
+struct OrderInfoView: View {
     let order: DHSaleHeadAsOrderViewModel
 
-    public init(order: DHSaleHeadAsOrderViewModel) {
+    init(order: DHSaleHeadAsOrderViewModel) {
         self.order = order
     }
     
-    public var body: some View {
+    var body: some View {
         VStack(alignment: .leading, spacing: 2) {
             Text("Заказ от \(order.dateAdded.format(as: "d MMMM"))")
                 .foregroundStyle(Style.textPrimary)

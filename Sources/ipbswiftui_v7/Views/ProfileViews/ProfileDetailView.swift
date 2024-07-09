@@ -15,11 +15,11 @@ import PhotosUI
 /// - Parameters:
 ///   - mode: A binding to the current mode of the view (`view`, `edit`, or `custom`).
 ///   - fieldsToShow: An optional set of `Field` cases representing the fields to be displayed.
-///                   If nil, all fields are displayed. Relevant only in `custom` mode.
+///                   If nil, all fields are as configured in ``Style/mandatoryProfileFields``. Relevant only in `custom` mode.
 ///   - customNavigationTitle: An optional string for the navigation title in `custom` mode.
-///                            If nil, the navigation title defaults to an empty string.
+///                            If nil, the navigation title in ``Style/customProfileNavigationTitle``.
 ///   - customButtonTitle: An optional string for the button title in `custom` mode.
-///                        If nil, the button title defaults to an empty string.
+///                        If nil, the button title defaults to ``Style/customProfileButtonTitle``.
 ///   - submitAction: A closure that is called when the submit button is tapped.
 ///   - skipAction: An optional closure that is called when the skip button is tapped.
 ///                 If nil, the skip button is not displayed.

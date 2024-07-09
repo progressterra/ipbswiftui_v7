@@ -7,6 +7,26 @@
 
 import SwiftUI
 
+/// A `ViewModifier` that formats and manages input for credit card expiry dates in a `TextField`.
+/// It automatically handles the input for month and year, and formats it in "MM/YY" format.
+///
+/// ## Usage Example
+///
+/// Apply this modifier to a `TextField` to enable automatic formatting of credit card expiry dates:
+///
+/// ```swift
+/// TextField("Expiry Date", text: $displayedText)
+///     .modifier(ExpiryDateModifier(month: $month, year: $year, displayedText: $displayedText))
+/// ```
+///
+/// ## Parameters:
+/// - `month`: A `Binding<String>` reflecting the two-digit month.
+/// - `year`: A `Binding<String>` reflecting the two-digit year.
+/// - `displayedText`: A `Binding<String>` that shows the formatted expiry date in the TextField.
+///
+/// ## Behavior:
+/// - Inputs are automatically formatted as "MM/YY". The month and year are stored separately for potential use in validations or submissions.
+/// - Supports up to 4 numeric characters: the first two for the month and the last two for the year.
 public struct ExpiryDateModifier: ViewModifier {
     @Binding public var month: String
     @Binding public var year: String

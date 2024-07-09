@@ -6,6 +6,7 @@
 
 import SwiftUI
 
+/// A button style that applies a scaling effect to buttons when they are pressed.
 public struct ButtonPressEffectStyle: ButtonStyle {
     
     public init() {}

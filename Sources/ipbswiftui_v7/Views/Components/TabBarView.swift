@@ -11,14 +11,17 @@ import SwiftUI
 public protocol TabBarItem: Hashable {
     var imageName: String { get }
     var title: String { get }
-    /// Define if item should be offset by Y axe
+    /// Define if item should be offset by Y axe and should be highlighted with circle frame. Typically used for middle tab item.
     var isSpecial: Bool { get }
     var badgeCount: Int? { get }
 }
 
 /// `TabBarViewModel` is a class responsible for managing the state of a custom tab bar.
+///
 /// It keeps track of unique identifiers (UUIDs) associated with each tab,
 /// which can be used to refresh individual tabs when necessary.
+///
+/// When tab tapped 2 times, refreshUUID is updated.
 public class TabBarViewModel<Tab: TabBarItem>: ObservableObject {
     @Published public var refreshUUIDs: [Tab: UUID] = [:]
     
@@ -102,7 +105,7 @@ struct IndividualTabView<Tab: TabBarItem>: View {
             ZStack {
                 if isSelected {
                     Image(tab.imageName)
-                        .foregroundStyle( Style.primary)
+                        .foregroundStyle(Style.primary)
                 } else {
                     Image(tab.imageName)
                         .foregroundStyle(Style.iconsPrimary)

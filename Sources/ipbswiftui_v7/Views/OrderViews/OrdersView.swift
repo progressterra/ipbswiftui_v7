@@ -8,6 +8,25 @@
 import SwiftUI
 import ipbswiftapi_v7
 
+/// A view for displaying a list of orders.
+///
+/// `OrdersView` presents a list of user's orders, each leading to its detailed view. It supports optional tracking and detailed presentation of products associated with each order. The view uses `OrdersViewModel` to fetch and display the order data.
+///
+/// ## Usage
+///
+/// This view should be embedded in a navigation context and must have access to an instance of `OrdersViewModel` provided as an environment object.
+///
+/// ```swift
+/// NavigationView {
+///     OrdersView()
+///         .environmentObject(OrdersViewModel())
+/// }
+/// ```
+///
+/// ## Initialization Parameters
+/// - `isTrackable`: A Boolean value indicating if the order could be tracked.
+/// - `isProductCouldBePresented`: A Boolean value indicating if the product details can be presented.
+///
 public struct OrdersView: View {
     @EnvironmentObject var vm: OrdersViewModel
     

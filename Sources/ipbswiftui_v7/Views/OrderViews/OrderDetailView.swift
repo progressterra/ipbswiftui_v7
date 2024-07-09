@@ -8,6 +8,31 @@
 import SwiftUI
 import ipbswiftapi_v7
 
+/// A view for presenting detailed information about an order.
+///
+/// `OrderDetailView` displays comprehensive details about a specific order, including individual product cards if available. This view provides conditional functionalities like tracking the order status and initiating chats related to the order. It supports integration with `OrdersViewModel` and `MessengerViewModel` to fetch order details and manage interactions.
+///
+/// ## Overview
+/// - Displays detailed information about a given order.
+/// - Provides conditional functionalities for order tracking and chatting about the order.
+/// - Presents detailed product information if enabled.
+///
+/// ## Usage
+///
+/// This view is typically used as a destination in a `NavigationView` from an orders list.
+///
+/// ```swift
+/// NavigationLink(destination: OrderDetailView(order: order)) {
+///     Text("View Details")
+/// }
+/// ```
+///
+/// ## Initialization Parameters
+/// - `order`: The order to display.
+/// - `isInList`: A Boolean indicating if the view is being used in a list context.
+/// - `isTrackable`: A Boolean indicating if order tracking is enabled.
+/// - `isProductCouldBePresented`: A Boolean indicating if product details can be displayed.
+///
 public struct OrderDetailView: View {
     @EnvironmentObject var vm: OrdersViewModel
     @EnvironmentObject var supportServiceVM: MessengerViewModel
@@ -23,12 +48,11 @@ public struct OrderDetailView: View {
     @State private var isOrderStatusInfoViewPresented = false
     @FocusState private var isFocused: Bool
     
-    public init(order: DHSaleHeadAsOrderViewModel, isInList: Bool = false, isTrackable: Bool = false, isProductCouldBePresented: Bool = false, isFocused: Bool = false) {
+    public init(order: DHSaleHeadAsOrderViewModel, isInList: Bool = false, isTrackable: Bool = false, isProductCouldBePresented: Bool = false) {
         self.order = order
         self.isInList = isInList
         self.isTrackable = isTrackable
         self.isProductCouldBePresented = isProductCouldBePresented
-        self.isFocused = isFocused
     }
     
     public var body: some View {

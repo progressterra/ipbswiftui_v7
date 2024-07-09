@@ -1,6 +1,6 @@
 //
 //  MessageView.swift
-//  
+//
 //
 //  Created by Artemy Volkov on 10.08.2023.
 //
@@ -31,15 +31,10 @@ public struct MessageView: View {
                     .foregroundStyle(Style.textPrimary)
                     .font(Style.body)
                     .multilineTextAlignment(isOwnMessage ? .trailing : .leading)
-                Text(
-                    dateAdded.format(
-                        as: "dd MMM yyyy HH:mm",
-                        timeZone: TimeZone(secondsFromGMT: 3 * 3600) ?? .current,
-                        locale: Locale(identifier: "ru_RU")
-                    )
-                )
-                .foregroundStyle(Style.textTertiary)
-                .font(Style.footnoteRegular)
+                
+                Text(dateAdded.format(as: "dd MMM yyyy HH:mm"))
+                    .foregroundStyle(Style.textTertiary)
+                    .font(Style.footnoteRegular)
             }
             .padding(12)
             .background(backgroundColor)

@@ -7,6 +7,30 @@
 
 import SwiftUI
 
+/// A view that displays the user's bonuses information including their current bonuses count, withdrawal options, and installment options.
+///
+/// ## Usage example
+/**
+```swift
+ BonusesCardView(
+     currentBonusesCount: 0,
+     equivalentOfOneBonus: 1,
+     availableWithdrawalAmount: withdrawalVM.clientBalanceAmount ?? 0,
+     availableInstalmentAmount: 0,
+     isButtonsShowing: true,
+     authDescription: IPBSettings.authDescription,
+     isAuthorized: !AuthStorage.shared.getRefreshToken().isEmpty,
+     isCardAdded: withdrawalVM.documentList?.dataList != nil,
+     addCardAction: { isAddCardViewPresented = true },
+     authAction: {
+         AuthorizationViewModel.shared.isLoggedIn = false
+         AuthorizationViewModel.shared.isNewUser = true
+     },
+     bonusesHistoryAction: { isBonusesHistoryViewPresented = true },
+     subtractAction: { isWithdrawalViewPresented = true }
+ )
+```
+ */
 public struct BonusesCardView: View {
     let currentBonusesCount: Double
     let equivalentOfOneBonus: Double?

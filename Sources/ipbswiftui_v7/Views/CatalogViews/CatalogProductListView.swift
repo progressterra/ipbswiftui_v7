@@ -9,6 +9,19 @@ import Foundation
 import SwiftUI
 import ipbswiftapi_v7
 
+/// A view that presents a list of products from a specific catalog category.
+///
+/// This SwiftUI view is designed to display products in a grid layout, where each product can be tapped to view more details or added to a shopping cart directly. It integrates with `CatalogViewModel` to fetch and display product details and uses `CartViewModel` to manage cart operations.
+///
+/// ## Usage
+///
+/// `CatalogProductListView` should be instantiated with a `CatalogItem`, which represents the category from which products are to be listed.
+///
+/// ```swift
+/// CatalogProductListView(catalogItem: someCatalogItem)
+///     .environmentObject(CatalogViewModel())
+///     .environmentObject(CartViewModel.shared)
+/// ```
 public struct CatalogProductListView: View {
     @EnvironmentObject var vm: CatalogViewModel
     @EnvironmentObject var cartVM: CartViewModel

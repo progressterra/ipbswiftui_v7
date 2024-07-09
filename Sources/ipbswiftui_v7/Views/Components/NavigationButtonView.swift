@@ -27,7 +27,7 @@ public struct NavigationButtonView: View {
         badgeCount: Int? = nil,
         isDestructive: Bool = false,
         status: Status = .info,
-        action: @escaping () -> ()
+        action: @escaping () -> () = {}
     ) {
         self.title = title
         self.prompt = prompt
@@ -101,7 +101,7 @@ struct NavigationButtonView_Previews: PreviewProvider {
                 NavigationButtonView(title: "Удалить аккаунт", isDestructive: true, action: {})
                 NavigationButtonView(title: "Паспорт", prompt: "Требуется добавить изображение документа", status: .rejected, action: {})
                 NavigationButtonView(title: "Паспорт", prompt: "Требуется добавить изображение документа", status: .info, action: {})
-                NavigationButtonView(title: "Паспорт", prompt: "Требуется добавить изображение документа", badgeCount: 999, status: .approved, action: {})
+                NavigationButtonView(title: "Паспорт", prompt: "Требуется добавить изображение документа", badgeCount: 999, status: .approved)
             }
             .padding()
         }

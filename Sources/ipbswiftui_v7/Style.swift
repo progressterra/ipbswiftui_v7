@@ -8,6 +8,95 @@
 import Foundation
 import SwiftUI
 
+/// Manages the UI style configuration for the application.
+///
+/// The `Style` struct provides a unified approach to configuring and applying a consistent style across the SwiftUI application. It reads settings from the `StyleConfig.json` file, enabling easy adjustments to colors, button styles, and more without altering the codebase.
+///
+/// ## Configuration
+/// Locate `StyleConfig.json` in the project's directory with following structure:
+///
+/**
+ ```json
+ {
+     "offerURL": "https://progressterra.com",
+     "privacyURL": "https://progressterra.com",
+
+     "mandatoryProfileFields": ["photo", "name", "surname", "patronymic", "birthday", "sex", "phone"],
+     "customProfileNavigationTitle": "Личные данные",
+     "customProfileButtonTitle": "Далее",
+
+     "buttonHeight": 50,
+     "buttonCornerRadius": 14,
+
+     "background": "#262223",
+     "onBackground": "#001001",
+     "primaryStart": "#7209b7",
+     "primaryEnd": "#f72585",
+     "secondary": "#3E4555",
+     "secondary2": "#CDCDD6",
+     "tertiary": "#B5B5BC",
+     "surface": "#2e2e2d",
+     "surface2": "#111111",
+     "onSurface": "#54544e",
+     "onSurface2": "#101010",
+     
+     "error": "#DF3636",
+     "success": "#7ADB6B",
+     "info": "#6980CF",
+     "warning": "#DB742A",
+     
+     "iconsPrimary": "#111111",
+     "iconsPrimary2": "#E82741",
+     "iconsPrimary3": "#656565",
+     "iconsSecondary": "#FFFFFF",
+     "iconsTertiary": "#B5B5BC",
+     "iconsTertiary2": "#4578DC",
+     "iconsTertiary3": "#B2FF75",
+     "iconsTertiary4": "#F6E651",
+     
+     "textPrimary": "#FFFFFF",
+     "textPrimary2": "#E82741",
+     "textSecondary": "#6E7289",
+     "textTertiary": "#9191A1",
+     "textTertiary2": "#453896",
+     "textTertiary3": "#28AB13",
+     "textTertiary4": "#CA451C",
+     "textButtonPrimary": "#FFFFFF",
+     
+     "primaryPressed": "#3D3D3D",
+     "primaryDisabled": "#70103c",
+     "secondaryPressed": "#232427",
+     "iconsPressed": "#0F1215",
+     "iconsDisabled": "#B5B5B5",
+     "textPressed": "#24282E",
+     "textDisabled": "#B5B5B5"
+ }
+ ```
+ */
+///
+/// ## Initialization
+/// Ensure to call `loadConfiguration()` during app launch:
+///
+/// ```swift
+/// Style.loadConfiguration()
+/// ```
+///
+/// ## Custom Fonts
+/// Besides using system dynamic fonts, `Style` allows specifying custom fonts to better align with your branding guidelines. Assign custom font values to `Style`'s static properties to apply them globally:
+///
+/// ```swift
+/// Style.title = .custom("YourFontName-Bold", size: 20, relativeTo: .title3)
+/// ```
+///
+/// ## Customization Points
+/// - **URLs**: Links for offers, privacy policies, etc.
+/// - **SCRM Fields**: Customizable fields for profile details.
+/// - **Button Style**: Height and corner radius for buttons.
+/// - **Fonts**: Font sizes and weights for different text elements.
+/// - **Colors**: Comprehensive theming with support for light and dark modes.
+///
+/// ## Usage
+/// After configuring the `Style` struct, access its properties directly when styling SwiftUI views. For instance, use `Style.primary` for button background gradients or `Style.textPrimary` for primary text color.
 public struct Style {
     
     // URLs

@@ -120,7 +120,6 @@ public struct WithdrawalView: View {
                 isAddCardViewPresented = true
             }
             .padding(8)
-            .padding(.bottom, 35)
             .background(Style.surface)
             .cornerRadius(20, corners: [.topLeft, .topRight])
             .shadow(color: Style.textSecondary.opacity(0.1), radius: 5, y: -5)

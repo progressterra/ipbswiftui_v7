@@ -9,6 +9,28 @@ import Foundation
 import ipbswiftapi_v7
 import Combine
 
+/// Manages the authorization process for users, handling login, token management, and user status checks.
+///
+/// The view model provides mechanisms to initiate the login process, handle SMS verification codes, manage user authentication state, and perform logout operations. It publishes properties to reflect the current authentication state, loading status, and any errors encountered during authentication.
+///
+/// ## Usage
+/// - Use `startLogin` to initiate the login process with a phone number.
+/// - Upon receiving an SMS code, call `endLogin` with the provided code to complete the authentication process.
+/// - The `isLoggedIn` property indicates whether the user is currently authenticated.
+/// - Use `logoutToken` or `logoutAllTokens` to log out the user.
+///
+/// Or use it with ``AuthorizationView``
+///
+/// ```swift
+/// AuthorizationView()
+///     .environmentObject(AuthorizationViewModel.shared)
+/// ```
+///
+/// ## Error Handling
+/// - Errors during the authentication process are published through the `error` property. This can be used to present error messages to the user.
+///
+/// ## New User Detection
+/// - The view model checks if the authenticated user is new to the system and updates the `isNewUser` property accordingly. This can be used to trigger additional onboarding flows for new users.
 public class AuthorizationViewModel: ObservableObject {
     
     public static let shared = AuthorizationViewModel()
@@ -107,6 +129,7 @@ public class AuthorizationViewModel: ObservableObject {
             .store(in: &subscriptions)
     }
     
+    /// Logout tokens from all devices
     public func logoutAllTokens(userId: String) {
         isLoading = true
         authService
@@ -129,6 +152,7 @@ public class AuthorizationViewModel: ObservableObject {
             .store(in: &subscriptions)
     }
     
+    /// Logout from current device
     public func logoutToken() {
         isLoading = true
         authService

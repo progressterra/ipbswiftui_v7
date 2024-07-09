@@ -1,12 +1,42 @@
 //
 //  ApplicationRequestView.swift
-//  WOWLidiya
+//
 //
 //  Created by Artemy Volkov on 13.03.2024.
 //
 
 import SwiftUI
 
+/// A view for submitting application requests.
+///
+/// `ApplicationRequestView` is designed to capture user input for a new application request, including personal details and preferred communication channels. This view utilizes environment objects for application and profile view models to pre-populate fields and manage submission logic.
+///
+/// ## Overview
+/// This view presents a form where users can enter their name, surname, phone number, email, and optionally, their Telegram contact or a custom communication channel. It validates the input to ensure essential details are provided before allowing the user to submit the application request.
+///
+/// Upon submission, the view displays a status message indicating whether the application was successfully created.
+///
+/// ## Usage
+///
+/// To use `ApplicationRequestView`, ensure you have `ApplicationViewModel` and `ProfileViewModel` instantiated and injected as environment objects into the SwiftUI environment. `idProduct` is required to associate the application request with a specific product.
+///
+/// ```swift
+/// @StateObject private var applicationViewModel = ApplicationViewModel()
+/// @StateObject private var profileViewModel = ProfileViewModel()
+///
+/// var body: some View {
+///     ApplicationRequestView(idProduct: "123")
+///         .environmentObject(applicationViewModel)
+///         .environmentObject(profileViewModel)
+/// }
+/// ```
+///
+/// ## Environment Objects
+/// - ``ApplicationViewModel``: Manages the application request logic submission.
+/// - ``ProfileViewModel``: Supplies user profile information to pre-populate the form.
+///
+/// ## Parameters
+/// - `idProduct`: A string identifier for the product related to the application request.
 public struct ApplicationRequestView: View {
     
     let idProduct: String

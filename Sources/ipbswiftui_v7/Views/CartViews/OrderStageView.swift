@@ -7,16 +7,16 @@
 
 import SwiftUI
 
-public struct OrderStageView: View {
+struct OrderStageView: View {
     var currentStageIndex: Int
     let stages: [String]
     
-    public init(currentStageIndex: Int, stages: [String]) {
+    init(currentStageIndex: Int, stages: [String]) {
         self.currentStageIndex = currentStageIndex
         self.stages = stages
     }
     
-    public var body: some View {
+    var body: some View {
         HStack(spacing: 0) {
             ForEach(stages.indices, id: \.self) { stageIndex in
                 if currentStageIndex == stageIndex {

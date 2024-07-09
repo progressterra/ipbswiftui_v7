@@ -46,147 +46,138 @@ public struct BankCardView: View {
     }
     
     public var body: some View {
-        ZStack {
-            Style.background.ignoresSafeArea()
+        ScrollView {
             
-            ScrollView {
-                
-                HStack {
-                    Text(statusTitle)
-                        .foregroundStyle(statusColor)
-                        .font(Style.subheadlineBold)
-                    Spacer()
-                }
-                .padding(.horizontal)
-                .padding(.bottom, -16)
-                
-                VStack(spacing: 12) {
-                    CustomTextFieldView(
-                        text: $vm.cardNumber,
-                        prompt: vm.fieldsData?[0].name ?? "",
-                        backgroundColor: textFieldBackground
-                    )
-                    .modifier(CardNumberFormatter(text: $vm.cardNumber))
-                    .focused($focusedField, equals: 0)
-                    .onSubmit { focusedField = 1 }
-                    .submitLabel(.next)
-                    
-                    CustomTextFieldView(
-                        text: $vm.cardHolderName,
-                        prompt: vm.fieldsData?[1].name ?? "",
-                        backgroundColor: textFieldBackground
-                    )
-                    .textInputAutocapitalization(.characters)
-                    .keyboardType(.alphabet)
-                    .focused($focusedField, equals: 1)
-                    .onSubmit { focusedField = 2 }
-                    .submitLabel(.next)
-                    
-                    HStack(spacing: 12) {
-                        CustomTextFieldView(
-                            text: $displayedExpiryDate,
-                            prompt: "Срок действия",
-                            backgroundColor: textFieldBackground
-                        )
-                        .modifier(
-                            ExpiryDateModifier(
-                                month: $vm.expirationMonth,
-                                year: $vm.expirationYear,
-                                displayedText: $displayedExpiryDate
-                            )
-                        )
-                        .focused($focusedField, equals: 2)
-                        .onSubmit { focusedField = 3 }
-                        .submitLabel(.next)
-                        
-                        CustomTextFieldView(
-                            text: $vm.maskedCVCCode,
-                            prompt: vm.fieldsData?[4].name ?? "",
-                            backgroundColor: textFieldBackground
-                        )
-                        .modifier(
-                            CVCMaskModifier(
-                                realText: $vm.realCVCCode,
-                                displayedText: $vm.maskedCVCCode
-                            )
-                        )
-                        .focused($focusedField, equals: 3)
-                        .onSubmit { focusedField = nil }
-                        .submitLabel(.done)
-                    }
-                }
-                .padding(12)
-                .background(Style.surface)
-                .cornerRadius(12)
-                .padding(.horizontal)
-                .padding(.top)
-                .disabled(cardStatus == .confirmed || cardStatus == .rejected)
-                .autocorrectionDisabled()
-                .animation(.default, value: focusedField)
-                
-                if isNewCard && cardStatus != .confirmed || cardStatus != .rejected {
-                    HStack(spacing: 12) {
-                        Text("Фото банковской карты")
-                            .font(Style.body)
-                            .foregroundStyle(Style.textPrimary)
-                        
-                        CameraButtonView(inputImage: $vm.cardPhoto)
-                        Spacer()
-                    }
-                    .padding(.horizontal, 28)
-                    .padding(.top)
-                }
-                
-                HStack {
-                    if let cardPhoto = vm.cardPhoto {
-                        Image(uiImage: cardPhoto)
-                            .resizable()
-                            .scaledToFill()
-                            .frame(width: 63, height: 63)
-                            .cornerRadius(8)
-                            .clipped()
-                    } else if let cardPhotoURL = vm.cardPhotoURL {
-                        AsyncImageView(
-                            imageURL: cardPhotoURL,
-                            width: 63,
-                            height: 63,
-                            cornerRadius: 8
-                        )
-                    }
-                    Spacer()
-                }
-                .padding(.horizontal)
-                .padding(.top)
-            }
-            .refreshable { vm.fetchFieldsData() }
-            .onTapGesture { focusedField = nil }
-            
-            VStack {
+            HStack {
+                Text(statusTitle)
+                    .foregroundStyle(statusColor)
+                    .font(Style.subheadlineBold)
                 Spacer()
-                
-                CustomButtonView(title: "Готово", isDisabled: $vm.isSubmitButtonDisabled) {
-                    if isNewCard {
-                        vm.fillDocument()
-                    } else {
-                        vm.editDocument()
-                    }
-                }
-                .padding(8)
-                .padding(.bottom, 35)
-                .background(Style.surface)
-                .cornerRadius(20, corners: [.topLeft, .topRight])
             }
+            .padding(.horizontal)
+            .padding(.bottom, -16)
+            
+            VStack(spacing: 12) {
+                CustomTextFieldView(
+                    text: $vm.cardNumber,
+                    prompt: vm.fieldsData?[0].name ?? "",
+                    backgroundColor: textFieldBackground
+                )
+                .modifier(CardNumberFormatter(text: $vm.cardNumber))
+                .focused($focusedField, equals: 0)
+                .onSubmit { focusedField = 1 }
+                .submitLabel(.next)
+                
+                CustomTextFieldView(
+                    text: $vm.cardHolderName,
+                    prompt: vm.fieldsData?[1].name ?? "",
+                    backgroundColor: textFieldBackground
+                )
+                .textInputAutocapitalization(.characters)
+                .keyboardType(.alphabet)
+                .focused($focusedField, equals: 1)
+                .onSubmit { focusedField = 2 }
+                .submitLabel(.next)
+                
+                HStack(spacing: 12) {
+                    CustomTextFieldView(
+                        text: $displayedExpiryDate,
+                        prompt: "Срок действия",
+                        backgroundColor: textFieldBackground
+                    )
+                    .modifier(
+                        ExpiryDateModifier(
+                            month: $vm.expirationMonth,
+                            year: $vm.expirationYear,
+                            displayedText: $displayedExpiryDate
+                        )
+                    )
+                    .focused($focusedField, equals: 2)
+                    .onSubmit { focusedField = 3 }
+                    .submitLabel(.next)
+                    
+                    CustomTextFieldView(
+                        text: $vm.maskedCVCCode,
+                        prompt: vm.fieldsData?[4].name ?? "",
+                        backgroundColor: textFieldBackground
+                    )
+                    .modifier(
+                        CVCMaskModifier(
+                            realText: $vm.realCVCCode,
+                            displayedText: $vm.maskedCVCCode
+                        )
+                    )
+                    .focused($focusedField, equals: 3)
+                    .onSubmit { focusedField = nil }
+                    .submitLabel(.done)
+                }
+            }
+            .padding(12)
+            .background(Style.surface)
+            .cornerRadius(12)
+            .padding(.horizontal)
+            .padding(.top)
+            .disabled(cardStatus == .confirmed || cardStatus == .rejected)
+            .autocorrectionDisabled()
+            .animation(.default, value: focusedField)
+            
+            if isNewCard && cardStatus != .confirmed || cardStatus != .rejected {
+                HStack(spacing: 12) {
+                    Text("Фото банковской карты")
+                        .font(Style.body)
+                        .foregroundStyle(Style.textPrimary)
+                    
+                    CameraButtonView(inputImage: $vm.cardPhoto)
+                    Spacer()
+                }
+                .padding(.horizontal, 28)
+                .padding(.top)
+            }
+            
+            HStack {
+                if let cardPhoto = vm.cardPhoto {
+                    Image(uiImage: cardPhoto)
+                        .resizable()
+                        .scaledToFill()
+                        .frame(width: 63, height: 63)
+                        .cornerRadius(8)
+                        .clipped()
+                } else if let cardPhotoURL = vm.cardPhotoURL {
+                    AsyncImageView(
+                        imageURL: cardPhotoURL,
+                        width: 63,
+                        height: 63,
+                        cornerRadius: 8
+                    )
+                }
+                Spacer()
+            }
+            .padding(.horizontal)
+            .padding(.top)
+        }
+        .refreshable { vm.fetchFieldsData() }
+        .onTapGesture { focusedField = nil }
+        .background(Style.background)
+        .safeAreaInset(edge: .bottom) {
+            CustomButtonView(title: "Готово", isDisabled: $vm.isSubmitButtonDisabled) {
+                if isNewCard {
+                    vm.fillDocument()
+                } else {
+                    vm.editDocument()
+                }
+            }
+            .padding(8)
+            .background(Style.surface)
+            .cornerRadius(20, corners: [.topLeft, .topRight])
             .padding(.horizontal, 8)
-            
-            
+        }
+        .overlay {
             StatusAlertView(status: $vm.status) {
                 vm.eraseFields()
                 vm.fetchDocumentList()
                 isPresented = false
             }
         }
-        .edgesIgnoringSafeArea(.bottom)
-        .background(Style.background)
         .toolbar {
             ToolbarItem(placement: .principal) {
                 Text(isNewCard ? "Добавление карты" : "Просмотр карты")

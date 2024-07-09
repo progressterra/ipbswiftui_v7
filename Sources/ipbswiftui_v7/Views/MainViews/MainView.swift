@@ -34,32 +34,34 @@ public struct MainView: View {
     
     public var body: some View {
         NavigationStack {
+            BonusesCardView(
+                currentBonusesCount: 0,
+                equivalentOfOneBonus: 1,
+                availableWithdrawalAmount: withdrawalVM.clientBalanceAmount ?? 0,
+                availableInstalmentAmount: 0,
+                isButtonsShowing: true,
+                authDescription: IPBSettings.authDescription,
+                isAuthorized: !AuthStorage.shared.getRefreshToken().isEmpty,
+                isCardAdded: withdrawalVM.documentList?.dataList != nil,
+                addCardAction: { isAddCardViewPresented = true },
+                authAction: {
+                    AuthorizationViewModel.shared.isLoggedIn = false
+                    AuthorizationViewModel.shared.isNewUser = true
+                },
+                bonusesHistoryAction: {},
+                subtractAction: { isWithdrawalViewPresented = true }
+            )
+            .padding(.horizontal)
+            .animation(.default, value: withdrawalVM.documentList?.result.xRequestID)
+            .onAppear {
+                withdrawalVM.getClientBalance()
+                withdrawalVM.fetchDocumentList()
+            }
+            .edgesIgnoringSafeArea(.top)
+            
             ScrollView {
                 VStack(spacing: 40) {
-                    BonusesCardView(
-                        currentBonusesCount: 0,
-                        equivalentOfOneBonus: 1,
-                        availableWithdrawalAmount: withdrawalVM.clientBalanceAmount ?? 0,
-                        availableInstalmentAmount: 0,
-                        isButtonsShowing: true,
-                        authDescription: IPBSettings.authDescription,
-                        isAuthorized: !AuthStorage.shared.getRefreshToken().isEmpty,
-                        isCardAdded: withdrawalVM.documentList?.dataList != nil,
-                        addCardAction: { isAddCardViewPresented = true },
-                        authAction: {
-                            AuthorizationViewModel.shared.isLoggedIn = false
-                            AuthorizationViewModel.shared.isNewUser = true
-                        },
-                        bonusesHistoryAction: {},
-                        subtractAction: { isWithdrawalViewPresented = true }
-                    )
-                    .padding(.horizontal)
-                    .animation(.default, value: withdrawalVM.documentList?.result.xRequestID)
-                    .onAppear {
-                        withdrawalVM.getClientBalance()
-                        withdrawalVM.fetchDocumentList()
-                    }
-                    .edgesIgnoringSafeArea(.top)
+                    
                     
                     Group {
                         if let productList = vm.productListResults[IPBSettings.topSalesCategoryID]  {

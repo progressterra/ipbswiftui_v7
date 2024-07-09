@@ -59,6 +59,7 @@ public struct MainView: View {
                         withdrawalVM.getClientBalance()
                         withdrawalVM.fetchDocumentList()
                     }
+                    .edgesIgnoringSafeArea(.top)
                     
                     Group {
                         if let productList = vm.productListResults[IPBSettings.topSalesCategoryID]  {

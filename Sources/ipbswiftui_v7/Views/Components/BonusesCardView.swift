@@ -90,18 +90,7 @@ public struct BonusesCardView: View {
             }
             
             if isAuthorized {
-                if let equivalentOfOneBonus, isCardAdded {
-                    Text("1 бонус = \(equivalentOfOneBonus.asCurrency(fractionDigits: 2))")
-                        .font(Style.subheadlineRegular)
-                        .foregroundStyle(Style.textSecondary)
-                } else {
-                    Button(action: addCardAction) {
-                        Text("Добавить карту")
-                            .foregroundStyle(Style.textButtonPrimary)
-                            .font(Style.subheadlineBold)
-                            .frame(height: 18)
-                    }
-                }
+                
                 
                 HStack {
                     Text("Можно вывести \(availableWithdrawalAmount.asCurrency())")
@@ -118,13 +107,7 @@ public struct BonusesCardView: View {
                     }
                 }
                 
-                HStack(spacing: 0) {
-                    Text("Доступна рассрочка - ")
-                    Text("до \(availableInstalmentAmount.asCurrency())")
-                        .bold()
-                }
-                .font(Style.subheadlineRegular)
-                .foregroundStyle(Style.textButtonPrimary)
+                
             } else {
                 Text(authDescription)
                     .font(Style.subheadlineBold)

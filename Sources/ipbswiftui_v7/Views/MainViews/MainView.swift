@@ -51,7 +51,7 @@ public struct MainView: View {
                 bonusesHistoryAction: {},
                 subtractAction: { isWithdrawalViewPresented = true }
             )
-            .padding(.horizontal)
+            //.padding(.horizontal)
             .animation(.default, value: withdrawalVM.documentList?.result.xRequestID)
             .onAppear {
                 withdrawalVM.getClientBalance()

@@ -75,6 +75,7 @@ public struct BonusesCardView: View {
     
     public var body: some View {
         
+        
         VStack(alignment: .leading, spacing: 10) {
             
             Spacer().frame(height: 30)
@@ -170,7 +171,11 @@ public struct BonusesCardView: View {
 
 struct BonusesCardView_Previews: PreviewProvider {
     static var previews: some View {
-        BonusesCardView(currentBonusesCount: 12500, equivalentOfOneBonus: 1.25, availableWithdrawalAmount: 10000, availableInstalmentAmount: 60000, isButtonsShowing: true, authDescription: "Авторизуйтесь, чтобы заказывать товары, копить бонусы и видеть доступную рассрочку.", isAuthorized: true, isCardAdded: false)
+        VStack{
+            BonusesCardView(currentBonusesCount: 12500, equivalentOfOneBonus: 1.25, availableWithdrawalAmount: 10000, availableInstalmentAmount: 60000, isButtonsShowing: true, authDescription: "Авторизуйтесь, чтобы заказывать товары, копить бонусы и видеть доступную рассрочку.", isAuthorized: true, isCardAdded: false)
+             
+            Text("Lfnfdf ")
+        }
     }
 }
 

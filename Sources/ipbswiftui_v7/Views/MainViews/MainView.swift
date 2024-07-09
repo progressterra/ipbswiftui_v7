@@ -59,6 +59,8 @@ public struct MainView: View {
             }
             .edgesIgnoringSafeArea(.top)
             
+            Spacer().frame(height: -30)
+            
             ScrollView {
                 VStack(spacing: 40) {
                     

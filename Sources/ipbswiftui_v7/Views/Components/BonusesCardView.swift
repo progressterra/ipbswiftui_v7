@@ -74,38 +74,64 @@ public struct BonusesCardView: View {
     }
     
     public var body: some View {
+        
         VStack(alignment: .leading, spacing: 10) {
-            HStack {
-                Text("У вас \(currentBonusesCount.clean) бонусов")
-                    .font(Style.title)
-                    .foregroundStyle(Style.textButtonPrimary)
-                
-                Spacer()
-                if isButtonsShowing, isAuthorized {
-                    Button(action: bonusesHistoryAction) {
-                        Image("arrowLinkIcon", bundle: .module)
-                            .foregroundStyle(Style.primary)
-                    }
-                }
-            }
+            
+            Spacer().frame(height: 30)
             
             if isAuthorized {
                 
-                
-                HStack {
-                    Text("Можно вывести \(availableWithdrawalAmount.asCurrency())")
-                        .font(Style.subheadlineItalic)
-                        .foregroundStyle(Style.textTertiary)
-                        .bold()
-                    
+                HStack{
+                    VStack(alignment: .leading, spacing: 30){
+                        Text("Ваш баланс")
+                            .font(Style.title)
+                            .foregroundStyle(Style.textTertiary)
+                            .bold()
+                        Text("\(currentBonusesCount.clean) баллов")
+                            .font(Style.title)
+                            .foregroundStyle(Style.textButtonPrimary)
+                    }
                     Spacer()
                     if isButtonsShowing {
                         Button(action: subtractAction) {
-                            Image("subtractIcon", bundle: .module)
+                            Image("avatar", bundle: .module)
                                 .foregroundStyle( Style.primary)
                         }
                     }
                 }
+                
+                
+//                HStack {
+//                    Text("Ваш баланс")
+//                        .font(Style.title)
+//                        .foregroundStyle(Style.textTertiary)
+//                        .bold()
+//                    
+//                    Spacer()
+//                    if isButtonsShowing {
+//                        Button(action: subtractAction) {
+//                            Image("subtractIcon", bundle: .module)
+//                                .foregroundStyle( Style.primary)
+//                        }
+//                    }
+//                }
+//                
+//                HStack {
+//                    Text("\(currentBonusesCount.clean) баллов")
+//                        .font(Style.title)
+//                        .foregroundStyle(Style.textButtonPrimary)
+//                    
+//                    Spacer()
+//                    if isButtonsShowing, isAuthorized {
+//                        Button(action: bonusesHistoryAction) {
+//                            Image("arrowLinkIcon", bundle: .module)
+//                                .foregroundStyle(Style.primary)
+//                        }
+//                    }
+//                }
+                
+                
+                
                 
                 
             } else {
@@ -122,13 +148,29 @@ public struct BonusesCardView: View {
         .multilineTextAlignment(.center)
         .frame(maxWidth: .infinity)
         .padding()
-        .background(Style.secondaryPressed)
-        .cornerRadius(12)
+        .background(LinearGradient(gradient: Gradient(colors: [Color(hex: 0xFF53B8EB),
+                                                               Color(hex: 0xFF27D1AE)]), startPoint: .leading, endPoint: .trailing))
+        //.cornerRadius(12)
     }
 }
 
 struct BonusesCardView_Previews: PreviewProvider {
     static var previews: some View {
         BonusesCardView(currentBonusesCount: 12500, equivalentOfOneBonus: 1.25, availableWithdrawalAmount: 10000, availableInstalmentAmount: 60000, isButtonsShowing: true, authDescription: "Авторизуйтесь, чтобы заказывать товары, копить бонусы и видеть доступную рассрочку.", isAuthorized: true, isCardAdded: false)
+    }
+}
+
+
+
+
+extension Color {
+    init(hex: UInt, alpha: Double = 1.0) {
+        self.init(
+            .sRGB,
+            red: Double((hex >> 16) & 0xFF) / 255.0,
+            green: Double((hex >> 8) & 0xFF) / 255.0,
+            blue: Double(hex & 0xFF) / 255.0,
+            opacity: alpha
+        )
     }
 }

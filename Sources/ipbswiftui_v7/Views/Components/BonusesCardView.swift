@@ -79,10 +79,24 @@ public struct BonusesCardView: View {
             
             Spacer().frame(height: 30)
             
+            HStack{
+                Spacer()
+                Image("logo", bundle: .module)
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: UIScreen.main.bounds.width / 3)
+                
+                Spacer()
+            }
+            
+            Spacer().frame(height: 5)
+            
+                //.position(x: UIScreen.main.bounds.width / 2)
+            
             if isAuthorized {
                 
                 HStack{
-                    VStack(alignment: .leading, spacing: 30){
+                    VStack(alignment: .leading, spacing: 10){
                         Text("Ваш баланс")
                             .font(Style.title)
                             .foregroundStyle(Style.textTertiary)

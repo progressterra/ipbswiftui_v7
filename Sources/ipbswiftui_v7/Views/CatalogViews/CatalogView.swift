@@ -51,6 +51,10 @@ public struct CatalogView: View {
                             .padding(.trailing)
                     }
                     .padding(20)
+                    .onSubmit {
+                        vm.getCatalog()
+                    }
+                    .submitLabel(.search)
                 
                 if let catalogItems = catalogItem?.listChildItems {
                     LazyVGrid(columns: columns, spacing: 16) {

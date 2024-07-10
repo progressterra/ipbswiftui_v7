@@ -34,7 +34,7 @@ public struct ItemDetailView: View {
                         HStack{
                             
                                 Text("Кэшбэк \(product.inventoryData.beginPrice.clean) баллов")
-                                    .font(Style.captionBold)
+                                .font(Style.title)
                                     .foregroundStyle(Style.surface)
                                     .padding(7)
                                     .lineLimit(1) // Ограничиваем текст одной строкой

@@ -65,7 +65,7 @@ public struct ItemDescriptionView: View {
     
     public var body: some View {
         VStack {
-            if idrfSpecification == Style.idrfSpecificatiuonForMedicialProduct {
+            if idrfSpecification != Style.idrfSpecificatiuonForMedicialProduct {
                 OptionPickerView(value: $option, options: [.description, .parameters, .delivery])
             }
             else
@@ -137,13 +137,14 @@ public struct ItemDescriptionView: View {
             }
             
             if  brandName != "" {
+                Spacer().frame(height: 7)
                 Text(brandName)
                     .font(Font.caption)
                     .foregroundStyle(Style.textPrimary)
-                    
                     .lineLimit(1) // Ограничиваем текст одной строкой
                     .truncationMode(.tail) // Добавляем троеточие, если текст не помещается
                     .frame(maxWidth: .infinity, alignment: .leading)
+                
             }
             
             Text(description)

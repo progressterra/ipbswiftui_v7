@@ -17,7 +17,7 @@ public struct ItemCardView: View {
         let sizeDescription: String?
         let colorAsHex: String?
         let imageURL: String
-        let imageBannerURL: String?
+        public let imageBannerURL: String?
         let isAddToCartShowing: Bool
         let countMonthPayment: Int
         let amountPaymentInMonth: Double

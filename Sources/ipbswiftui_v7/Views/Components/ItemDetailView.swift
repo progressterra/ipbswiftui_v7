@@ -23,7 +23,7 @@ public struct ItemDetailView: View {
     public var body: some View {
         ScrollView {
             VStack(spacing: 8) {
-                if let imageURLs = product.nomenclature.listImages?.compactMap({ $0.urlData }) {
+                if let imageURLs = product.nomenclature.listImages?.filter({ $0.alias != "banner" }).compactMap({ $0.urlData }) {
                     ImagesView(imageURLs: imageURLs)
                 }
                 

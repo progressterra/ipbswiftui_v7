@@ -335,7 +335,7 @@ extension ItemCardView {
     
     var imageBanner: some View {
         AsyncImageBannerView(
-                    imageURL: details.imageURL,
+            imageURL: details.imageBannerURL ?? "",
                     width: UIScreen.main.bounds.size.width,
                     height: itemSize,
                     cornerRadius: 8
@@ -368,7 +368,8 @@ struct ItemCardView_Previews: PreviewProvider {
     static var previews: some View {
         let details = ItemCardView.Details(name: "Chocolate skfnskdnf a fnaklf fsfdsfdsf afn", brandName: "Nike", price: 3000, originalPrice: 4000, sizeDescription: "Big", colorAsHex: "fafaa1", imageURL: "https://media.istockphoto.com/id/621235832/photo/autumn-morning-at-the-cathedral.jpg?s=612x612&w=0&k=20&c=5ALajgxiRg5xdhsvpnJ9QkjHPSFOuWgDb0jDPqduenM=", isAddToCartShowing: true, countMonthPayment: 3, amountPaymentInMonth: 500)
         
-        let detailsBanner = ItemCardView.Details(name: "Chocolate skfnskdnf a fnaklf fsfdsfdsf afn", brandName: "Nike", price: 3000, originalPrice: 4000, sizeDescription: "Big", colorAsHex: "fafaa1", imageURL: "https://ipb.website.yandexcloud.net/mediadata/08dc90ff-4ff9-4a44-8f91-4ffbf77bb8da_20240625220907524", isAddToCartShowing: true, countMonthPayment: 3, amountPaymentInMonth: 500)
+        let detailsBanner = ItemCardView.Details(name: "Chocolate skfnskdnf a fnaklf fsfdsfdsf afn", brandName: "Nike", price: 3000, originalPrice: 4000, sizeDescription: "Big", colorAsHex: "fafaa1", imageURL: "https://ipb.website.yandexcloud.net/mediadata/08dc90ff-4ff9-4a44-8f91-4ffbf77bb8da_20240625220907524", isAddToCartShowing: true, countMonthPayment: 3, amountPaymentInMonth: 500,
+                                                 imageBannerURL: "https://ipb.website.yandexcloud.net/mediadata/08dc90ff-4ff9-4a44-8f91-4ffbf77bb8da_20240625220907524")
     
         
         let actions = ItemCardView.Actions(

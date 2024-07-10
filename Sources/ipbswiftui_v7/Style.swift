@@ -180,6 +180,8 @@ public struct Style {
     public static var textDisabled = Color(hex: "#B5B5B5")
     
     
+    public static var idrfSpecificatiuonForMedicialProduct = "08dc6c12-a342-4d02-8f74-1a62b9335bf0"
+    
     
     private struct StyleConfiguration: Codable {
         

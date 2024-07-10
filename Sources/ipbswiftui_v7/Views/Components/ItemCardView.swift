@@ -65,6 +65,7 @@ public struct ItemCardView: View {
         case normal
         case inCart
         case inOrder
+        case medicinalProduct
     }
     
     let details: Details
@@ -89,11 +90,72 @@ public struct ItemCardView: View {
         case .normal: normalItem
         case .inCart: inCartItem
         case .inOrder: inCartItem
+        case .medicinalProduct: medicinalProduct
         }
     }
 }
 
 extension ItemCardView {
+    
+    var medicinalProduct: some View {
+        VStack(alignment: .leading, spacing: 0) {
+            
+            HStack{
+                Spacer()
+                image
+                Spacer()
+            }
+            
+            VStack(alignment: .leading, spacing: 0) {
+                
+                HStack{
+                    if let originalPrice = details.originalPrice {
+                        Text("Кэшбэк \(originalPrice.clean) баллов")
+                            .font(Style.captionBold)
+                            .foregroundStyle(Style.surface)
+                            .padding(7)
+                            .lineLimit(1) // Ограничиваем текст одной строкой
+                            .truncationMode(.tail) // Добавляем троеточие, если текст не помещается
+                            .frame(alignment: .leading)
+                    }
+                        
+                }.frame(width: itemSize*1.2, alignment: .leading)
+                        .background(LinearGradient(gradient: Gradient(colors: [Color(hex: 0xFF53B8EB),
+                                                                               Color(hex: 0xFF27D1AE)]), startPoint: .leading, endPoint: .trailing))
+                
+                
+                Spacer().frame(height: 10)
+                Text(details.name)
+                    .font(Style.captionBold)
+                    .foregroundStyle(Style.textPrimary)
+                    .padding([.leading, .trailing], 7)
+                    .lineLimit(1) // Ограничиваем текст одной строкой
+                    .truncationMode(.tail) // Добавляем троеточие, если текст не помещается
+                    .frame(alignment: .leading)
+                
+                
+                if let brandName = details.brandName {
+                    Text(brandName)
+                        .font(Font.caption)
+                        .foregroundStyle(Style.textPrimary)
+                        .padding([.leading, .trailing], 7)
+                        .lineLimit(1) // Ограничиваем текст одной строкой
+                        .truncationMode(.tail) // Добавляем троеточие, если текст не помещается
+                        .frame(alignment: .leading)
+                }
+                
+                Spacer().frame(height: 10)
+                
+            }
+        }
+        .frame(width: itemSize * 1.2)
+        .cornerRadius(12) // Радиус закругления углов
+        .overlay(
+                    RoundedRectangle(cornerRadius: 12)
+                        .stroke(Style.textTertiary, lineWidth: 1))
+        .animation(.default, value: currentItemsAdded)
+    }
+    
     var normalItem: some View {
         VStack(alignment: .leading, spacing: 4) {
             image
@@ -290,6 +352,14 @@ struct ItemCardView_Previews: PreviewProvider {
         
         ScrollView {
             VStack(spacing: 20) {
+                
+                ItemCardView(
+                    details: details,
+                    format: .medicinalProduct,
+                    currentItemsAdded: 0,
+                    actions: actions
+                )
+                
                 ItemCardView(
                     details: details,
                     format: .normal,
@@ -303,6 +373,7 @@ struct ItemCardView_Previews: PreviewProvider {
                     currentItemsAdded: 1,
                     actions: actions
                 )
+                
             }
             .padding()
             .background(Style.background.ignoresSafeArea())

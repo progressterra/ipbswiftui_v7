@@ -29,7 +29,7 @@ public struct ItemDetailView: View {
                 
                 if product.nomenclature.idrfSpecification == Style.idrfSpecificatiuonForMedicialProduct
                 {
-                    VStack(alignment: .leading, spacing: 0) {
+                    
                         
                         HStack{
                             
@@ -42,13 +42,13 @@ public struct ItemDetailView: View {
                                     .frame(alignment: .leading)
                             
                                 
-                        }.frame(alignment: .leading)
+                        }.frame(maxWidth: .infinity, alignment: .leading)
                                 .background(LinearGradient(gradient: Gradient(colors: [Color(hex: 0xFF53B8EB),
                                                                                        Color(hex: 0xFF27D1AE)]), startPoint: .leading, endPoint: .trailing))
                         
                     
                         
-                    }
+                    
                 }
                 
                 let manufactor = product.listProductCharacteristic?

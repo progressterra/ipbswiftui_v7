@@ -140,10 +140,10 @@ public struct ItemDescriptionView: View {
                 Text(brandName)
                     .font(Font.caption)
                     .foregroundStyle(Style.textPrimary)
-                    .padding([.leading, .trailing], 7)
+                    
                     .lineLimit(1) // Ограничиваем текст одной строкой
                     .truncationMode(.tail) // Добавляем троеточие, если текст не помещается
-                    .frame(alignment: .leading)
+                    .frame(maxWidth: .infinity, alignment: .leading)
             }
             
             Text(description)
@@ -251,7 +251,7 @@ struct ItemDescriptionView_Previews: PreviewProvider {
                         ("Страна", "США")
                     ],
                     idrfSpecification: "",
-                    brandName: "brandName"
+                    brandName: "Производитель данной модели : натуральная кожа, оригинальная подошва, правильная форма,"
                 )
                 .padding(.horizontal)
                 

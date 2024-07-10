@@ -53,6 +53,8 @@ public class MainViewModel: ObservableObject {
     
     /// Sets up the view model by initiating the product list fetch process.
     public func setUpView() {
+        fetchProductList(for: "08dc9554-12ed-4169-8b96-dcb7ef118949")
+        
         fetchProductList(for: IPBSettings.topSalesCategoryID)
         fetchProductList(for: IPBSettings.promoProductsCategoryID)
         fetchProductList(for: IPBSettings.newProductsCategoryID)

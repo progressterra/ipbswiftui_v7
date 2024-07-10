@@ -17,6 +17,7 @@ public struct ItemCardView: View {
         let sizeDescription: String?
         let colorAsHex: String?
         let imageURL: String
+        let imageBannerURL: String?
         let isAddToCartShowing: Bool
         let countMonthPayment: Int
         let amountPaymentInMonth: Double
@@ -30,7 +31,8 @@ public struct ItemCardView: View {
                     imageURL: String,
                     isAddToCartShowing: Bool = false,
                     countMonthPayment: Int,
-                    amountPaymentInMonth: Double) {
+                    amountPaymentInMonth: Double,
+                    imageBannerURL: String? = "") {
             self.name = name
             self.brandName = brandName
             self.price = price
@@ -41,6 +43,7 @@ public struct ItemCardView: View {
             self.isAddToCartShowing = isAddToCartShowing
             self.countMonthPayment = countMonthPayment
             self.amountPaymentInMonth = amountPaymentInMonth
+            self.imageBannerURL = imageBannerURL
         }
     }
     
@@ -66,6 +69,7 @@ public struct ItemCardView: View {
         case inCart
         case inOrder
         case medicinalProduct
+        case banner
     }
     
     let details: Details
@@ -91,6 +95,7 @@ public struct ItemCardView: View {
         case .inCart: inCartItem
         case .inOrder: inCartItem
         case .medicinalProduct: medicinalProduct
+        case .banner: bannerItem
         }
     }
 }
@@ -154,6 +159,15 @@ extension ItemCardView {
                     RoundedRectangle(cornerRadius: 12)
                         .stroke(Style.textTertiary, lineWidth: 1))
         .animation(.default, value: currentItemsAdded)
+    }
+    
+    
+    var bannerItem: some View {
+        
+            imageBanner
+//            .overlay(
+//                RoundedRectangle(cornerRadius: 12)
+//                    .stroke(Style.textTertiary, lineWidth: 1))
     }
     
     var normalItem: some View {
@@ -319,6 +333,17 @@ extension ItemCardView {
         .onTapGesture(perform: actions.onTapAction)
     }
     
+    var imageBanner: some View {
+        AsyncImageBannerView(
+                    imageURL: details.imageURL,
+                    width: UIScreen.main.bounds.size.width,
+                    height: itemSize,
+                    cornerRadius: 8
+                )
+        
+        .onTapGesture(perform: actions.onTapAction)
+    }
+    
     var button: some View {
         ZStack {
             if currentItemsAdded == 0 {
@@ -343,6 +368,9 @@ struct ItemCardView_Previews: PreviewProvider {
     static var previews: some View {
         let details = ItemCardView.Details(name: "Chocolate skfnskdnf a fnaklf fsfdsfdsf afn", brandName: "Nike", price: 3000, originalPrice: 4000, sizeDescription: "Big", colorAsHex: "fafaa1", imageURL: "https://media.istockphoto.com/id/621235832/photo/autumn-morning-at-the-cathedral.jpg?s=612x612&w=0&k=20&c=5ALajgxiRg5xdhsvpnJ9QkjHPSFOuWgDb0jDPqduenM=", isAddToCartShowing: true, countMonthPayment: 3, amountPaymentInMonth: 500)
         
+        let detailsBanner = ItemCardView.Details(name: "Chocolate skfnskdnf a fnaklf fsfdsfdsf afn", brandName: "Nike", price: 3000, originalPrice: 4000, sizeDescription: "Big", colorAsHex: "fafaa1", imageURL: "https://ipb.website.yandexcloud.net/mediadata/08dc90ff-4ff9-4a44-8f91-4ffbf77bb8da_20240625220907524", isAddToCartShowing: true, countMonthPayment: 3, amountPaymentInMonth: 500)
+    
+        
         let actions = ItemCardView.Actions(
             onTapAction: { print("tapped") },
             addItemAction: { print("added") },
@@ -352,6 +380,13 @@ struct ItemCardView_Previews: PreviewProvider {
         
         ScrollView {
             VStack(spacing: 20) {
+                
+                ItemCardView(
+                    details: detailsBanner,
+                    format: .banner,
+                    currentItemsAdded: 0,
+                    actions: actions
+                )
                 
                 ItemCardView(
                     details: details,

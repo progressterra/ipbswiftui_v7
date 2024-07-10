@@ -65,8 +65,14 @@ public struct MainView: View {
                     
                     
                     Group {
+                            
+                        if let productList = vm.productListResults["08dc9554-12ed-4169-8b96-dcb7ef118949"]  {
+                            getProductList(with: "", productList: productList, isBanner: true)
+                        }
+                        
+                        
                         if let productList = vm.productListResults[IPBSettings.topSalesCategoryID]  {
-                            getProductList(with: "Хиты продаж", productList: productList)
+                            getProductList(with: "Хиты продаж", productList: productList, isBanner: false)
                         } else {
                             CustomButtonView(title: "Обновить страницу", isOpaque: true) {
                                 vm.setUpView()
@@ -74,10 +80,10 @@ public struct MainView: View {
                             .padding()
                         }
                         if let productList = vm.productListResults[IPBSettings.promoProductsCategoryID]  {
-                            getProductList(with: "Акции", productList: productList)
+                            getProductList(with: "Акции", productList: productList, isBanner: false)
                         }
                         if let productList = vm.productListResults[IPBSettings.newProductsCategoryID]  {
-                            getProductList(with: "Новинки", productList: productList)
+                            getProductList(with: "Новинки", productList: productList, isBanner: false)
                         }
                     }
                     .id(refreshFlag)
@@ -116,7 +122,7 @@ public struct MainView: View {
 }
 
 extension MainView {
-    private func getProductList(with headerTitle: String, productList: [ProductViewDataModel]) -> some View {
+    private func getProductList(with headerTitle: String, productList: [ProductViewDataModel], isBanner: Bool) -> some View {
         VStack(spacing: 24) {
             Text(headerTitle)
                 .frame(maxWidth: .infinity, alignment: .leading)
@@ -134,7 +140,8 @@ extension MainView {
                             imageURL: product.nomenclature.listImages?.first?.urlData ?? "",
                             isAddToCartShowing: !AuthStorage.shared.getRefreshToken().isEmpty,
                             countMonthPayment: product.installmentPlanValue.countMonthPayment,
-                            amountPaymentInMonth: product.installmentPlanValue.amountPaymentInMonth
+                            amountPaymentInMonth: product.installmentPlanValue.amountPaymentInMonth,
+                            imageBannerURL: product.nomenclature.listImages?.first { $0.alias == "banner" }?.urlData
                         )
                         
                         let actions = ItemCardView.Actions(
@@ -146,12 +153,24 @@ extension MainView {
                             removeItemAction: { cartVM.deleteCartItem(idrfNomenclature: product.nomenclature.idUnique, count: 1) }
                         )
                         
-                        ItemCardView(
-                            details: details,
-                            format: .normal,
-                            currentItemsAdded: product.countInCart,
-                            actions: actions
-                        )
+                        if isBanner && details.imageBannerURL != nil
+                        {
+                            ItemCardView(
+                                details: details,
+                                format: .banner,
+                                currentItemsAdded: product.countInCart,
+                                actions: actions
+                            )
+                        }
+                        else
+                        {
+                            ItemCardView(
+                                details: details,
+                                format: product.nomenclature.idrfSpecification == Style.idrfSpecificatiuonForMedicialProduct ? .medicinalProduct: .normal,
+                                currentItemsAdded: product.countInCart,
+                                actions: actions
+                            )
+                        }
                     }
                 }
                 .padding(.horizontal)

@@ -47,7 +47,8 @@ public struct CatalogProductListView: View {
                             imageURL: product.nomenclature.listImages?.first?.urlData ?? "",
                             isAddToCartShowing: !AuthStorage.shared.getRefreshToken().isEmpty,
                             countMonthPayment: product.installmentPlanValue.countMonthPayment,
-                            amountPaymentInMonth: product.installmentPlanValue.amountPaymentInMonth
+                            amountPaymentInMonth: product.installmentPlanValue.amountPaymentInMonth,
+                            imageBannerURL: product.nomenclature.listImages?.first { $0.alias == "banner" }?.urlData
                         )
                         
                         let actions = ItemCardView.Actions(

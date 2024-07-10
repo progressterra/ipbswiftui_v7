@@ -135,6 +135,9 @@ extension MainView {
                     ForEach(productList, id: \.nomenclature.idUnique) { product in
                         let details = ItemCardView.Details(
                             name: product.nomenclature.name ?? "",
+                            brandName: product.listProductCharacteristic?
+                                .first(where: { $0.characteristicType.name == Style.nameFieldManufactor })?
+                                .characteristicValue.viewData ?? "",
                             price: product.inventoryData.currentPrice,
                             originalPrice: product.inventoryData.beginPrice,
                             imageURL: product.nomenclature.listImages?.first?.urlData ?? "",

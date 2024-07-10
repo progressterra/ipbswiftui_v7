@@ -30,6 +30,9 @@ public struct CartView: View {
                             
                             let details = ItemCardView.Details(
                                 name: item.nameGoods ?? "",
+                                brandName: product?.listProductCharacteristic?
+                                    .first(where: { $0.characteristicType.name == Style.nameFieldManufactor })?
+                                    .characteristicValue.viewData ?? "",
                                 price: item.amountEndPrice,
                                 originalPrice: item.amountBasePrice,
                                 imageURL: product?.nomenclature.listImages?.first?.urlData ?? "",

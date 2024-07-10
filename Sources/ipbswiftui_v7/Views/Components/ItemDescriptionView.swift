@@ -39,13 +39,18 @@ public struct ItemDescriptionView: View {
     let parameters: [(String, String)]
     let deliveryOptions: [DeliveryOption]
     
+    var idrfSpecification: String = ""
+    var brandName: String = ""
+    
     public init(
         descriptionTitle: String,
         description: String,
         favoriteAction: @escaping () -> (),
         shareItem: String,
         parameters: [(String, String)],
-        deliveryOptions: [DeliveryOption] = [.box, .express]
+        deliveryOptions: [DeliveryOption] = [.box, .express],
+        idrfSpecification: String,
+        brandName: String
         
     ) {
         self.descriptionTitle = descriptionTitle
@@ -54,11 +59,20 @@ public struct ItemDescriptionView: View {
         self.shareItem = shareItem
         self.parameters = parameters
         self.deliveryOptions = deliveryOptions
+        self.idrfSpecification = idrfSpecification
+        self.brandName = brandName
     }
     
     public var body: some View {
         VStack {
-            OptionPickerView(value: $option, options: [.description, .parameters, .delivery])
+            if idrfSpecification == Style.idrfSpecificatiuonForMedicialProduct {
+                OptionPickerView(value: $option, options: [.description, .parameters, .delivery])
+            }
+            else
+            {
+                OptionPickerView(value: $option, options: [.description])
+            }
+            
             
             switch option {
             case .description:
@@ -102,6 +116,8 @@ public struct ItemDescriptionView: View {
                 
                 Spacer()
                 
+                
+                
                 HStack(spacing: 10) {
                     Button(action: {
                         favoriteAction()
@@ -118,6 +134,16 @@ public struct ItemDescriptionView: View {
                     }
                 }
                 .foregroundStyle(Style.iconsTertiary)
+            }
+            
+            if  brandName != "" {
+                Text(brandName)
+                    .font(Font.caption)
+                    .foregroundStyle(Style.textPrimary)
+                    .padding([.leading, .trailing], 7)
+                    .lineLimit(1) // Ограничиваем текст одной строкой
+                    .truncationMode(.tail) // Добавляем троеточие, если текст не помещается
+                    .frame(alignment: .leading)
             }
             
             Text(description)
@@ -223,7 +249,9 @@ struct ItemDescriptionView_Previews: PreviewProvider {
                         ("Цвет", "Белый"),
                         ("Размеры", "XXS / XS / S / M / L / XL / XXL / XXXL"),
                         ("Страна", "США")
-                    ]
+                    ],
+                    idrfSpecification: "",
+                    brandName: "brandName"
                 )
                 .padding(.horizontal)
                 

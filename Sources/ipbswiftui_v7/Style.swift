@@ -182,6 +182,8 @@ public struct Style {
     
     public static var idrfSpecificatiuonForMedicialProduct = "08dc6c12-a342-4d02-8f74-1a62b9335bf0"
     
+    public static var nameFieldManufactor = "Производитель"
+    
     
     private struct StyleConfiguration: Codable {
         

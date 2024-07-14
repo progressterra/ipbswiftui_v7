@@ -64,6 +64,8 @@ public struct WantThisView: View {
                         }
                         .animation(.default, value: vm.itemImage)
                         
+                        
+                        
                         if let fieldsData = vm.fieldsData {
                             CustomTextFieldView(text: $vm.itemName, prompt: fieldsData.first?.comment ?? "")
                                 .focused($focusedField, equals: .itemName)
@@ -79,7 +81,7 @@ public struct WantThisView: View {
                                 .keyboardType(.URL)
                         }
                         
-                        CustomButtonView(title: "Отправить запрос", isDisabled: $vm.isSubmitButtonDisabled) {
+                        CustomButtonView(title: "Отправить запрос1", isDisabled: $vm.isSubmitButtonDisabled) {
                             vm.fillDocument()
                         }
                         .padding(.vertical, 40)

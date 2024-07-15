@@ -134,9 +134,10 @@ extension ItemCardView {
                     .font(Style.captionBold)
                     .foregroundStyle(Style.textPrimary)
                     .padding([.leading, .trailing], 7)
-                    //.lineLimit(1) // Ограничиваем текст одной строкой
-                    //.truncationMode(.tail) // Добавляем троеточие, если текст не помещается
-                    .frame(alignment: .leading)
+                    .frame(maxWidth: .infinity, minHeight: 60, maxHeight: 60, alignment: .topLeading)
+                    .lineLimit(3) // Ограничиваем текст одной строкой
+                    .truncationMode(.tail) // Добавляем троеточие, если текст не помещается
+                    
                 
                 
                 if let brandName = details.brandName {

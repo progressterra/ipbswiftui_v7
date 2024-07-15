@@ -124,7 +124,7 @@ extension ItemCardView {
                             .frame(alignment: .leading)
                     }
                         
-                }.frame(width: itemSize*1.2, alignment: .leading)
+                }.frame(width: .infinity, alignment: .leading)
                         .background(LinearGradient(gradient: Gradient(colors: [Color(hex: 0xFF53B8EB),
                                                                                Color(hex: 0xFF27D1AE)]), startPoint: .leading, endPoint: .trailing))
                 
@@ -153,7 +153,7 @@ extension ItemCardView {
                 
             }
         }
-        .frame(width: itemSize * 1.2)
+        .frame(width: itemSize * 1.1)
         .cornerRadius(12) // Радиус закругления углов
         .overlay(
                     RoundedRectangle(cornerRadius: 12)

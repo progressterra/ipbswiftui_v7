@@ -41,13 +41,27 @@ public class WantThisViewModel: ObservableObject {
     @Published public var itemImageURL: String?
     @Published public var itemImage: UIImage?
     
-    @Published public var checkData: String = ""
-    @Published public var date_doc: String = ""
-    @Published public var time_doc: String = ""
-    @Published public var sum_doc: String = ""
-    @Published public var FN: String = ""
-    @Published public var FD: String = ""
-    @Published public var FP_D: String = ""
+    @Published public var checkData: String = ""{
+        didSet { updateSubmitButtonState() }
+    }
+    @Published public var date_doc: String = ""{
+        didSet { updateSubmitButtonState() }
+    }
+    @Published public var time_doc: String = ""{
+        didSet { updateSubmitButtonState() }
+    }
+    @Published public var sum_doc: String = ""{
+        didSet { updateSubmitButtonState() }
+    }
+    @Published public var FN: String = ""{
+        didSet { updateSubmitButtonState() }
+    }
+    @Published public var FD: String = ""{
+        didSet { updateSubmitButtonState() }
+    }
+    @Published public var FP_D: String = ""{
+        didSet { updateSubmitButtonState() }
+    }
     
     @Published public var isSubmitButtonDisabled: Bool = true
     @Published public var isLoading: Bool = false
@@ -77,13 +91,26 @@ public class WantThisViewModel: ObservableObject {
     private let documentService: DocumentService
     private var subscriptions = Set<AnyCancellable>()
     
+    
+    private func updateSubmitButtonState() {
+            isSubmitButtonDisabled = checkData.isEmpty || (date_doc.isEmpty || time_doc.isEmpty || sum_doc.isEmpty || FN.isEmpty || FD.isEmpty || FP_D.isEmpty)
+        }
+    
     public init(documentService: DocumentService = DocumentService()) {
         self.documentService = documentService
         
-        $itemURL
-            .combineLatest($itemName, $itemImage)
-            .map { $0.isEmpty && $1.isEmpty && $2 == nil }
-            .assign(to: &$isSubmitButtonDisabled)
+        
+//        //Publishers.CombineLatest($date_doc, $time_doc, $sum_doc, $FN, $FD, $FP_D)
+//        let combinedFields = $checkData.combineLatest($date_doc, $time_doc, $sum_doc)
+//        combinedFields.combineLatest($FN, $FD, $FP_D)
+//            .map { $0.isEmpty || ($1.isEmpty || $2.isEmpty || $3.isEmpty)}
+//            .assign(to: &$isSubmitButtonDisabled)
+            
+        
+//        $itemURL
+//            .combineLatest($itemName, $itemImage)
+//            .map { $0.isEmpty && $1.isEmpty && $2 == nil }
+//            .assign(to: &$isSubmitButtonDisabled)
     }
     
     /// Clears all user inputs and temporary data.

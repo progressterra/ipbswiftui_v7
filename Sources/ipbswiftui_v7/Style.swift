@@ -306,14 +306,17 @@ public struct Style {
             self.onBackground = Color(hex: hex)
         }
         if let startHex = config.primaryStart, let endHex = config.primaryEnd {
-            self.primary = LinearGradient(
-                stops: [
-                    .init(color: Color(hex: startHex), location: 0.00),
-                    .init(color: Color(hex: endHex), location: 1.00)
-                ],
-                startPoint: UnitPoint(x: 0.5, y: 0),
-                endPoint: UnitPoint(x: 0.5, y: 1)
-            )
+            
+            self.primary = LinearGradient(gradient: Gradient(colors: [Color(hex: startHex),
+                                                                  Color(hex: endHex)]), startPoint: .leading, endPoint: .trailing)
+//            self.primary = LinearGradient(
+//                stops: [
+//                    .init(color: Color(hex: startHex), location: 0.00),
+//                    .init(color: Color(hex: endHex), location: 1.00)
+//                ],
+//                startPoint: UnitPoint(x: 0.5, y: 0),
+//                endPoint: UnitPoint(x: 0.5, y: 1)
+//            )
         }
         if let hex = config.secondary {
             self.secondary = Color(hex: hex)

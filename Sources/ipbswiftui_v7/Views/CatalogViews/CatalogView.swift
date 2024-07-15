@@ -83,9 +83,11 @@ public struct CatalogView: View {
                     .padding(.horizontal)
                 }
                 
-                if catalogItem != nil
+                
+                
+                if vm.rootCatalogItem != nil
                 {
-                    CatalogProductListView(catalogItem: catalogItem!)
+                    CatalogProductListView(catalogItem: vm.rootCatalogItem!)
                 }
     
                 

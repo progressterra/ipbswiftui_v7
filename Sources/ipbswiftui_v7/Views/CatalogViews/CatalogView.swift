@@ -82,6 +82,13 @@ public struct CatalogView: View {
                     }
                     .padding(.horizontal)
                 }
+                
+                if catalogItem != nil
+                {
+                    CatalogProductListView(catalogItem: catalogItem!)
+                }
+    
+                
             }
             .background(Style.background)
             .refreshable { vm.getCatalog() }

@@ -29,7 +29,7 @@ public struct CatalogView: View {
     
     let catalogItem: CatalogItem?
     
-    private let columns = [GridItem(), GridItem(), GridItem()]
+    private let columns = [GridItem(), GridItem()]
     
     public init(catalogItem: CatalogItem? = nil) {
         self.catalogItem = catalogItem

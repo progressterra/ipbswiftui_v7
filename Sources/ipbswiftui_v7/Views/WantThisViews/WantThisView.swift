@@ -22,6 +22,13 @@ public struct WantThisView: View {
     enum Field {
         case itemURL
         case itemName
+        
+        case date_doc
+        case time_doc
+        case sum_doc
+        case FN
+        case FD
+        case FP_D
     }
     
     public init() {}
@@ -65,6 +72,44 @@ public struct WantThisView: View {
                         .animation(.default, value: vm.itemImage)
                         
                         
+                        if let fieldsData = vm.fieldsData {
+                            CustomTextFieldView(text: $vm.date_doc, prompt: fieldsData.first { $0.name == "date_doc" }?.comment ?? "")
+                                .focused($focusedField, equals: .date_doc)
+                                .onSubmit { focusedField = .time_doc }
+                                .submitLabel(.next)
+                                .autocorrectionDisabled()
+                            
+                            CustomTextFieldView(text: $vm.time_doc, prompt: fieldsData.first { $0.name == "time_doc" }?.comment ?? "")
+                                .focused($focusedField, equals: .time_doc)
+                                .onSubmit { focusedField = .sum_doc }
+                                .submitLabel(.next)
+                                .autocorrectionDisabled()
+                            
+                            CustomTextFieldView(text: $vm.sum_doc, prompt: fieldsData.first { $0.name == "sum_doc" }?.comment ?? "")
+                                .focused($focusedField, equals: .sum_doc)
+                                .onSubmit { focusedField = .FN }
+                                .submitLabel(.next)
+                                .autocorrectionDisabled()
+                            
+                            CustomTextFieldView(text: $vm.FN, prompt: fieldsData.first { $0.name == "FN" }?.comment ?? "")
+                                .focused($focusedField, equals: .FN)
+                                .onSubmit { focusedField = .FD }
+                                .submitLabel(.next)
+                                .autocorrectionDisabled()
+                            
+                            CustomTextFieldView(text: $vm.FD, prompt: fieldsData.first { $0.name == "FD" }?.comment ?? "")
+                                .focused($focusedField, equals: .FD)
+                                .onSubmit { focusedField = .FP_D }
+                                .submitLabel(.next)
+                                .autocorrectionDisabled()
+                            
+                            CustomTextFieldView(text: $vm.FP_D, prompt: fieldsData.first { $0.name == "FP_D" }?.comment ?? "")
+                                .focused($focusedField, equals: .FP_D)
+                                .onSubmit { focusedField = nil }
+                                .submitLabel(.done)
+                                .autocorrectionDisabled()
+                        }
+                        
                         
                         if let fieldsData = vm.fieldsData {
                             CustomTextFieldView(text: $vm.itemName, prompt: fieldsData.first?.comment ?? "")
@@ -80,6 +125,10 @@ public struct WantThisView: View {
                                 .autocorrectionDisabled()
                                 .keyboardType(.URL)
                         }
+                        
+                        
+                        
+                        
                         
                         CustomButtonView(title: "Отправить запрос1", isDisabled: $vm.isSubmitButtonDisabled) {
                             vm.fillDocument()

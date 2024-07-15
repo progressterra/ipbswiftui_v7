@@ -47,7 +47,15 @@ public struct WantThisDetailView: View {
     enum Field {
         case itemURL
         case itemName
+        
+        case date_doc
+        case time_doc
+        case sum_doc
+        case FN
+        case FD
+        case FP_D
     }
+    
     
     let document: RFCharacteristicValueViewModel
     let fields: [FieldData]

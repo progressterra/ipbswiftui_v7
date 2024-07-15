@@ -41,6 +41,14 @@ public class WantThisViewModel: ObservableObject {
     @Published public var itemImageURL: String?
     @Published public var itemImage: UIImage?
     
+    @Published public var checkData: String = ""
+    @Published public var date_doc: String = ""
+    @Published public var time_doc: String = ""
+    @Published public var sum_doc: String = ""
+    @Published public var FN: String = ""
+    @Published public var FD: String = ""
+    @Published public var FP_D: String = ""
+    
     @Published public var isSubmitButtonDisabled: Bool = true
     @Published public var isLoading: Bool = false
     @Published public var status: String?
@@ -126,14 +134,35 @@ public class WantThisViewModel: ObservableObject {
                 var fields: [FieldData] = []
                 
                 for var field in fieldsData {
+//                    switch field.name {
+//                    case "Наименование" where !itemName.isEmpty:
+//                        field.valueData = itemName
+//                    case "Ссылка" where !itemURL.isEmpty:
+//                        field.valueData = itemURL
+//                    default:
+//                        break
+//                    }
+                    
                     switch field.name {
-                    case "Наименование" where !itemName.isEmpty:
-                        field.valueData = itemName
-                    case "Ссылка" where !itemURL.isEmpty:
-                        field.valueData = itemURL
+                    case "checkData" where !checkData.isEmpty:
+                        field.valueData = checkData
+                    case "date_doc" where !date_doc.isEmpty:
+                        field.valueData = date_doc
+                    case "time_doc" where !time_doc.isEmpty:
+                        field.valueData = time_doc
+                    case "sum_doc" where !sum_doc.isEmpty:
+                        field.valueData = sum_doc
+                    case "FN" where !FN.isEmpty:
+                        field.valueData = FN
+                    case "FD" where !FD.isEmpty:
+                        field.valueData = FD
+                    case "FP_D" where !FP_D.isEmpty:
+                        field.valueData = FP_D
                     default:
                         break
                     }
+                    
+                    
                     if field.valueData != nil {
                         fields.append(field)
                     }

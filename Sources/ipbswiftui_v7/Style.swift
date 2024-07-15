@@ -186,6 +186,9 @@ public struct Style {
     
     public static var nameFieldManufactor = "Производитель"
     
+    //Количество категорий каталога в одной строке
+    public static var countCatalogCategoryInRow = 2
+    
     
     private struct StyleConfiguration: Codable {
         
@@ -247,6 +250,8 @@ public struct Style {
         let iconsDisabled: String?
         let textPressed: String?
         let textDisabled: String?
+        
+        let countCatalogCategoryInRow: Int?
     }
     
     
@@ -270,6 +275,11 @@ public struct Style {
     }
     
     private static func configure(with config: StyleConfiguration) {
+        
+        if let countCategory = config.countCatalogCategoryInRow
+        {
+            self.countCatalogCategoryInRow = countCategory
+        }
         
         // URLs
         if let url = config.offerURL {

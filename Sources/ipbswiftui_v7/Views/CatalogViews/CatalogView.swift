@@ -29,7 +29,8 @@ public struct CatalogView: View {
     
     let catalogItem: CatalogItem?
     
-    private let columns = [GridItem(), GridItem()]
+    
+    private let columns = Array(repeating: GridItem(), count: Style.countCatalogCategoryInRow)
     
     public init(catalogItem: CatalogItem? = nil) {
         self.catalogItem = catalogItem
@@ -46,7 +47,7 @@ public struct CatalogView: View {
                         Capsule(style: .continuous)
                             .stroke()
                     }
-                    .overlay(alignment: .trailing) {
+                    .overlay(alignment: .trailing) {ы
                         Image(systemName: "magnifyingglass")
                             .padding(.trailing)
                     }

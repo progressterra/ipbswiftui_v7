@@ -93,7 +93,7 @@ public class WantThisViewModel: ObservableObject {
     
     
     private func updateSubmitButtonState() {
-            isSubmitButtonDisabled = checkData.isEmpty || (date_doc.isEmpty || time_doc.isEmpty || sum_doc.isEmpty || FN.isEmpty || FD.isEmpty || FP_D.isEmpty)
+            isSubmitButtonDisabled = checkData.isEmpty && (date_doc.isEmpty || time_doc.isEmpty || sum_doc.isEmpty || FN.isEmpty || FD.isEmpty || FP_D.isEmpty)
         }
     
     public init(documentService: DocumentService = DocumentService()) {

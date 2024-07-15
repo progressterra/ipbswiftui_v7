@@ -59,9 +59,9 @@ public final class CartViewModel: ObservableObject {
     }
     
     /// Current checkout stage. The `paymentProvider` case is a sign to display external payment provider.
-    @Published public var checkoutStage: CheckoutStage = .delivery
+    @Published public var checkoutStage: CheckoutStage = .payment
     
-    // Delivery properties
+    // Delivery propertiess
     @Published public var address: String = ""
     @Published public var suggestions: [Suggestion]?
     @Published public var comment: String = ""

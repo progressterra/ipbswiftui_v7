@@ -21,7 +21,8 @@ public struct CheckoutView: View {
             VStack(spacing: 40) {
                 OrderStageView(
                     currentStageIndex: currentStageIndex,
-                    stages: ["Детали", "Доставка", "Оплата"]
+                    //stages: ["Детали", "Доставка", "Оплата"]
+                    stages: ["Детали", "Оплата"]
                 )
                 .onTapGesture(coordinateSpace: .local) {
                     if $0.y < 100, vm.checkoutStage == .payment {

@@ -128,14 +128,16 @@ public struct Style {
     // General
     public static var background = Color(hex: "#F2F5FF")
     public static var onBackground = Color(hex: "#2E8E6C")
-    public static var primary: LinearGradient = LinearGradient(
-        stops: [
-            .init(color: Color(hex: "#35C290"), location: 0.00),
-            .init(color: Color(hex: "#2E9399"), location: 1.00),
-        ],
-        startPoint: UnitPoint(x: 0.5, y: 0),
-        endPoint: UnitPoint(x: 0.5, y: 1)
-    )
+    public static var primary: LinearGradient = LinearGradient(gradient: Gradient(colors: [Color(hex: 0xFF53B8EB),
+                                                           Color(hex: 0xFF27D1AE)]), startPoint: .leading, endPoint: .trailing)
+//    public static var primary: LinearGradient = LinearGradient(
+//        stops: [
+//            .init(color: Color(hex: "#35C290"), location: 0.00),
+//            .init(color: Color(hex: "#2E9399"), location: 1.00),
+//        ],
+//        startPoint: UnitPoint(x: 0.5, y: 0),
+//        endPoint: UnitPoint(x: 0.5, y: 1)
+//    )
     public static var secondary = Color(hex: "#3E4555")
     public static var secondary2 = Color(hex: "#CDCDD6")
     public static var tertiary = Color(hex: "#B5B5BC")

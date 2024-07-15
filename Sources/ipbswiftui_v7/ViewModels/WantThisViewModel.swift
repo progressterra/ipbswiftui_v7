@@ -232,6 +232,7 @@ public class WantThisViewModel: ObservableObject {
                 
                 if result.result.status == .success {
                     self.status = "Запрос успешно отправлен"
+                    checkData = ""
                 }
             }
             .store(in: &subscriptions)

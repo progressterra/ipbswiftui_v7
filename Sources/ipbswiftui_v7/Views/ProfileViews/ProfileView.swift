@@ -22,6 +22,9 @@ public struct ProfileView: View {
     @State private var isOrdersViewPresented: Bool = false
     @State private var profileMode: ProfileDetailView.Mode = .view
     
+    
+    @State private var showAlert = false
+    
     public init() {}
     
     public var body: some View {
@@ -51,15 +54,15 @@ public struct ProfileView: View {
                     NavigationButtonView(title: "Мои заказы") {
                         isOrdersViewPresented = true
                     }
-                    NavigationButtonView(title: "Хочу это") {
+                    NavigationButtonView(title: "Чеки") {
                         isWantThisRequestsViewPresented = true
                     }
-                    NavigationButtonView(title: "Документы") {
-                        isDocumentsViewPresented = true
-                    }
-                    NavigationButtonView(title: "Банковские карты") {
-                        isBankCardsViewPresented = true
-                    }
+//                    NavigationButtonView(title: "Документы") {
+//                        isDocumentsViewPresented = true
+//                    }
+//                    NavigationButtonView(title: "Банковские карты") {
+//                        isBankCardsViewPresented = true
+//                    }
                     NavigationButtonView(
                         title: "Служба поддержки",
                         badgeCount: supportServiceVM.totalUnreadMessages
@@ -67,9 +70,19 @@ public struct ProfileView: View {
                         isSupportServiceViewPresented = true
                     }
                     NavigationButtonView(title: "Выйти из аккаунта", isDestructive: true) {
-                        AuthStorage.shared.logout()
-                        AuthorizationViewModel.shared.isLoggedIn = false
-                        AuthorizationViewModel.shared.logoutToken()
+                        showAlert = true
+                        
+                    }.alert(isPresented: $showAlert) {
+                        Alert(
+                            title: Text("Подтверждение выхода"),
+                            message: Text("Вы уверены?"),
+                            primaryButton: .default(Text("Да"), action: {
+                                AuthStorage.shared.logout()
+                                AuthorizationViewModel.shared.isLoggedIn = false
+                                AuthorizationViewModel.shared.logoutToken()
+                            }),
+                            secondaryButton: .cancel(Text("Отменить"))
+                        )
                     }
                     Spacer()
                 }

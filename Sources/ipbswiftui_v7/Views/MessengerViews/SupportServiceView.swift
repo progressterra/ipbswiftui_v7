@@ -57,7 +57,7 @@ public struct SupportServiceView: View {
                     )
                 }
                 Button(action: {
-                    performActionFor(category: "Хочу это", supportID: IPBSettings.wantThisSupportID)
+                    performActionFor(category: "Чеки", supportID: IPBSettings.wantThisSupportID)
                 }) {
                     let imageView = Image("wantThisSupportIcon", bundle: .module)
                         .resizable()
@@ -72,22 +72,22 @@ public struct SupportServiceView: View {
                         badgeCount: 0
                     )
                 }
-                Button(action: {
-                    performActionFor(category: "Документы", supportID: IPBSettings.documentsSupportID)
-                }) {
-                    let imageView = Image("documentsSupportIcon", bundle: .module)
-                        .resizable()
-                        .frame(width: 64, height: 64)
-                        .clipShape(Circle())
-                    
-                    ChatRowView(
-                        imageView: imageView,
-                        title: "Документы",
-                        prompt: "",
-                        dateLastMessages: .now,
-                        badgeCount: 0
-                    )
-                }
+//                Button(action: {
+//                    performActionFor(category: "Документы", supportID: IPBSettings.documentsSupportID)
+//                }) {
+//                    let imageView = Image("documentsSupportIcon", bundle: .module)
+//                        .resizable()
+//                        .frame(width: 64, height: 64)
+//                        .clipShape(Circle())
+//                    
+//                    ChatRowView(
+//                        imageView: imageView,
+//                        title: "Документы",
+//                        prompt: "",
+//                        dateLastMessages: .now,
+//                        badgeCount: 0
+//                    )
+//                }
             }
             .padding(.horizontal)
             .padding(.top)

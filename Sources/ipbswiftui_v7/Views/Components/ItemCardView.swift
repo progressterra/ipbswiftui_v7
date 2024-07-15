@@ -134,7 +134,7 @@ extension ItemCardView {
                     .font(Style.captionBold)
                     .foregroundStyle(Style.textPrimary)
                     .padding([.leading, .trailing], 7)
-                    .frame(maxWidth: .infinity, minHeight: 60, maxHeight: 60, alignment: .topLeading)
+                    .frame(maxWidth: .infinity, minHeight: 53, maxHeight: 53, alignment: .topLeading)
                     .lineLimit(3) // Ограничиваем текст одной строкой
                     .truncationMode(.tail) // Добавляем троеточие, если текст не помещается
                     
@@ -160,6 +160,7 @@ extension ItemCardView {
                     RoundedRectangle(cornerRadius: 12)
                         .stroke(Style.textTertiary, lineWidth: 1))
         .animation(.default, value: currentItemsAdded)
+        .onTapGesture(perform: actions.onTapAction)
     }
     
     

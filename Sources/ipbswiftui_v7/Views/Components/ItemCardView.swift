@@ -124,7 +124,7 @@ extension ItemCardView {
                             .frame(alignment: .leading)
                     }
                         
-                }.frame(width: .infinity, alignment: .leading)
+                }.frame(width: itemSize*1.1, alignment: .leading)
                         .background(LinearGradient(gradient: Gradient(colors: [Color(hex: 0xFF53B8EB),
                                                                                Color(hex: 0xFF27D1AE)]), startPoint: .leading, endPoint: .trailing))
                 

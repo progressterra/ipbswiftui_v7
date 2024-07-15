@@ -47,7 +47,7 @@ public struct CatalogView: View {
                         Capsule(style: .continuous)
                             .stroke()
                     }
-                    .overlay(alignment: .trailing) {ы
+                    .overlay(alignment: .trailing) {
                         Image(systemName: "magnifyingglass")
                             .padding(.trailing)
                     }

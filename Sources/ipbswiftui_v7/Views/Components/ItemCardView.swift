@@ -134,8 +134,8 @@ extension ItemCardView {
                     .font(Style.captionBold)
                     .foregroundStyle(Style.textPrimary)
                     .padding([.leading, .trailing], 7)
-                    .lineLimit(1) // Ограничиваем текст одной строкой
-                    .truncationMode(.tail) // Добавляем троеточие, если текст не помещается
+                    //.lineLimit(1) // Ограничиваем текст одной строкой
+                    //.truncationMode(.tail) // Добавляем троеточие, если текст не помещается
                     .frame(alignment: .leading)
                 
                 

@@ -207,27 +207,27 @@ public struct WantThisDetailView: View {
             .disabled(!canEdit)
         }.onAppear {
             // Устанавливаем textValue в valueData первого элемента списка, если он существует
-            if let dd = fields.first { $0.name == "date_doc" }?.valueData {
+            if let dd = fields.first(where: { $0.name == "date_doc" })?.valueData {
                 date_doc = dd
             }
             
-            if let td = fields.first{ $0.name == "time_doc" }?.valueData {
+            if let td = fields.first(where: { $0.name == "time_doc" })?.valueData {
                 time_doc = td
             }
             
-            if let sd = fields.first { $0.name == "sum_doc" }?.valueData {
+            if let sd = fields.first(where: { $0.name == "sum_doc" })?.valueData {
                 sum_doc = sd
             }
             
-            if let fn = fields.first{ $0.name == "FN" }?.valueData {
+            if let fn = fields.first(where: { $0.name == "FN" })?.valueData {
                 FN = fn
             }
             
-            if let fd = fields.first{ $0.name == "FD" }?.valueData {
+            if let fd = fields.first(where: { $0.name == "FD" })?.valueData {
                 FD = fd
             }
             
-            if let fpd = fields.first{ $0.name == "FP_D" }?.valueData {
+            if let fpd = fields.first(where: { $0.name == "FP_D" })?.valueData {
                 FP_D = fpd
             }
             

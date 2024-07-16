@@ -42,7 +42,9 @@ public class WantThisViewModel: ObservableObject {
     @Published public var itemImage: UIImage?
     
     @Published public var checkData: String = ""{
-        didSet { updateSubmitButtonState() }
+        didSet { updateSubmitButtonState()
+            parseAndSetValues(from: checkData)
+        }
     }
     @Published public var date_doc: String = ""{
         didSet { updateSubmitButtonState() }
@@ -87,6 +89,35 @@ public class WantThisViewModel: ObservableObject {
             }
         }
     }
+    
+    func parseAndSetValues(from input: String) {
+            let regex = try! NSRegularExpression(pattern: #"(\w+)=([\w\.]+)"#, options: [])
+            let matches = regex.matches(in: input, options: [], range: NSRange(location: 0, length: input.utf16.count))
+            
+            var parsedValues: [String: String] = [:]
+            for match in matches {
+                if let keyRange = Range(match.range(at: 1), in: input),
+                   let valueRange = Range(match.range(at: 2), in: input) {
+                    let key = String(input[keyRange])
+                    let value = String(input[valueRange])
+                    parsedValues[key] = value
+                }
+            }
+
+            if let dateTime = parsedValues["t"] {
+                let dateIndex = dateTime.index(dateTime.startIndex, offsetBy: 8)
+                let timeIndex = dateTime.index(dateTime.startIndex, offsetBy: 9)
+                self.date_doc = String(dateTime[..<dateIndex])
+                self.time_doc = String(dateTime[timeIndex...])
+            }
+            
+            self.sum_doc = parsedValues["s"] ?? ""
+            self.FN = parsedValues["fn"] ?? ""
+            self.FD = parsedValues["i"] ?? ""
+            self.FP_D = parsedValues["fp"] ?? ""
+    }
+    
+
     
     private let documentService: DocumentService
     private var subscriptions = Set<AnyCancellable>()

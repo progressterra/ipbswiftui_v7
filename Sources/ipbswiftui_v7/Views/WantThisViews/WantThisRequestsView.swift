@@ -130,7 +130,7 @@ public struct WantThisRequestsView: View {
         .refreshable { vm.fetchDocumentList() }
         .toolbar {
             ToolbarItem(placement: .principal) {
-                Text("Запросы Хочу это")
+                Text("Запросы Чеки")
                     .foregroundStyle(Style.textPrimary)
                     .font(Style.title)
             }
@@ -151,16 +151,16 @@ public struct WantThisRequestsView: View {
         switch statusDoc {
         case .confirmed:
             return Text("Запрос подтвержден")
-                .foregroundStyle(Style.onBackground)
+                .foregroundStyle(Style.success)
         case .waitReview, .waitImage:
             return Text("Ожидает подтверждения")
-                .foregroundStyle(Style.textTertiary)
+                .foregroundStyle(Style.info)
         case .rejected:
             return Text("Запрос отклонен")
-                .foregroundStyle(Style.textPrimary2)
+                .foregroundStyle(Style.error)
         case .notFill:
             return Text("Документ не заполнен")
-                .foregroundStyle(Style.textPrimary2)
+                .foregroundStyle(Style.error)
         }
     }
 }

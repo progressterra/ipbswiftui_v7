@@ -84,11 +84,19 @@ public struct CatalogView: View {
                 }
                 
                 
-                
-                if vm.rootCatalogItem != nil
+                if catalogItem != nil
                 {
-                    CatalogProductListView(catalogItem: vm.rootCatalogItem!)
+                    CatalogProductListView(catalogItem: catalogItem!)
                 }
+                else
+                {
+                    if vm.rootCatalogItem != nil
+                    {
+                        CatalogProductListView(catalogItem: vm.rootCatalogItem!)
+                    }
+                }
+                
+                
     
                 
             }
@@ -102,13 +110,15 @@ public struct CatalogView: View {
                 }
             }
             .navigationDestination(for: CatalogItem.self) { item in
-                if let hasChildren = item.listChildItems?.isEmpty, !hasChildren {
-                    CatalogView(catalogItem: item)
-                        .toolbarRole(.editor)
-                } else {
-                    CatalogProductListView(catalogItem: item)
-                        .toolbarRole(.editor)
-                }
+                CatalogView(catalogItem: item)
+                    .toolbarRole(.editor)
+//                if let hasChildren = item.listChildItems?.isEmpty, !hasChildren {
+//                    CatalogView(catalogItem: item)
+//                        .toolbarRole(.editor)
+//                } else {
+//                    CatalogProductListView(catalogItem: item)
+//                        .toolbarRole(.editor)
+//                }
             }
         }
     }

@@ -36,10 +36,22 @@ import SwiftUI
 //    }
 //}
 
+extension Color {
+
+
+    var hexString: String {
+        let components = self.cgColor?.components
+        let r = components?[0] ?? 0
+        let g = components?[1] ?? 0
+        let b = components?[2] ?? 0
+        return String(format: "#%02lX%02lX%02lX", lround(Double(r * 255)), lround(Double(g * 255)), lround(Double(b * 255)))
+    }
+}
+
 struct ColorExampleView: View {
     var colorName: String
     var colorCode: String
-    var color: Color
+    var color: Color?
 
     var body: some View {
         HStack {
@@ -47,9 +59,11 @@ struct ColorExampleView: View {
                 .frame(width: 150, alignment: .leading)
             Text(colorCode)
                 .frame(width: 100, alignment: .leading)
-            Rectangle()
-                .fill(color)
-                .frame(width: 50, height: 20)
+            if let color = color {
+                Rectangle()
+                    .fill(color)
+                    .frame(width: 50, height: 20)
+            }
         }
     }
 }
@@ -75,46 +89,44 @@ struct GradientExampleView: View {
 
 
 struct StyleView: View {
-    let colors: [(String, String, Color)] = [
-        ("background", "#F2F5FF", Style.background),
-        ("onBackground", "#2E8E6C", Style.onBackground),
-        ("primaryStart", "#7209b7", Color(hex: "#7209b7")),
-        ("primaryEnd", "#f72585", Color(hex: "#f72585")),
-        ("secondary", "#3E4555", Style.secondary),
-        ("secondary2", "#CDCDD6", Style.secondary2),
-        ("tertiary", "#B5B5BC", Style.tertiary),
-        ("surface", "#FFFFFF", Style.surface),
-        ("surface2", "#111111", Style.surface2),
-        ("onSurface", "#54544e", Style.onSurface),
-        ("onSurface2", "#101010", Style.onSurface2),
-        ("error", "#DF3636", Style.error),
-        ("success", "#7ADB6B", Style.success),
-        ("info", "#6980CF", Style.info),
-        ("warning", "#DB742A", Style.warning),
-        ("iconsPrimary", "#111111", Style.iconsPrimary),
-        ("iconsPrimary2", "#E82741", Style.iconsPrimary2),
-        ("iconsPrimary3", "#656565", Style.iconsPrimary3),
-        ("iconsSecondary", "#FFFFFF", Style.iconsSecondary),
-        ("iconsTertiary", "#B5B5BC", Style.iconsTertiary),
-        ("iconsTertiary2", "#4578DC", Style.iconsTertiary2),
-        ("iconsTertiary3", "#B2FF75", Style.iconsTertiary3),
-        ("iconsTertiary4", "#F6E651", Style.iconsTertiary4),
-        ("textPrimary", "#FFFFFF", Style.textPrimary),
-        ("textPrimary2", "#E82741", Style.textPrimary2),
-        ("textSecondary", "#6E7289", Style.textSecondary),
-        ("textTertiary", "#9191A1", Style.textTertiary),
-        ("textTertiary2", "#453896", Style.textTertiary2),
-        ("textTertiary3", "#28AB13", Style.textTertiary3),
-        ("textTertiary4", "#CA451C", Style.textTertiary4),
-        ("textButtonPrimary", "#FFFFFF", Style.textButtonPrimary),
-        ("primaryPressed", "#3D3D3D", Style.primaryPressed),
-        ("primaryDisabled", "#70103c", Style.primaryDisabled),
-        ("secondaryPressed", "#232427", Style.secondaryPressed),
-        ("iconsPressed", "#0F1215", Style.iconsPressed),
-        ("iconsDisabled", "#B5B5B5", Style.iconsDisabled),
-        ("textPressed", "#24282E", Style.textPressed),
-        ("textDisabled", "#B5B5B5", Style.textDisabled)
-    ]
+    let colors: [(String, Color?)] = [
+            ("background", Style.background),
+            ("onBackground", Style.onBackground),
+            ("secondary", Style.secondary),
+            ("secondary2", Style.secondary2),
+            ("tertiary", Style.tertiary),
+            ("surface", Style.surface),
+            ("surface2", Style.surface2),
+            ("onSurface", Style.onSurface),
+            ("onSurface2", Style.onSurface2),
+            ("error", Style.error),
+            ("success", Style.success),
+            ("info", Style.info),
+            ("warning", Style.warning),
+            ("iconsPrimary", Style.iconsPrimary),
+            ("iconsPrimary2", Style.iconsPrimary2),
+            ("iconsPrimary3", Style.iconsPrimary3),
+            ("iconsSecondary", Style.iconsSecondary),
+            ("iconsTertiary", Style.iconsTertiary),
+            ("iconsTertiary2", Style.iconsTertiary2),
+            ("iconsTertiary3", Style.iconsTertiary3),
+            ("iconsTertiary4", Style.iconsTertiary4),
+            ("textPrimary", Style.textPrimary),
+            ("textPrimary2", Style.textPrimary2),
+            ("textSecondary", Style.textSecondary),
+            ("textTertiary", Style.textTertiary),
+            ("textTertiary2", Style.textTertiary2),
+            ("textTertiary3", Style.textTertiary3),
+            ("textTertiary4", Style.textTertiary4),
+            ("textButtonPrimary", Style.textButtonPrimary),
+            ("primaryPressed", Style.primaryPressed),
+            ("primaryDisabled", Style.primaryDisabled),
+            ("secondaryPressed", Style.secondaryPressed),
+            ("iconsPressed", Style.iconsPressed),
+            ("iconsDisabled", Style.iconsDisabled),
+            ("textPressed", Style.textPressed),
+            ("textDisabled", Style.textDisabled)
+        ]
     
     let gradients: [(String, String, LinearGradient)] = [
         ("primary", "#primaryStart to #primaryEnd", Style.primary)
@@ -131,9 +143,9 @@ struct StyleView: View {
                 
                 
                 ForEach(colors, id: \.0) { color in
-                    ColorExampleView(colorName: color.0, colorCode: color.1, color: color.2)
-                        .padding(.vertical, 4)
-                }
+                    ColorExampleView(colorName: color.0, colorCode: color.1!.hexString, color: color.1)
+                                        .padding(.vertical, 4)
+                                }
             }
             .padding()
         }

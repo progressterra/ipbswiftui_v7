@@ -34,6 +34,16 @@ public struct WantThisRequestsView: View {
     
     public init() {}
     
+    
+    func getValueData(forName name: String, from fieldDataList: [FieldData]) -> String {
+        for fieldData in fieldDataList {
+            if fieldData.name == name {
+                return fieldData.valueData ?? ""
+            }
+        }
+        return ""
+    }
+    
     public var body: some View {
         ScrollView {
             if let documentList = vm.documentList?.dataList {
@@ -44,7 +54,7 @@ public struct WantThisRequestsView: View {
                             VStack(alignment: .leading, spacing: 4) {
                                 ZStack {
                                     
-                                    Image("cashCheck")
+                                    Image("cashCheck", bundle: .module)
                                                                                 .resizable()
                                                                                 .scaledToFit()
                                                                                 .frame(width: size, height: size)
@@ -65,18 +75,28 @@ public struct WantThisRequestsView: View {
 //                                    }
                                 }
                                 
-                                if let name = fields.first?.valueData {
-                                    Text(name)
-                                        .font(Style.footnoteRegular)
-                                        .foregroundStyle(Style.textPrimary)
-                                }
+                                Text(getValueData(forName: "date_doc", from: fields))
+                                    .font(Style.footnoteRegular)
+                                    .foregroundStyle(Style.textPrimary)
+                                
+                                
+                                Text(getValueData(forName: "sum_doc", from: fields))
+                                    .font(Style.footnoteRegular)
+                                    .foregroundStyle(Style.textPrimary)
+                                
+                                
+//                                if let name = fields.first?.valueData {
+//                                    Text(name)
+//                                        .font(Style.footnoteRegular)
+//                                        .foregroundStyle(Style.textPrimary)
+//                                }
                                 if let statusDoc = document.statusDoc {
                                     displayDocStatus(statusDoc)
                                         .font(Style.footnoteBold)
                                 }
                                 Spacer()
                             }
-                            .frame(width: size)
+                            //.frame(width: size)
                             .onTapGesture {
                                 isWantThisDetailPresented = true
                                 currentDocument = document

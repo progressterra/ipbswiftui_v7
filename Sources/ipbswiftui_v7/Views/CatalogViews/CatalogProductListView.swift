@@ -37,7 +37,7 @@ public struct CatalogProductListView: View {
     
     public var body: some View {
         VStack(spacing: 0) {
-            ScrollView {
+            //ScrollView {
                 LazyVGrid(columns: [GridItem(), GridItem()], spacing: 20) {
                     ForEach(vm.productListResults[catalogItem.itemCategory.idUnique] ?? [], id: \.nomenclature.idUnique) { product in
                         let details = ItemCardView.Details(
@@ -94,6 +94,6 @@ public struct CatalogProductListView: View {
                     ItemDetailView(product: currentProduct).toolbarRole(.editor)
                 }
             }
-        }
+        //}
     }
 }

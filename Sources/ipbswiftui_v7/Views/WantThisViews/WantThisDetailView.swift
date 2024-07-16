@@ -57,8 +57,16 @@ public struct WantThisDetailView: View {
     }
     
     
+    @State public var date_doc: String = ""
+    @State public var time_doc: String = ""
+    @State public var sum_doc: String = ""
+    @State public var FN: String = ""
+    @State public var FD: String = ""
+    @State public var FP_D: String = ""
+    
+    
     let document: RFCharacteristicValueViewModel
-    let fields: [FieldData]
+    @State var fields: [FieldData]
     
     public init(document: RFCharacteristicValueViewModel, fields: [FieldData]) {
         self.document = document
@@ -66,6 +74,8 @@ public struct WantThisDetailView: View {
     }
     
     public var body: some View {
+
+            
         ScrollView {
             VStack(spacing: 20) {
                 HStack {
@@ -98,43 +108,48 @@ public struct WantThisDetailView: View {
                 }
                 
                 VStack{
-                    if let fieldsData = vm.fieldsData {
-                        CustomTextFieldView(text: $vm.date_doc, prompt: fieldsData.first { $0.name == "date_doc" }?.comment ?? "")
+                    
+                    
+    
+                    
+                    
+                    
+                    CustomTextFieldView(text: $date_doc, prompt: self.fields.first { $0.name == "date_doc" }?.comment ?? "")
                             .focused($focusedField, equals: .date_doc)
                             .onSubmit { focusedField = .time_doc }
                             .submitLabel(.next)
                             .autocorrectionDisabled()
                         
-                        CustomTextFieldView(text: $vm.time_doc, prompt: fieldsData.first { $0.name == "time_doc" }?.comment ?? "")
+                    CustomTextFieldView(text: $time_doc, prompt: self.fields.first { $0.name == "time_doc" }?.comment ?? "")
                             .focused($focusedField, equals: .time_doc)
                             .onSubmit { focusedField = .sum_doc }
                             .submitLabel(.next)
                             .autocorrectionDisabled()
                         
-                        CustomTextFieldView(text: $vm.sum_doc, prompt: fieldsData.first { $0.name == "sum_doc" }?.comment ?? "")
+                        CustomTextFieldView(text: $sum_doc, prompt: self.fields.first { $0.name == "sum_doc" }?.comment ?? "")
                             .focused($focusedField, equals: .sum_doc)
                             .onSubmit { focusedField = .FN }
                             .submitLabel(.next)
                             .autocorrectionDisabled()
                         
-                        CustomTextFieldView(text: $vm.FN, prompt: fieldsData.first { $0.name == "FN" }?.comment ?? "")
+                    CustomTextFieldView(text: $FN, prompt: self.fields.first { $0.name == "FN" }?.comment ?? "")
                             .focused($focusedField, equals: .FN)
                             .onSubmit { focusedField = .FD }
                             .submitLabel(.next)
                             .autocorrectionDisabled()
                         
-                        CustomTextFieldView(text: $vm.FD, prompt: fieldsData.first { $0.name == "FD" }?.comment ?? "")
+                    CustomTextFieldView(text: $FD, prompt: self.fields.first { $0.name == "FD" }?.comment ?? "")
                             .focused($focusedField, equals: .FD)
                             .onSubmit { focusedField = .FP_D }
                             .submitLabel(.next)
                             .autocorrectionDisabled()
                         
-                        CustomTextFieldView(text: $vm.FP_D, prompt: fieldsData.first { $0.name == "FP_D" }?.comment ?? "")
+                        CustomTextFieldView(text: $FP_D, prompt: self.fields.first { $0.name == "FP_D" }?.comment ?? "")
                             .focused($focusedField, equals: .FP_D)
                             .onSubmit { focusedField = nil }
                             .submitLabel(.done)
                             .autocorrectionDisabled()
-                    }
+                    
                     
                 }
                 
@@ -190,23 +205,50 @@ public struct WantThisDetailView: View {
             .padding(.horizontal)
             .padding(.top)
             .disabled(!canEdit)
-        }
-        .safeAreaInset(edge: .bottom) {
-            if canEdit {
-                CustomButtonView(title: "Готово", isDisabled: $vm.isSubmitButtonDisabled) {
-                    vm.editDocument()
-                }
-                .padding(8)
-                .background(
-                    Rectangle()
-                        .frame(maxWidth: .infinity)
-                        .foregroundStyle(Style.surface)
-                        .cornerRadius(20, corners: [.topLeft, .topRight])
-                        .edgesIgnoringSafeArea(.bottom)
-                )
-                .padding(.horizontal, 8)
+        }.onAppear {
+            // Устанавливаем textValue в valueData первого элемента списка, если он существует
+            if let dd = fields.first { $0.name == "date_doc" }?.valueData {
+                date_doc = dd
             }
+            
+            if let td = fields.first{ $0.name == "time_doc" }?.valueData {
+                time_doc = td
+            }
+            
+            if let sd = fields.first { $0.name == "sum_doc" }?.valueData {
+                sum_doc = sd
+            }
+            
+            if let fn = fields.first{ $0.name == "FN" }?.valueData {
+                FN = fn
+            }
+            
+            if let fd = fields.first{ $0.name == "FD" }?.valueData {
+                FD = fd
+            }
+            
+            if let fpd = fields.first{ $0.name == "FP_D" }?.valueData {
+                FP_D = fpd
+            }
+            
+     
         }
+//        .safeAreaInset(edge: .bottom) {
+//            if canEdit {
+//                CustomButtonView(title: "Готово", isDisabled: $vm.isSubmitButtonDisabled) {
+//                    vm.editDocument()
+//                }
+//                .padding(8)
+//                .background(
+//                    Rectangle()
+//                        .frame(maxWidth: .infinity)
+//                        .foregroundStyle(Style.surface)
+//                        .cornerRadius(20, corners: [.topLeft, .topRight])
+//                        .edgesIgnoringSafeArea(.bottom)
+//                )
+//                .padding(.horizontal, 8)
+//            }
+//        }
         .background(Style.background)
         .overlay { StatusAlertView(status: $vm.status) { dismiss() } }
         .onTapGesture { focusedField = nil }
@@ -230,16 +272,16 @@ public struct WantThisDetailView: View {
         switch statusDoc {
         case .confirmed:
             return Text("Запрос подтвержден")
-                .foregroundStyle(Style.onBackground)
+                .foregroundStyle(Style.success)
         case .waitReview, .waitImage:
             return Text("Ожидает подтверждения")
-                .foregroundStyle(Style.textTertiary)
+                .foregroundStyle(Style.info)
         case .rejected:
             return Text("Запрос отклонен")
-                .foregroundStyle(Style.textPrimary2)
+                .foregroundStyle(Style.error)
         case .notFill:
             return Text("Документ не заполнен")
-                .foregroundStyle(Style.textPrimary2)
+                .foregroundStyle(Style.error)
         }
     }
 }

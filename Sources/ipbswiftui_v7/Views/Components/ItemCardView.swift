@@ -17,6 +17,7 @@ public struct ItemCardView: View {
         let sizeDescription: String?
         let colorAsHex: String?
         let imageURL: String
+        public let imageBannerURL: String?
         let isAddToCartShowing: Bool
         let countMonthPayment: Int
         let amountPaymentInMonth: Double
@@ -30,7 +31,8 @@ public struct ItemCardView: View {
                     imageURL: String,
                     isAddToCartShowing: Bool = false,
                     countMonthPayment: Int,
-                    amountPaymentInMonth: Double) {
+                    amountPaymentInMonth: Double,
+                    imageBannerURL: String? = "") {
             self.name = name
             self.brandName = brandName
             self.price = price
@@ -41,6 +43,7 @@ public struct ItemCardView: View {
             self.isAddToCartShowing = isAddToCartShowing
             self.countMonthPayment = countMonthPayment
             self.amountPaymentInMonth = amountPaymentInMonth
+            self.imageBannerURL = imageBannerURL
         }
     }
     
@@ -65,6 +68,7 @@ public struct ItemCardView: View {
         case normal
         case inCart
         case inOrder
+        case banner
     }
     
     let details: Details
@@ -89,6 +93,7 @@ public struct ItemCardView: View {
         case .normal: normalItem
         case .inCart: inCartItem
         case .inOrder: inCartItem
+        case .banner: bannerItem
         }
     }
 }
@@ -142,6 +147,15 @@ extension ItemCardView {
         }
         .frame(width: itemSize)
         .animation(.default, value: currentItemsAdded)
+        .onTapGesture(perform: actions.onTapAction)
+    }
+    
+    var bannerItem: some View {
+        
+            imageBanner
+//            .overlay(
+//                RoundedRectangle(cornerRadius: 12)
+//                    .stroke(Style.textTertiary, lineWidth: 1))
     }
     
     var inCartItem: some View {
@@ -231,6 +245,7 @@ extension ItemCardView {
             }
         }
         .animation(.default, value: currentItemsAdded)
+        .onTapGesture(perform: actions.onTapAction)
     }
     
     var originalPrice: some View {
@@ -257,6 +272,17 @@ extension ItemCardView {
         .onTapGesture(perform: actions.onTapAction)
     }
     
+    var imageBanner: some View {
+        AsyncImageBannerView(
+            imageURL: details.imageBannerURL ?? "",
+                    width: UIScreen.main.bounds.size.width,
+                    height: itemSize,
+                    cornerRadius: 8
+                )
+        
+        .onTapGesture(perform: actions.onTapAction)
+    }
+    
     var button: some View {
         ZStack {
             if currentItemsAdded == 0 {
@@ -271,7 +297,7 @@ extension ItemCardView {
                     increaseAction: actions.addItemAction
                 )
             }
-        }.frame(height: 28)
+        }.frame(height: 28).onTapGesture(perform: actions.onTapAction)
     }
 }
 

@@ -65,7 +65,7 @@ public struct CatalogProductListView: View {
                         
                         ItemCardView(
                             details: details,
-                            format: product.nomenclature.idrfSpecification == Style.idrfSpecificatiuonForMedicialProduct ? .medicinalProduct: .normal,
+                            format: .normal,
                             currentItemsAdded: product.countInCart,
                             actions: actions
                         )

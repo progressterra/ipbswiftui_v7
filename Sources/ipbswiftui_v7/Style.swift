@@ -179,6 +179,8 @@ public struct Style {
     public static var textPressed = Color(hex: "#24282E")
     public static var textDisabled = Color(hex: "#B5B5B5")
     
+    public static var nameFieldManufactor = "Производитель"
+    
     public static var countCatalogCategoryInRow = 2
     
     private struct StyleConfiguration: Codable {
@@ -241,7 +243,9 @@ public struct Style {
         let iconsDisabled: String?
         let textPressed: String?
         let textDisabled: String?
+        let nameFieldManufactor: String?
         let countCatalogCategoryInRow: Int?
+        
     }
     
     
@@ -270,6 +274,12 @@ public struct Style {
                 {
                     self.countCatalogCategoryInRow = countCategory
                 }
+        
+        if let nfm = config.nameFieldManufactor
+        {
+            self.nameFieldManufactor = nfm
+        }
+        
         
         // URLs
         if let url = config.offerURL {

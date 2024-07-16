@@ -75,12 +75,18 @@ public struct WantThisRequestsView: View {
 //                                    }
                                 }
                                 
-                                Text(getValueData(forName: "date_doc", from: fields))
+                                Text("Запрос от " + document.dateAdded.convertDateFormat(to: "d MMMM"))
+                                    .font(Style.title)
+                                    .foregroundStyle(Style.textPrimary)
+                                displayDocStatus(document.statusDoc ?? .notFill)
+                                    .font(Style.subheadlineBold)
+                                
+                                Text("Чек от " + getValueData(forName: "date_doc", from: fields))
                                     .font(Style.footnoteRegular)
                                     .foregroundStyle(Style.textPrimary)
                                 
                                 
-                                Text(getValueData(forName: "sum_doc", from: fields))
+                                Text("На сумму " + getValueData(forName: "sum_doc", from: fields))
                                     .font(Style.footnoteRegular)
                                     .foregroundStyle(Style.textPrimary)
                                 

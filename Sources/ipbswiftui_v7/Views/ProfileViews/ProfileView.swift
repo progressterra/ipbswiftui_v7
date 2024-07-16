@@ -20,6 +20,8 @@ public struct ProfileView: View {
     @State private var isWantThisRequestsViewPresented: Bool = false
     @State private var isSupportServiceViewPresented: Bool = false
     @State private var isOrdersViewPresented: Bool = false
+    @State private var isStyleView: Bool = false
+    
     @State private var profileMode: ProfileDetailView.Mode = .view
     
     
@@ -84,6 +86,13 @@ public struct ProfileView: View {
                             secondaryButton: .cancel(Text("Отменить"))
                         )
                     }
+                    
+                    
+                    NavigationButtonView(title: "Стили") {
+                        isStyleView = true
+                    }
+                    
+                    
                     Spacer()
                 }
                 .padding(.horizontal, 20)
@@ -110,6 +119,9 @@ public struct ProfileView: View {
             }
             .navigationDestination(isPresented: $isSupportServiceViewPresented) {
                 SupportServiceView().toolbarRole(.editor)
+            }
+            .navigationDestination(isPresented: $isStyleView) {
+                StyleView().toolbarRole(.editor)
             }
             .navigationDestination(isPresented: $isProfileDetailViewPresented) {
                 ProfileDetailView(

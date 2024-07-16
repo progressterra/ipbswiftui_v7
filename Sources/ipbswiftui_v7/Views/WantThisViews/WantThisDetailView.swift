@@ -97,28 +97,54 @@ public struct WantThisDetailView: View {
                     }
                 }
                 
-                if let fieldsData = vm.fieldsData {
-                    CustomTextFieldView(text: $vm.itemName, prompt: fieldsData.first?.comment ?? "")
-                        .focused($focusedField, equals: .itemName)
-                        .submitLabel(.next)
-                        .onSubmit { focusedField = .itemURL }
-                        .autocorrectionDisabled()
+                VStack{
+                    if let fieldsData = vm.fieldsData {
+                        CustomTextFieldView(text: $vm.date_doc, prompt: fieldsData.first { $0.name == "date_doc" }?.comment ?? "")
+                            .focused($focusedField, equals: .date_doc)
+                            .onSubmit { focusedField = .time_doc }
+                            .submitLabel(.next)
+                            .autocorrectionDisabled()
+                        
+                        CustomTextFieldView(text: $vm.time_doc, prompt: fieldsData.first { $0.name == "time_doc" }?.comment ?? "")
+                            .focused($focusedField, equals: .time_doc)
+                            .onSubmit { focusedField = .sum_doc }
+                            .submitLabel(.next)
+                            .autocorrectionDisabled()
+                        
+                        CustomTextFieldView(text: $vm.sum_doc, prompt: fieldsData.first { $0.name == "sum_doc" }?.comment ?? "")
+                            .focused($focusedField, equals: .sum_doc)
+                            .onSubmit { focusedField = .FN }
+                            .submitLabel(.next)
+                            .autocorrectionDisabled()
+                        
+                        CustomTextFieldView(text: $vm.FN, prompt: fieldsData.first { $0.name == "FN" }?.comment ?? "")
+                            .focused($focusedField, equals: .FN)
+                            .onSubmit { focusedField = .FD }
+                            .submitLabel(.next)
+                            .autocorrectionDisabled()
+                        
+                        CustomTextFieldView(text: $vm.FD, prompt: fieldsData.first { $0.name == "FD" }?.comment ?? "")
+                            .focused($focusedField, equals: .FD)
+                            .onSubmit { focusedField = .FP_D }
+                            .submitLabel(.next)
+                            .autocorrectionDisabled()
+                        
+                        CustomTextFieldView(text: $vm.FP_D, prompt: fieldsData.first { $0.name == "FP_D" }?.comment ?? "")
+                            .focused($focusedField, equals: .FP_D)
+                            .onSubmit { focusedField = nil }
+                            .submitLabel(.done)
+                            .autocorrectionDisabled()
+                    }
                     
-                    CustomTextFieldView(text: $vm.itemURL, prompt: fieldsData.last?.comment ?? "")
-                        .focused($focusedField, equals: .itemURL)
-                        .submitLabel(.done)
-                        .onSubmit { focusedField = nil }
-                        .autocorrectionDisabled()
-                        .keyboardType(.URL)
                 }
                 
-                HStack(spacing: 12) {
-                    Text("Добавить фото")
-                        .foregroundStyle(Style.textPrimary)
-                        .font(Style.body)
-                    CameraButtonView(inputImage: $vm.itemImage)
-                    Spacer()
-                }
+//                HStack(spacing: 12) {
+//                    Text("Добавить фото")
+//                        .foregroundStyle(Style.textPrimary)
+//                        .font(Style.body)
+//                    CameraButtonView(inputImage: $vm.itemImage)
+//                    Spacer()
+//                }
                 
                 HStack {
                     if let itemImage = vm.itemImage {
@@ -189,7 +215,7 @@ public struct WantThisDetailView: View {
         .animation(.default, value: isChatPresented)
         .toolbar {
             ToolbarItem(placement: .principal) {
-                Text("Запрос Хочу это")
+                Text("Чек")
                     .foregroundStyle(Style.textPrimary)
                     .font(Style.title)
             }

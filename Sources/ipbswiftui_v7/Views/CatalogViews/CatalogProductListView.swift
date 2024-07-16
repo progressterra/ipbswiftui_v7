@@ -37,17 +37,21 @@ public struct CatalogProductListView: View {
     
     public var body: some View {
         VStack(spacing: 0) {
-            ScrollView {
+            //ScrollView {
                 LazyVGrid(columns: [GridItem(), GridItem()], spacing: 20) {
                     ForEach(vm.productListResults[catalogItem.itemCategory.idUnique] ?? [], id: \.nomenclature.idUnique) { product in
                         let details = ItemCardView.Details(
                             name: product.nomenclature.name ?? "",
+                            brandName: product.listProductCharacteristic?
+                                .first(where: { $0.characteristicType.name == Style.nameFieldManufactor })?
+                                .characteristicValue.viewData ?? "",
                             price: product.inventoryData.currentPrice,
                             originalPrice: product.inventoryData.beginPrice,
                             imageURL: product.nomenclature.listImages?.first?.urlData ?? "",
                             isAddToCartShowing: !AuthStorage.shared.getRefreshToken().isEmpty,
                             countMonthPayment: product.installmentPlanValue.countMonthPayment,
-                            amountPaymentInMonth: product.installmentPlanValue.amountPaymentInMonth
+                            amountPaymentInMonth: product.installmentPlanValue.amountPaymentInMonth,
+                            imageBannerURL: product.nomenclature.listImages?.first { $0.alias == "banner" }?.urlData
                         )
                         
                         let actions = ItemCardView.Actions(
@@ -61,7 +65,7 @@ public struct CatalogProductListView: View {
                         
                         ItemCardView(
                             details: details,
-                            format: .normal,
+                            format: product.nomenclature.idrfSpecification == Style.idrfSpecificatiuonForMedicialProduct ? .medicinalProduct: .normal,
                             currentItemsAdded: product.countInCart,
                             actions: actions
                         )
@@ -90,6 +94,6 @@ public struct CatalogProductListView: View {
                     ItemDetailView(product: currentProduct).toolbarRole(.editor)
                 }
             }
-        }
+        //}
     }
 }

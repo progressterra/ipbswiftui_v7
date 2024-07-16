@@ -29,6 +29,7 @@ public struct CatalogView: View {
     
     let catalogItem: CatalogItem?
     
+    
     private let columns = Array(repeating: GridItem(), count: Style.countCatalogCategoryInRow)
     
     public init(catalogItem: CatalogItem? = nil) {
@@ -81,6 +82,23 @@ public struct CatalogView: View {
                     }
                     .padding(.horizontal)
                 }
+                
+                
+                if catalogItem != nil
+                {
+                    CatalogProductListView(catalogItem: catalogItem!)
+                }
+                else
+                {
+                    if vm.rootCatalogItem != nil
+                    {
+                        CatalogProductListView(catalogItem: vm.rootCatalogItem!)
+                    }
+                }
+                
+                
+    
+                
             }
             .background(Style.background)
             .refreshable { vm.getCatalog() }
@@ -92,13 +110,15 @@ public struct CatalogView: View {
                 }
             }
             .navigationDestination(for: CatalogItem.self) { item in
-                if let hasChildren = item.listChildItems?.isEmpty, !hasChildren {
-                    CatalogView(catalogItem: item)
-                        .toolbarRole(.editor)
-                } else {
-                    CatalogProductListView(catalogItem: item)
-                        .toolbarRole(.editor)
-                }
+                CatalogView(catalogItem: item)
+                    .toolbarRole(.editor)
+//                if let hasChildren = item.listChildItems?.isEmpty, !hasChildren {
+//                    CatalogView(catalogItem: item)
+//                        .toolbarRole(.editor)
+//                } else {
+//                    CatalogProductListView(catalogItem: item)
+//                        .toolbarRole(.editor)
+//                }
             }
         }
     }

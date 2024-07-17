@@ -44,6 +44,13 @@ public struct WantThisRequestsView: View {
         return ""
     }
     
+    func getDateCheck(forData: String)-> String
+    {
+        let res = IPBUtils.shared.formatDateString(forData)
+        return res ?? ""
+    }
+    
+    
     public var body: some View {
         ScrollView {
             if let documentList = vm.documentList?.dataList {
@@ -51,53 +58,59 @@ public struct WantThisRequestsView: View {
                     ForEach(documentList, id: \.idUnique) { document in
                         if let fieldsData = document.viewData?.data(using: .utf8),
                            let fields = try? JSONDecoder().decode([FieldData].self, from: (fieldsData)) {
-                            VStack(alignment: .leading, spacing: 4) {
-                                ZStack {
-                                    
-                                    Image("cashCheck", bundle: .module)
-                                                                                .resizable()
-                                                                                .scaledToFit()
-                                                                                .frame(width: size, height: size)
-                                                                                .cornerRadius(8)
-//                                    if let imageURL = document.listImages?.sorted(by: { $0.dateAdded > $1.dateAdded }).first?.urlData {
-//                                        AsyncImageView(
-//                                            imageURL: imageURL,
-//                                            width: size,
-//                                            height: size,
-//                                            cornerRadius: 8
-//                                        )
-//                                    } else {
-//                                        Image(systemName: "photo")
-//                                            .resizable()
-//                                            .scaledToFit()
-//                                            .frame(width: size, height: size)
-//                                            .cornerRadius(8)
+                            
+                            HStack
+                            {
+                                Image("cashCheck", bundle: .module)
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(width: size, height: size)
+                                    .cornerRadius(8)
+                                
+                                VStack(alignment: .leading, spacing: 4) {
+//                                    ZStack {
+//                                        
+//                                        
+//                                        //                                    if let imageURL = document.listImages?.sorted(by: { $0.dateAdded > $1.dateAdded }).first?.urlData {
+//                                        //                                        AsyncImageView(
+//                                        //                                            imageURL: imageURL,
+//                                        //                                            width: size,
+//                                        //                                            height: size,
+//                                        //                                            cornerRadius: 8
+//                                        //                                        )
+//                                        //                                    } else {
+//                                        //                                        Image(systemName: "photo")
+//                                        //                                            .resizable()
+//                                        //                                            .scaledToFit()
+//                                        //                                            .frame(width: size, height: size)
+//                                        //                                            .cornerRadius(8)
+//                                        //                                    }
 //                                    }
+//                                    
+                                    Text("Запрос от " + document.dateAdded.convertDateFormat(to: "d MMMM"))
+                                        .font(Style.title)
+                                        .foregroundStyle(Style.textPrimary)
+                                    displayDocStatus(document.statusDoc ?? .notFill)
+                                        .font(Style.subheadlineBold)
+                                    
+                                    Text("Чек от " + getDateCheck(forData: getValueData(forName: "date_doc", from: fields)))
+                                        .font(Style.footnoteRegular)
+                                        .foregroundStyle(Style.textPrimary)
+                                    
+                                    
+                                    Text("На сумму " + getValueData(forName: "sum_doc", from: fields))
+                                        .font(Style.footnoteRegular)
+                                        .foregroundStyle(Style.textPrimary)
+                                    
+                                    
+                                    //                                if let name = fields.first?.valueData {
+                                    //                                    Text(name)
+                                    //                                        .font(Style.footnoteRegular)
+                                    //                                        .foregroundStyle(Style.textPrimary)
+                                    //                                }
+                                    
+                                    Spacer()
                                 }
-                                
-                                Text("Запрос от " + document.dateAdded.convertDateFormat(to: "d MMMM"))
-                                    .font(Style.title)
-                                    .foregroundStyle(Style.textPrimary)
-                                displayDocStatus(document.statusDoc ?? .notFill)
-                                    .font(Style.subheadlineBold)
-                                
-                                Text("Чек от " + getValueData(forName: "date_doc", from: fields))
-                                    .font(Style.footnoteRegular)
-                                    .foregroundStyle(Style.textPrimary)
-                                
-                                
-                                Text("На сумму " + getValueData(forName: "sum_doc", from: fields))
-                                    .font(Style.footnoteRegular)
-                                    .foregroundStyle(Style.textPrimary)
-                                
-                                
-//                                if let name = fields.first?.valueData {
-//                                    Text(name)
-//                                        .font(Style.footnoteRegular)
-//                                        .foregroundStyle(Style.textPrimary)
-//                                }
-                                
-                                Spacer()
                             }
                             //.frame(width: size)
                             .onTapGesture {

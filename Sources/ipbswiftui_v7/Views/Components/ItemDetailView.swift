@@ -61,7 +61,7 @@ public struct ItemDetailView: View {
                     favoriteAction: {},
                     shareItem: product.nomenclature.commerseDescription ?? "",
                     parameters: product.listProductCharacteristic?.compactMap { ($0.characteristicType.name ?? "", $0.characteristicValue.viewData ?? "") } ?? [],
-                    deliveryOptions: [.express],
+                    deliveryOptions: [.onEmail],
                     idrfSpecification: product.nomenclature.idrfSpecification,
                     brandName: manufactor
                 )

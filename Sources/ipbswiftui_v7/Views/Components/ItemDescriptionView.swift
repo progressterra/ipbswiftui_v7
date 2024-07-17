@@ -25,6 +25,7 @@ public struct ItemDescriptionView: View {
     public enum DeliveryOption {
         case box
         case express
+        case onEmail
     }
     
     @Namespace private var animation
@@ -48,7 +49,7 @@ public struct ItemDescriptionView: View {
         favoriteAction: @escaping () -> (),
         shareItem: String,
         parameters: [(String, String)],
-        deliveryOptions: [DeliveryOption] = [.box, .express],
+        deliveryOptions: [DeliveryOption] = [.box, .express, .onEmail],
         idrfSpecification: String,
         brandName: String
         
@@ -220,6 +221,8 @@ public struct ItemDescriptionView: View {
                 VStack(spacing: 0) {
                     Image("expressDeliveryIcon", bundle: .module)
                         .foregroundStyle( Style.primary)
+                        
+                    
                     Text("Курьерская доставка")
                         .padding(.horizontal, 32)
                         .multilineTextAlignment(.center)
@@ -227,6 +230,21 @@ public struct ItemDescriptionView: View {
                         .foregroundStyle(Style.textPrimary)
                 }
             }
+            
+            if deliveryOptions.contains(.onEmail) {
+                VStack(spacing: 0) {
+                    Image("email-mail-sent-icon", bundle: .module)
+                        .foregroundStyle( Style.primary)
+                        
+                    
+                    Text("Доствка на электронную почту")
+                        .padding(.horizontal, 32)
+                        .multilineTextAlignment(.center)
+                        .font(Style.body)
+                        .foregroundStyle(Style.textPrimary)
+                }
+            }
+            
         }
         .padding(12)
         .frame(maxWidth: .infinity)

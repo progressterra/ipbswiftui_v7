@@ -15,43 +15,63 @@ public struct CheckoutFinalView: View {
     
     public var body: some View {
         VStack(spacing: 12) {
-            Text("Заказ успешно оплачен")
-                .font(Style.title)
-                .foregroundStyle(Style.onBackground)
-            if let orderNumber = vm.cartResult?.data?.numberInt {
-                Text("Номер заказа: \(orderNumber)")
-                    .font(Style.subheadlineRegular)
-                    .foregroundStyle(Style.textTertiary)
-            }
             
-            VStack(spacing: 4) {
-                Text(getProductWord(count: vm.cartItemsCount))
-                    .font(Style.subheadlineBold)
+            
+            
+            if let error = vm.error
+            {
+                Text("Ошибка оформления заказа")
+                    .font(Style.title)
                     .foregroundStyle(Style.onBackground)
                 
-                if let dateTranssferToSend = vm.cartResult?.data?.dateTranssferToSend {
-                    Text("Доставка ожидается:")
-                        .font(Style.footnoteBold)
+                if let orderNumber = vm.cartResult?.data?.numberInt {
+                    Text("Номер заказа: \(orderNumber)")
+                        .font(Style.subheadlineRegular)
                         .foregroundStyle(Style.textTertiary)
-                    Text(dateTranssferToSend.format(as: "dd.MM.yyyy"))
-                        .font(Style.footnoteRegular)
-                        .foregroundStyle(Style.textSecondary)
-                    
                 }
                 
-                if let address = vm.cartResult?.data?.adressString {
-                    Text("Адрес доставки:")
-                        .font(Style.footnoteBold)
-                        .foregroundStyle(Style.textTertiary)
-                    Text(address)
-                        .font(Style.footnoteRegular)
-                        .foregroundStyle(Style.textSecondary)
-                }
             }
-            
-            CustomButtonView(title: "Перейти к заказу", isOpaque: true) {
-                isOrderViewPresented = true
-                vm.cartResult = nil
+            else
+            {
+                
+                Text("Заказ успешно оплачен")
+                    .font(Style.title)
+                    .foregroundStyle(Style.onBackground)
+                if let orderNumber = vm.cartResult?.data?.numberInt {
+                    Text("Номер заказа: \(orderNumber)")
+                        .font(Style.subheadlineRegular)
+                        .foregroundStyle(Style.textTertiary)
+                }
+                
+                VStack(spacing: 4) {
+                    Text(getProductWord(count: vm.cartItemsCount))
+                        .font(Style.subheadlineBold)
+                        .foregroundStyle(Style.onBackground)
+                    
+                    if let dateTranssferToSend = vm.cartResult?.data?.dateTranssferToSend {
+                        Text("Доставка ожидается:")
+                            .font(Style.footnoteBold)
+                            .foregroundStyle(Style.textTertiary)
+                        Text(dateTranssferToSend.format(as: "dd.MM.yyyy"))
+                            .font(Style.footnoteRegular)
+                            .foregroundStyle(Style.textSecondary)
+                        
+                    }
+                    
+                    if let address = vm.cartResult?.data?.adressString {
+                        Text("Адрес доставки:")
+                            .font(Style.footnoteBold)
+                            .foregroundStyle(Style.textTertiary)
+                        Text(address)
+                            .font(Style.footnoteRegular)
+                            .foregroundStyle(Style.textSecondary)
+                    }
+                }
+                
+                CustomButtonView(title: "Перейти к заказу", isOpaque: true) {
+                    isOrderViewPresented = true
+                    vm.cartResult = nil
+                }
             }
         }
         .multilineTextAlignment(.center)

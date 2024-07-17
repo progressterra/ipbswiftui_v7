@@ -9,6 +9,7 @@ import SwiftUI
 
 public struct PaymentFillView: View {
     @EnvironmentObject var vm: CartViewModel
+    @EnvironmentObject var withdrawalVM: WithdrawalViewModel
     
     public enum PaymentOption: DisplayOptionProtocol {
         case internalPay
@@ -38,14 +39,20 @@ public struct PaymentFillView: View {
         VStack(spacing: 8) {
             PaymentMethodPickerView(
                 value: $vm.paymentOption,
-                options: [.internalPay, .onlineByCard]
+                options: [.internalPay]
             )
             
-            BonusesToggleView(
-                availableBonuses: vm.availableBonuses,
-                isBonusesApplied: $vm.isBonusesApplied
-            )
+            if let clientBalanceAmount = withdrawalVM.clientBalanceAmount{
+                Text("Доступно: \(clientBalanceAmount.clean) баллов")
+                    .font(Style.title)
+                    .foregroundStyle(Style.textPrimary)
+            }
             
+//            BonusesToggleView(
+//                availableBonuses: vm.availableBonuses,
+//                isBonusesApplied: $vm.isBonusesApplied
+//            )
+//            
             ReceiptView()
         }
     }

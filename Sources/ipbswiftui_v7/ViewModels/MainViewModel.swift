@@ -15,8 +15,13 @@ import ipbswiftapi_v7
 ///
 public class MainViewModel: ObservableObject {
     
+    @Published public var catalogCategoryList: [RFCatalogCategoryViewModel] = []
+    
     /// Stores the results of product list fetches indexed by category ID.
     @Published public var productListResults: [String: [ProductViewDataModel]] = [:]
+    
+    
+    
     
     /// Indicates whether the view model is currently performing a network request.
     @Published public var isLoading: Bool = false
@@ -47,17 +52,35 @@ public class MainViewModel: ObservableObject {
     private let productService: ProductService
     private var subscriptions: Set<AnyCancellable> = []
     
+    public let idListCategory: [String]
+    
+    private let catalogService: CatalogService
+    
     public init(productService: ProductService = ProductService()) {
+        self.idListCategory = Style.listIDCatalogCategoryOnMain.components(separatedBy: ",")
         self.productService = productService
+        self.catalogService = CatalogService()
+        
     }
     
     /// Sets up the view model by initiating the product list fetch process.
     public func setUpView() {
-        fetchProductList(for: "08dc9554-12ed-4169-8b96-dcb7ef118949")
         
-        fetchProductList(for: IPBSettings.topSalesCategoryID)
-        fetchProductList(for: IPBSettings.promoProductsCategoryID)
-        fetchProductList(for: IPBSettings.newProductsCategoryID)
+        fetchCategoriesCatalog()
+        
+        for  idCategory in idListCategory
+        {
+            fetchProductList(for: idCategory)
+        }
+        
+        
+        
+        
+//        fetchProductList(for: "08dc9554-12ed-4169-8b96-dcb7ef118949")
+//        
+//        fetchProductList(for: IPBSettings.topSalesCategoryID)
+//        fetchProductList(for: IPBSettings.promoProductsCategoryID)
+//        fetchProductList(for: IPBSettings.newProductsCategoryID)
     }
     
     private func fetchProductList(for idCategory: String) {
@@ -88,6 +111,35 @@ public class MainViewModel: ObservableObject {
                 if result.result.status == .success {
                     self?.xRequestID = result.result.xRequestID
                     self?.productListResults[idCategory] = result.dataList
+                }
+            }
+            .store(in: &subscriptions)
+    }
+    
+    //TODO: Переделать данную функцию на получение каталогов по списку
+    public func fetchCategoriesCatalog() {
+        for  idCategory in idListCategory
+        {
+            getCatalogCategory(by: idCategory)
+        }
+        
+    }
+    
+    
+    public func getCatalogCategory(by categoryID: String) {
+        isLoading = true
+        
+        catalogService.getCatalogCategory(by: categoryID)
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] in
+                self?.isLoading = false
+                if case .failure(let error) = $0 {
+                    self?.error = error
+                }
+            } receiveValue: { [weak self] result in
+                if result.result.status == .success && result.data != nil
+                {
+                    self?.catalogCategoryList.append(result.data!)
                 }
             }
             .store(in: &subscriptions)

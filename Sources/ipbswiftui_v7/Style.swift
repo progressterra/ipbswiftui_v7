@@ -189,6 +189,8 @@ public struct Style {
     //Количество категорий каталога в одной строке
     public static var countCatalogCategoryInRow = 2
     
+    public static var listIDCatalogCategoryOnMain: String = ""
+    
     
     private struct StyleConfiguration: Codable {
         
@@ -252,6 +254,8 @@ public struct Style {
         let textDisabled: String?
         
         let countCatalogCategoryInRow: Int?
+        
+        let listIDCatalogsOnMain: String?
     }
     
     
@@ -275,6 +279,11 @@ public struct Style {
     }
     
     private static func configure(with config: StyleConfiguration) {
+        
+        if let listCategoryInMain = config.listIDCatalogsOnMain
+        {
+            self.listIDCatalogCategoryOnMain = listCategoryInMain
+        }
         
         if let countCategory = config.countCatalogCategoryInRow
         {

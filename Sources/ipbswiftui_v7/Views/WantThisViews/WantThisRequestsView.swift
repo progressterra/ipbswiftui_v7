@@ -96,10 +96,7 @@ public struct WantThisRequestsView: View {
 //                                        .font(Style.footnoteRegular)
 //                                        .foregroundStyle(Style.textPrimary)
 //                                }
-                                if let statusDoc = document.statusDoc {
-                                    displayDocStatus(statusDoc)
-                                        .font(Style.footnoteBold)
-                                }
+                                
                                 Spacer()
                             }
                             //.frame(width: size)

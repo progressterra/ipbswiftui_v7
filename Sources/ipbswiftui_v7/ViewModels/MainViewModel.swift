@@ -118,6 +118,7 @@ public class MainViewModel: ObservableObject {
     
     //TODO: Переделать данную функцию на получение каталогов по списку
     public func fetchCategoriesCatalog() {
+        self.catalogCategoryList = []
         for  idCategory in idListCategory
         {
             getCatalogCategory(by: idCategory)

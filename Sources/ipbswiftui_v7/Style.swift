@@ -255,7 +255,7 @@ public struct Style {
         
         let countCatalogCategoryInRow: Int?
         
-        let listIDCatalogsOnMain: String?
+        let listIDCatalogCategoryOnMain: String?
     }
     
     
@@ -280,7 +280,7 @@ public struct Style {
     
     private static func configure(with config: StyleConfiguration) {
         
-        if let listCategoryInMain = config.listIDCatalogsOnMain
+        if let listCategoryInMain = config.listIDCatalogCategoryOnMain
         {
             self.listIDCatalogCategoryOnMain = listCategoryInMain
         }

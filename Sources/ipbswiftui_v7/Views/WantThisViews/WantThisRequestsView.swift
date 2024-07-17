@@ -61,10 +61,10 @@ public struct WantThisRequestsView: View {
                             
                             HStack
                             {
-                                Image("cashCheck", bundle: .module)
+                                Image("receipt", bundle: .module)
                                     .resizable()
                                     .scaledToFit()
-                                    .frame(width: size, height: size)
+                                    .frame(width: size/2, height: size/2)
                                     .cornerRadius(8)
                                 
                                 VStack(alignment: .leading, spacing: 4) {

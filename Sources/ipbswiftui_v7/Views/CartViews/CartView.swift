@@ -84,6 +84,7 @@ public struct CartView: View {
                         .padding(.vertical, 10)
                         
                         CustomButtonView(title: "Оформить заказ") {
+                            vm.checkoutStage = .payment
                             isCheckoutViewPresented = true
                         }
                     }

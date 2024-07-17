@@ -338,7 +338,7 @@ extension ItemCardView {
     var imageBanner: some View {
         AsyncImageBannerView(
             imageURL: details.imageBannerURL ?? "",
-                    width: UIScreen.main.bounds.size.width,
+            width: UIScreen.main.bounds.size.width - 40,
                     height: itemSize,
                     cornerRadius: 8
                 )

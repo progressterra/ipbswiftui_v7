@@ -127,8 +127,8 @@ public struct WantThisRequestsView: View {
                         }
                     }
                 //}
-                .padding(.horizontal)
-                .padding(.top)
+//                .padding(.horizontal)
+//                .padding(.top)
             } else {
                 ProgressView()
             }

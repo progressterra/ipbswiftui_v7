@@ -10,14 +10,16 @@ import SwiftUI
 public struct CategoryCardView: View {
     let imageURL: String
     let name: String
+    let displayName: String
     let onTapAction: () -> ()
     
     let width = UIScreen.main.bounds.size.width / 3.83
     
-    public init(imageURL: String, name: String, onTapAction: @escaping () -> ()) {
+    public init(imageURL: String, name: String, displayName: String, onTapAction: @escaping () -> ()) {
         self.imageURL = imageURL
         self.name = name
         self.onTapAction = onTapAction
+        self.displayName = displayName
     }
     
     public var body: some View {
@@ -29,7 +31,7 @@ public struct CategoryCardView: View {
                 cornerRadius: 8
             ).onTapGesture(perform: onTapAction)
             
-            Text(name)
+            Text(displayName)
                 .lineLimit(2)
                 .font(Style.footnoteRegular)
                 .foregroundStyle(Style.textPrimary)
@@ -42,7 +44,7 @@ public struct CategoryCardView: View {
 
 
 #Preview {
-    CategoryCardView(imageURL: "https://media.istockphoto.com/id/621235832/photo/autumn-morning-at-the-cathedral.jpg?s=612x612&w=0&k=20&c=5ALajgxiRg5xdhsvpnJ9QkjHPSFOuWgDb0jDPqduenM=", name: "Спортивные товары") {
+    CategoryCardView(imageURL: "https://media.istockphoto.com/id/621235832/photo/autumn-morning-at-the-cathedral.jpg?s=612x612&w=0&k=20&c=5ALajgxiRg5xdhsvpnJ9QkjHPSFOuWgDb0jDPqduenM=", name: "Спортивные товары", displayName: "Спортивные товары") {
         print("Tapped")
     }
 }

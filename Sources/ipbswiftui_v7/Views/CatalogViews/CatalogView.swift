@@ -62,7 +62,8 @@ public struct CatalogView: View {
                         ForEach(catalogItems, id: \.itemCategory.idUnique) { item in
                             CategoryCardView(
                                 imageURL: item.itemCategory.imageData?.urlData ?? "",
-                                name: item.itemCategory.name ?? ""
+                                name: item.itemCategory.name ?? "",
+                                displayName: item.itemCategory.displayName ?? ""
                             ) {
                                 vm.navigationStack.append(item)
                             }
@@ -74,7 +75,8 @@ public struct CatalogView: View {
                         ForEach(rootCatalogItems, id: \.itemCategory.idUnique) { item in
                             CategoryCardView(
                                 imageURL: item.itemCategory.imageData?.urlData ?? "",
-                                name: item.itemCategory.name ?? ""
+                                name: item.itemCategory.name ?? "",
+                                displayName: item.itemCategory.displayName ?? ""
                             ) {
                                 vm.navigationStack.append(item)
                             }

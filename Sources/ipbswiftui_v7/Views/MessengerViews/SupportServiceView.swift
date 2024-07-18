@@ -66,7 +66,7 @@ public struct SupportServiceView: View {
                     
                     ChatRowView(
                         imageView: imageView,
-                        title: "Хочу это",
+                        title: "Чеки",
                         prompt: "",
                         dateLastMessages: .now,
                         badgeCount: 0

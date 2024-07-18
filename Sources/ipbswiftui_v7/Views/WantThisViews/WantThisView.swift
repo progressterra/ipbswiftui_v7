@@ -130,7 +130,7 @@ public struct WantThisView: View {
                         
                         
                         
-                        CustomButtonView(title: "Отправить запрос1", isDisabled: $vm.isSubmitButtonDisabled) {
+                        CustomButtonView(title: "Отправить запрос", isDisabled: $vm.isSubmitButtonDisabled) {
                             vm.fillDocument()
                         }
                         .padding(.vertical, 40)

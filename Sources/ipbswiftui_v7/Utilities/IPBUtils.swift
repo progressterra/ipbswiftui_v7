@@ -6,12 +6,12 @@
 //
 
 import Foundation
-class IPBUtils {
-    static let shared = IPBUtils()
+public class IPBUtils {
+    public static let shared = IPBUtils()
     
     private init() {}
     
-    func formatDateString(_ input: String) -> String? {
+    public func formatDateString(_ input: String) -> String? {
         let dateFormatter = DateFormatter()
         
         // Устанавливаем формат входной строки

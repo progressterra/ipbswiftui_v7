@@ -76,7 +76,7 @@ public struct BonusesCardView: View {
     public var body: some View {
         
         
-        VStack(alignment: .leading, spacing: 10) {
+        VStack(alignment: .leading, spacing: 0) {
             
             Spacer().frame(height: 30)
             
@@ -85,12 +85,12 @@ public struct BonusesCardView: View {
                 Image("logo", bundle: .module)
                     .resizable()
                     .aspectRatio(contentMode: .fit)
-                    .frame(width: UIScreen.main.bounds.width / 3)
+                    .frame(width: UIScreen.main.bounds.width / 2)
                 
                 Spacer()
             }
             
-            Spacer().frame(height: 5)
+            Spacer().frame(height: 10)
             
                 //.position(x: UIScreen.main.bounds.width / 2)
             

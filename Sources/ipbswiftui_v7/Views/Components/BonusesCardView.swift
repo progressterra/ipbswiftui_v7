@@ -78,7 +78,7 @@ public struct BonusesCardView: View {
         
         VStack(alignment: .leading, spacing: 0) {
             
-            Spacer().frame(height: 30)
+            Spacer().frame(height: 35)
             
             HStack{
                 Spacer()

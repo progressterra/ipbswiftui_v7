@@ -48,7 +48,7 @@ public struct CategoryCardOneLineView: View {
     let displayName: String
     let onTapAction: () -> ()
     
-    let width = UIScreen.main.bounds.size.width / 3.83
+    let width = UIScreen.main.bounds.size.width / 2.83
     
     public init(imageURL: String, name: String, displayName: String, onTapAction: @escaping () -> ()) {
         self.imageURL = imageURL

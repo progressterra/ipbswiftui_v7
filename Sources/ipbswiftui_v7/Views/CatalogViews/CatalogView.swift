@@ -60,7 +60,7 @@ public struct CatalogView: View {
                 if let catalogItems = catalogItem?.listChildItems {
                     LazyVGrid(columns: columns, spacing: 16) {
                         ForEach(catalogItems, id: \.itemCategory.idUnique) { item in
-                            CategoryCardView(
+                            CategoryCardOneLineView(
                                 imageURL: item.itemCategory.imageData?.urlData ?? "",
                                 name: item.itemCategory.name ?? "",
                                 displayName: item.itemCategory.displayName ?? ""
@@ -73,7 +73,7 @@ public struct CatalogView: View {
                 } else if let rootCatalogItems = vm.rootCatalogItem?.listChildItems {
                     LazyVGrid(columns: columns, spacing: 16) {
                         ForEach(rootCatalogItems, id: \.itemCategory.idUnique) { item in
-                            CategoryCardView(
+                            CategoryCardOneLineView(
                                 imageURL: item.itemCategory.imageData?.urlData ?? "",
                                 name: item.itemCategory.name ?? "",
                                 displayName: item.itemCategory.displayName ?? ""

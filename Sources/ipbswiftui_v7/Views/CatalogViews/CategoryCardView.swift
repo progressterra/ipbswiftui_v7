@@ -67,8 +67,9 @@ public struct CategoryCardOneLineView: View {
             )
             Spacer()
             Text(displayName)
-                .font(Style.title)
+                .font(Style.headline)
                 .foregroundStyle(Style.textSecondary)
+                .frame(maxWidth: .infinity, alignment: .center)
                 .multilineTextAlignment(.center)
                 .padding(10)
                 .background(
@@ -76,6 +77,7 @@ public struct CategoryCardOneLineView: View {
                                         .stroke(Style.primary, lineWidth: 1))
                 .lineLimit(1)
                                 .truncationMode(.tail)
+                                .padding()
             Spacer()
         }.onTapGesture(perform: onTapAction)
     }
@@ -92,6 +94,10 @@ public struct CategoryCardOneLineView: View {
         }
         
         CategoryCardOneLineView(imageURL: "https://media.istockphoto.com/id/621235832/photo/autumn-morning-at-the-cathedral.jpg?s=612x612&w=0&k=20&c=5ALajgxiRg5xdhsvpnJ9QkjHPSFOuWgDb0jDPqduenM=", name: "Спортивные товары", displayName: "Спортивные товары") {
+            print("Tapped")
+        }
+        
+        CategoryCardOneLineView(imageURL: "https://media.istockphoto.com/id/621235832/photo/autumn-morning-at-the-cathedral.jpg?s=612x612&w=0&k=20&c=5ALajgxiRg5xdhsvpnJ9QkjHPSFOuWgDb0jDPqduenM=", name: "Спортивные товары", displayName: "Начислить") {
             print("Tapped")
         }
     }

@@ -104,7 +104,7 @@ public struct BonusesCardView: View {
                             .font(Style.title)
                             .foregroundStyle(Style.textTertiary)
                             .bold()
-                        Text("\(withdrawalVM.clientBalanceAmount ?? 0) баллов")
+                        Text("\((withdrawalVM.clientBalanceAmount ?? 0).clean) баллов")
                             .font(Style.title)
                             .foregroundStyle(Style.textButtonPrimary)
                     }

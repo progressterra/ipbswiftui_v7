@@ -45,6 +45,8 @@ public struct BonusesCardView: View {
     let bonusesHistoryAction: () -> ()
     let subtractAction: () -> ()
     
+    @EnvironmentObject var withdrawalVM: WithdrawalViewModel
+    
     public init(
         currentBonusesCount: Double,
         equivalentOfOneBonus: Double? = nil,
@@ -102,7 +104,7 @@ public struct BonusesCardView: View {
                             .font(Style.title)
                             .foregroundStyle(Style.textTertiary)
                             .bold()
-                        Text("\(currentBonusesCount.clean) баллов")
+                        Text("\(withdrawalVM.clientBalanceAmount ?? 0) баллов")
                             .font(Style.title)
                             .foregroundStyle(Style.textButtonPrimary)
                     }

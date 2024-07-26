@@ -48,7 +48,7 @@ public struct CategoryCardOneLineView: View {
     let displayName: String
     let onTapAction: () -> ()
     
-    let width = UIScreen.main.bounds.size.width / 2.83
+    let width = UIScreen.main.bounds.size.width / 3.0
     
     public init(imageURL: String, name: String, displayName: String, onTapAction: @escaping () -> ()) {
         self.imageURL = imageURL
@@ -64,10 +64,9 @@ public struct CategoryCardOneLineView: View {
                 width: width,
                 height: width,
                 cornerRadius: 8
-            ).padding()
+            )
             Spacer()
             Text(displayName)
-                .lineLimit(2)
                 .font(Style.title)
                 .foregroundStyle(Style.textSecondary)
                 .multilineTextAlignment(.center)
@@ -75,6 +74,8 @@ public struct CategoryCardOneLineView: View {
                 .background(
                                     RoundedRectangle(cornerRadius: 15)
                                         .stroke(Style.primary, lineWidth: 1))
+                .lineLimit(1)
+                                .truncationMode(.tail)
             Spacer()
         }.onTapGesture(perform: onTapAction)
     }

@@ -42,7 +42,8 @@ public struct OrdersView: View {
         ScrollView {
             VStack(spacing: 8) {
                 if let orders = vm.orderList?.dataList {
-                    ForEach(orders, id: \.idUnique) { order in
+                    let filteredOrders = orders.filter { $0.typeSaleReturn != .saleForBonuses }
+                    ForEach(filteredOrders, id: \.idUnique) { order in
                         NavigationLink(destination: OrderDetailView(order: order, isTrackable: isTrackable, isProductCouldBePresented: isProductCouldBePresented).toolbarRole(.editor)) {
                             OrderDetailView(order: order, isInList: true)
                         }

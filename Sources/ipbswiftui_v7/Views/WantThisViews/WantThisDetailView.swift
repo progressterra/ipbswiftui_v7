@@ -111,7 +111,12 @@ public struct WantThisDetailView: View {
                     
                     
     
-                    
+                    Button {
+                        print("test")
+                    } label: {
+                        Text("Test")
+                    }
+
                     
                     
                     CustomTextFieldView(text: $date_doc, prompt: self.fields.first { $0.name == "date_doc" }?.comment ?? "")

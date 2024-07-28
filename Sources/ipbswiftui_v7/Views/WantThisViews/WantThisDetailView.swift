@@ -100,7 +100,7 @@ public struct WantThisDetailView: View {
                         VStack(spacing: 2) {
                             Image("chatIcon", bundle: .module)
                                 .foregroundStyle(Style.iconsTertiary)
-                            Text("Чат по запросу")
+                            Text("Чат по запросу1")
                                 .foregroundStyle(Style.textTertiary)
                                 .font(Style.footnoteRegular)
                         }

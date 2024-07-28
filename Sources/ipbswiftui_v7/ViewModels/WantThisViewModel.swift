@@ -287,7 +287,7 @@ public class WantThisViewModel: ObservableObject {
             ),
             searchData: "",
             skip: 0,
-            take: 10
+            take: 20
         )
         
         documentService.fetchDocumentList(with: filter)

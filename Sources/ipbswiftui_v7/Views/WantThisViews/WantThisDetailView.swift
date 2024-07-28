@@ -108,14 +108,7 @@ public struct WantThisDetailView: View {
                 }
                 
                 VStack{
-                    
-                    
-    
-                    Button {
-                        print("test")
-                    } label: {
-                        Text("Test")
-                    }
+                
 
                     
                     
@@ -156,7 +149,7 @@ public struct WantThisDetailView: View {
                             .autocorrectionDisabled()
                     
                     
-                }
+                }.disabled(!canEdit)
                 
 //                HStack(spacing: 12) {
 //                    Text("Добавить фото")
@@ -209,7 +202,7 @@ public struct WantThisDetailView: View {
             }
             .padding(.horizontal)
             .padding(.top)
-            .disabled(!canEdit)
+            
         }.onAppear {
             // Устанавливаем textValue в valueData первого элемента списка, если он существует
             if let dd = fields.first(where: { $0.name == "date_doc" })?.valueData {

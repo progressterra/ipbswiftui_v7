@@ -56,7 +56,7 @@ public struct WantThisRequestsView: View {
             if let documentList = vm.documentList?.dataList {
                 //LazyVGrid(columns: [GridItem(), GridItem()]) {
                     ForEach(documentList, id: \.idUnique) { document in
-                        if let fieldsData = document.viewData?.data(using: .utf8),
+                        if let fieldsData = document.valueAsJSON?.data(using: .utf8),
                            let fields = try? JSONDecoder().decode([FieldData].self, from: (fieldsData)) {
                             
                             HStack

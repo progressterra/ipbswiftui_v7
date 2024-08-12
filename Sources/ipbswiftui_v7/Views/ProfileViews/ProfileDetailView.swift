@@ -41,6 +41,7 @@ public struct ProfileDetailView: View {
         case birthday = "birthday"
         case sex = "sex"
         case phone = "phone"
+        case email = "email"
     }
     
     public var fieldsToShow: Set<Field>
@@ -148,7 +149,7 @@ public struct ProfileDetailView: View {
                     VStack(spacing: 12) {
                         Group {
                             if fieldsToShow.contains(.name) {
-                                CustomTextFieldView(text: $vm.name, prompt: "Имя1", backgroundColor: Style.background)
+                                CustomTextFieldView(text: $vm.name, prompt: "Имя", backgroundColor: Style.background)
                                     .focused($focusedField, equals: 0)
                                     .onSubmit { focusedField = 1 }
                                     .submitLabel(.next)
@@ -161,6 +162,16 @@ public struct ProfileDetailView: View {
                             }
                             if fieldsToShow.contains(.patronymic) {
                                 CustomTextFieldView(text: $vm.patronymic, prompt: "Отчество", backgroundColor: Style.background)
+                                    .focused($focusedField, equals: 2)
+                                    .onSubmit {
+                                        focusedField = nil
+                                        isDatePickerPresented.toggle()
+                                    }
+                                    .submitLabel(.next)
+                            }
+                            
+                            if fieldsToShow.contains(.email) {
+                                CustomTextFieldView(text: $vm.email, prompt: "E-mail", backgroundColor: Style.background)
                                     .focused($focusedField, equals: 2)
                                     .onSubmit {
                                         focusedField = nil

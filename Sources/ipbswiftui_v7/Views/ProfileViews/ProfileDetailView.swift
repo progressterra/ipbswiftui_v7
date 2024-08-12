@@ -148,7 +148,7 @@ public struct ProfileDetailView: View {
                     VStack(spacing: 12) {
                         Group {
                             if fieldsToShow.contains(.name) {
-                                CustomTextFieldView(text: $vm.name, prompt: "Имя", backgroundColor: Style.background)
+                                CustomTextFieldView(text: $vm.name, prompt: "Имя1", backgroundColor: Style.background)
                                     .focused($focusedField, equals: 0)
                                     .onSubmit { focusedField = 1 }
                                     .submitLabel(.next)

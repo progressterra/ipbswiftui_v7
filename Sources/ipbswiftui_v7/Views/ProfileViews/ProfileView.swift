@@ -88,10 +88,10 @@ public struct ProfileView: View {
                     }
                     
                     
-                    NavigationButtonView(title: "Стили") {
-                        isStyleView = true
-                    }
-                    
+//                    NavigationButtonView(title: "Стили") {
+//                        isStyleView = true
+//                    }
+//                    
                     
                     Spacer()
                 }

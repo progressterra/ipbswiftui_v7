@@ -87,6 +87,23 @@ public struct ProfileView: View {
                         )
                     }
                     
+                    NavigationButtonView(title: "Удалить аккаунт", isDestructive: true) {
+                        showAlert = true
+                        
+                    }.alert(isPresented: $showAlert) {
+                        Alert(
+                            title: Text("Подтверждение выхода"),
+                            message: Text("Вы действительно хотите удалить свой аккаунт?"),
+                            primaryButton: .default(Text("Да"), action: {
+                                _ = profileVM.sCRMService.deleteClient()
+                                AuthStorage.shared.logout()
+                                AuthorizationViewModel.shared.isLoggedIn = false
+                                AuthorizationViewModel.shared.logoutToken()
+                            }),
+                            secondaryButton: .cancel(Text("Отменить"))
+                        )
+                    }
+                    
                     
 //                    NavigationButtonView(title: "Стили") {
 //                        isStyleView = true

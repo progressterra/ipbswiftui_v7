@@ -65,7 +65,7 @@ public class ProfileViewModel: ObservableObject {
     
     private var subscriptions: Set<AnyCancellable> = []
     
-    private let sCRMService: SCRMService
+    public let sCRMService: SCRMService
     private let mediaDataService: MediaDataService
     
     public init(clientService: SCRMService = SCRMService(), mediaDataService: MediaDataService = MediaDataService()) {

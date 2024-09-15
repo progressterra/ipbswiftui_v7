@@ -5,8 +5,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/progressterra/ipbswiftapi_v7.git",
       "state" : {
-        "revision" : "1e98049afabe28756dc191759ff2cbad69aeeb25",
-        "version" : "1.0.12"
+        "revision" : "f3d073d172ff631d56a5e9a3ed888c3edfa1b16d",
+        "version" : "1.0.13"
       }
     },
     {

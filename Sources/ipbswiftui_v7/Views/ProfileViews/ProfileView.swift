@@ -99,7 +99,7 @@ public struct ProfileView: View {
                             title: Text("Подтверждение выхода"),
                             message: Text("Вы действительно хотите удалить свой аккаунт?"),
                             primaryButton: .default(Text("Да"), action: {
-                                _ = profileVM.sCRMService.deleteClient()
+                                var resDelete = profileVM.sCRMService.deleteClient()
                                 AuthStorage.shared.logout()
                                 AuthorizationViewModel.shared.isLoggedIn = false
                                 AuthorizationViewModel.shared.logoutToken()

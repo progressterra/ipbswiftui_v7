@@ -27,6 +27,10 @@ public struct ProfileView: View {
     
     @State private var showAlert = false
     
+    @State private var showAlertRemove = false
+    
+    
+    
     public init() {}
     
     public var body: some View {
@@ -88,9 +92,9 @@ public struct ProfileView: View {
                     }
                     
                     NavigationButtonView(title: "Удалить аккаунт", isDestructive: true) {
-                        showAlert = true
+                        showAlertRemove = true
                         
-                    }.alert(isPresented: $showAlert) {
+                    }.alert(isPresented: $showAlertRemove) {
                         Alert(
                             title: Text("Подтверждение выхода"),
                             message: Text("Вы действительно хотите удалить свой аккаунт?"),

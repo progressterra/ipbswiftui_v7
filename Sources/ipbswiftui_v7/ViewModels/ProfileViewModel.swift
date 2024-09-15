@@ -65,7 +65,7 @@ public class ProfileViewModel: ObservableObject {
     
     private var subscriptions: Set<AnyCancellable> = []
     
-    public let sCRMService: SCRMService
+    private let sCRMService: SCRMService
     private let mediaDataService: MediaDataService
     
     public init(clientService: SCRMService = SCRMService(), mediaDataService: MediaDataService = MediaDataService()) {
@@ -114,6 +114,23 @@ public class ProfileViewModel: ObservableObject {
         guard !email.isEmpty else { return }
         
         sCRMService.setEmail(email)
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] in
+                if case .failure(let error) = $0 {
+                    self?.error = error
+                }
+            } receiveValue: { [weak self] result in
+                self?.getClientData()
+            }
+            .store(in: &subscriptions)
+    }
+    
+    
+    /// Updates the email for the client on the SCRM service.
+    public func deletClient() {
+        guard !email.isEmpty else { return }
+        
+        sCRMService.deleteClient()
             .receive(on: DispatchQueue.main)
             .sink { [weak self] in
                 if case .failure(let error) = $0 {

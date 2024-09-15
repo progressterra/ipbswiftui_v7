@@ -128,7 +128,6 @@ public class ProfileViewModel: ObservableObject {
     
     /// Updates the email for the client on the SCRM service.
     public func deletClient() {
-        guard !email.isEmpty else { return }
         
         sCRMService.deleteClient()
             .receive(on: DispatchQueue.main)

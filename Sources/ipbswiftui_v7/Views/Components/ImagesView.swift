@@ -22,42 +22,54 @@ public struct ImagesView: View {
         self.colours = colours
     }
     
+    func isMP4VideoURL(_ urlString: String) -> Bool {
+        guard let url = URL(string: urlString) else {
+            return false
+        }
+        return url.pathExtension.lowercased() == "mp4"
+    }
+    
     public var body: some View {
         VStack(spacing: 8) {
             TabView(selection: $selector) {
                 ForEach(0..<imageURLs.count, id: \.self) { index in
                     
-                    VideoPlayerView(videoURL: URL(string: imageURLs[index])!)
-                        .frame(height: size) // Устанавливаем размер проигрывателя
-                        .cornerRadius(12)
-                        .tag(index)
-                        .onTapGesture {
-                            selector = index
-                            isImagePresented = true
-                        }
-                    
-//                    AsyncImageView(imageURL: imageURLs[index], width: size, height: size, cornerRadius: 8)
-//                        .tag(index)
-//                        .onTapGesture {
-//                            selector = index
-//                            isImagePresented = true
-//                        }
-//                        .fullScreenCover(isPresented: $isImagePresented) {
-//                            ImageViewer(imageURL: imageURLs[selector])
-//                                .overlay(alignment: .topTrailing) {
-//                                    Button {
-//                                        isImagePresented = false
-//                                    } label: {
-//                                        Image(systemName: "xmark")
-//                                            .font(.headline)
-//                                    }
-//                                    .foregroundStyle(.black)
-//                                    .buttonStyle(.bordered)
-//                                    .clipShape(Circle())
-//                                    .padding()
-//                                }
-//                                .id(selector)
-//                        }
+                    if (isMP4VideoURL(imageURLs[index]))
+                    {
+                        VideoPlayerView(videoURL: URL(string: imageURLs[index])!)
+                            .frame(height: size) // Устанавливаем размер проигрывателя
+                            .cornerRadius(12)
+                            .tag(index)
+                            .onTapGesture {
+                                selector = index
+                                isImagePresented = true
+                            }
+                    }
+                    else
+                    {
+                        AsyncImageView(imageURL: imageURLs[index], width: size, height: size, cornerRadius: 8)
+                            .tag(index)
+                            .onTapGesture {
+                                selector = index
+                                isImagePresented = true
+                            }
+                            .fullScreenCover(isPresented: $isImagePresented) {
+                                ImageViewer(imageURL: imageURLs[selector])
+                                    .overlay(alignment: .topTrailing) {
+                                        Button {
+                                            isImagePresented = false
+                                        } label: {
+                                            Image(systemName: "xmark")
+                                                .font(.headline)
+                                        }
+                                        .foregroundStyle(.black)
+                                        .buttonStyle(.bordered)
+                                        .clipShape(Circle())
+                                        .padding()
+                                    }
+                                    .id(selector)
+                            }
+                    }
                 }
             }
             .tabViewStyle(.page(indexDisplayMode: .automatic))

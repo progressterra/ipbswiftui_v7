@@ -6,27 +6,33 @@
 //
 import AVKit
 import SwiftUI
-
 struct FullScreenVideoView: View {
     let videoURL: URL
-    
     @Environment(\.dismiss) private var dismiss
+    
+    @State private var player = AVPlayer()
     
     var body: some View {
         ZStack {
             Color.black.ignoresSafeArea()
             
-            VideoPlayer(player: AVPlayer(url: videoURL))
+            VideoPlayer(player: player)
                 .edgesIgnoringSafeArea(.all)
+                .onAppear {
+                    player.replaceCurrentItem(with: AVPlayerItem(url: videoURL))
+                    player.play()
+                }
                 .onDisappear {
-                    // Останавливаем воспроизведение при закрытии
-                    AVPlayer(url: videoURL).pause()
+                    player.pause()
                 }
             
             VStack {
                 HStack {
                     Spacer()
-                    Button(action: { dismiss() }) {
+                    Button(action: {
+                        player.pause()
+                        dismiss()
+                    }) {
                         Image(systemName: "xmark.circle.fill")
                             .font(.system(size: 30))
                             .foregroundColor(.white)

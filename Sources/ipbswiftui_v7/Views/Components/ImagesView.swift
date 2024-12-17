@@ -26,28 +26,38 @@ public struct ImagesView: View {
         VStack(spacing: 8) {
             TabView(selection: $selector) {
                 ForEach(0..<imageURLs.count, id: \.self) { index in
-                    AsyncImageView(imageURL: imageURLs[index], width: size, height: size, cornerRadius: 8)
+                    
+                    VideoPlayerView(videoURL: URL(string: imageURLs[index])!)
+                        .frame(height: size) // Устанавливаем размер проигрывателя
+                        .cornerRadius(12)
                         .tag(index)
                         .onTapGesture {
                             selector = index
                             isImagePresented = true
                         }
-                        .fullScreenCover(isPresented: $isImagePresented) {
-                            ImageViewer(imageURL: imageURLs[selector])
-                                .overlay(alignment: .topTrailing) {
-                                    Button {
-                                        isImagePresented = false
-                                    } label: {
-                                        Image(systemName: "xmark")
-                                            .font(.headline)
-                                    }
-                                    .foregroundStyle(.black)
-                                    .buttonStyle(.bordered)
-                                    .clipShape(Circle())
-                                    .padding()
-                                }
-                                .id(selector)
-                        }
+                    
+//                    AsyncImageView(imageURL: imageURLs[index], width: size, height: size, cornerRadius: 8)
+//                        .tag(index)
+//                        .onTapGesture {
+//                            selector = index
+//                            isImagePresented = true
+//                        }
+//                        .fullScreenCover(isPresented: $isImagePresented) {
+//                            ImageViewer(imageURL: imageURLs[selector])
+//                                .overlay(alignment: .topTrailing) {
+//                                    Button {
+//                                        isImagePresented = false
+//                                    } label: {
+//                                        Image(systemName: "xmark")
+//                                            .font(.headline)
+//                                    }
+//                                    .foregroundStyle(.black)
+//                                    .buttonStyle(.bordered)
+//                                    .clipShape(Circle())
+//                                    .padding()
+//                                }
+//                                .id(selector)
+//                        }
                 }
             }
             .tabViewStyle(.page(indexDisplayMode: .automatic))

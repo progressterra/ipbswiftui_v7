@@ -3,16 +3,40 @@ import AVKit
 
 struct VideoPlayerView: View {
     let videoURL: URL
+    @State private var player: AVPlayer?
+    @Binding var isVideoPresented: Bool
 
     var body: some View {
-        VideoPlayer(player: AVPlayer(url: videoURL))
-            .onAppear {
-                // Опционально: Автоматически запускаем воспроизведение
-                AVPlayer(url: videoURL).play()
+        ZStack {
+            Color.black.ignoresSafeArea()
+            
+            if let player = player {
+                VideoPlayer(player: player)
+                    .onAppear {
+                        player.play()
+                    }
+                    .onDisappear {
+                        player.pause()
+                    }
             }
-            .onDisappear {
-                // Опционально: Останавливаем воспроизведение при закрытии
-                AVPlayer(url: videoURL).pause()
+            
+            VStack {
+                HStack {
+                    Spacer()
+                    Button(action: {
+                        isVideoPresented = false
+                    }) {
+                        Image(systemName: "xmark.circle.fill")
+                            .font(.system(size: 30))
+                            .foregroundColor(.white)
+                            .padding()
+                    }
+                }
+                Spacer()
             }
+        }
+        .onAppear {
+            player = AVPlayer(url: videoURL)
+        }
     }
 }

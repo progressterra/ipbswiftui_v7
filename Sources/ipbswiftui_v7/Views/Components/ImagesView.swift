@@ -10,6 +10,7 @@ import SwiftUI
 public struct ImagesView: View {
     @State private var selector = 0
     @State private var isImagePresented = false
+    @State private var isVideoPresented = false // Для открытия видео
     @State private var currentColor = 0
     
     let imageURLs: [String]
@@ -37,13 +38,16 @@ public struct ImagesView: View {
                     if (isMP4VideoURL(imageURLs[index]))
                     {
                         VideoPlayerView(videoURL: URL(string: imageURLs[index])!)
-                            .frame(height: size) // Устанавливаем размер проигрывателя
-                            .cornerRadius(12)
-                            .tag(index)
-                            .onTapGesture {
-                                selector = index
-                                isImagePresented = true
-                            }
+                                                    .frame(height: size)
+                                                    .cornerRadius(12)
+                                                    .tag(index)
+                                                    .onTapGesture {
+                                                        selector = index
+                                                        isVideoPresented = true // Открыть видео на весь экран
+                                                    }
+                                                    .fullScreenCover(isPresented: $isVideoPresented) {
+                                                        FullScreenVideoView(videoURL: URL(string: imageURLs[selector])!)
+                                                    }
                     }
                     else
                     {
@@ -149,6 +153,9 @@ struct SelectImageButtonView: View {
         .buttonStyle(.plain)
     }
 }
+
+
+
 
 
 struct ImagesView_Previews: PreviewProvider {

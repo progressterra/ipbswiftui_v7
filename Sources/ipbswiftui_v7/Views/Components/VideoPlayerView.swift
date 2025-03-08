@@ -20,20 +20,20 @@ struct VideoPlayerView: View {
                     }
             }
             
-            VStack {
-                HStack {
-                    Spacer()
-                    Button(action: {
-                        isVideoPresented = false
-                    }) {
-                        Image(systemName: "xmark.circle.fill")
-                            .font(.system(size: 30))
-                            .foregroundColor(.white)
-                            .padding()
-                    }
-                }
-                Spacer()
-            }
+//            VStack {
+//                HStack {
+//                    Spacer()
+//                    Button(action: {
+//                        isVideoPresented = false
+//                    }) {
+//                        Image(systemName: "xmark.circle.fill")
+//                            .font(.system(size: 30))
+//                            .foregroundColor(.white)
+//                            .padding()
+//                    }
+//                }
+//                Spacer()
+//            }
         }
         .onAppear {
             player = AVPlayer(url: videoURL)

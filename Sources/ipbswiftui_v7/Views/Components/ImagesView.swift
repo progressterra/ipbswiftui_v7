@@ -7,6 +7,13 @@
 
 import SwiftUI
 
+func isMP4VideoURL(_ urlString: String) -> Bool {
+    guard let url = URL(string: urlString) else {
+        return false
+    }
+    return url.pathExtension.lowercased() == "mp4"
+}
+
 public struct ImagesView: View {
     @State private var selector = 0
     @State private var isImagePresented = false
@@ -23,12 +30,7 @@ public struct ImagesView: View {
         self.colours = colours
     }
     
-    func isMP4VideoURL(_ urlString: String) -> Bool {
-        guard let url = URL(string: urlString) else {
-            return false
-        }
-        return url.pathExtension.lowercased() == "mp4"
-    }
+
     
     public var body: some View {
         VStack(spacing: 8) {
@@ -148,7 +150,17 @@ struct SelectImageButtonView: View {
     
     var body: some View {
         Button(action: action) {
-            AsyncImageView(imageURL: imageURL, width: 64, height: 64, cornerRadius: 6)
+            
+            if (isMP4VideoURL(imageURL))
+            {
+                VideoThumbnailView(videoURL: URL(string: imageURL)!)
+            }
+            else
+            {
+                
+                AsyncImageView(imageURL: imageURL, width: 64, height: 64, cornerRadius: 6)
+            }
+            
         }
         .buttonStyle(.plain)
     }

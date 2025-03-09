@@ -37,6 +37,7 @@ struct VideoPlayerView: View {
         }
         .onAppear {
             player = AVPlayer(url: videoURL)
+            player?.pause()
         }
     }
 }

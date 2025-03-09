@@ -35,6 +35,7 @@ struct VideoPlayerView: View {
         .onAppear {
             player = AVPlayer(url: videoURL)
             player?.pause()
+            showPlayButton = true // Обязательно показать кнопку Play при появлении
         }
     }
 
@@ -50,8 +51,10 @@ struct VideoPlayerView: View {
         if isPlaying {
             player?.pause()
             isPlaying = false
-            withAnimation {
-                showPlayButton = true
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                withAnimation {
+                    showPlayButton = true
+                }
             }
         }
     }

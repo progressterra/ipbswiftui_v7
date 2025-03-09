@@ -88,7 +88,7 @@ public struct ErrorAlertView: View {
                 .padding()
                 .foregroundStyle(Style.textButtonPrimary)
                 .font(Style.headline)
-                .background(Style.primary)
+                .background(Style.error)
                 .cornerRadius(8)
                 .shadow(radius: 10)
                 .multilineTextAlignment(.center)

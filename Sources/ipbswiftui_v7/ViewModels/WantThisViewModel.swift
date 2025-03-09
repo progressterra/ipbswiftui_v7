@@ -83,7 +83,6 @@ public class WantThisViewModel: ObservableObject {
                     let NetworkRequestError.unknownError(message):
                     errorMessage = message
                     showErrorAlert = true
-                    status = message
                 default:
                     print("An unexpected error occurred - \(error)")
                 }

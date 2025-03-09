@@ -150,6 +150,7 @@ public class WantThisViewModel: ObservableObject {
         itemImage = nil
         itemName = ""
         itemURL = ""
+        checkData = ""
     }
     
     /// Loads the form structure necessary for creating or editing requests.

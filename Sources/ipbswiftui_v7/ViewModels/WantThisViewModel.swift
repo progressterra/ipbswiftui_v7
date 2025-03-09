@@ -265,6 +265,11 @@ public class WantThisViewModel: ObservableObject {
                     self.status = "Запрос успешно отправлен"
                     checkData = ""
                 }
+                else
+                {
+                    self.status = "Ошибка загрузки документа: " + (result.result.message ?? "")
+                    checkData = ""
+                }
             }
             .store(in: &subscriptions)
     }

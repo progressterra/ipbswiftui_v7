@@ -39,7 +39,7 @@ public struct ImagesView: View {
                     
                     if (isMP4VideoURL(imageURLs[index]))
                     {
-                        VideoPlayerView(videoURL: URL(string: imageURLs[index])!, isVideoPresented: $isVideoPresented)
+                        VideoPlayerView(videoURL: URL(string: imageURLs[index])!)
                                                     .frame(height: size)
                                                     .cornerRadius(12)
                                                     .tag(index)
@@ -47,9 +47,9 @@ public struct ImagesView: View {
                                                         selector = index
                                                         isVideoPresented = true // Открыть видео на весь экран
                                                     }
-                                                    .fullScreenCover(isPresented: $isVideoPresented) {
-                                                        VideoPlayerView(videoURL: URL(string: imageURLs[selector])!, isVideoPresented: $isVideoPresented)
-                                                    }
+//                                                    .fullScreenCover(isPresented: $isVideoPresented) {
+//                                                        VideoPlayerView(videoURL: URL(string: imageURLs[selector])!, isVideoPresented: $isVideoPresented)
+//                                                    }
                     }
                     else
                     {

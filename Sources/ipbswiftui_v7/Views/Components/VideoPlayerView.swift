@@ -4,7 +4,7 @@ import AVKit
 struct VideoPlayerView: View {
     let videoURL: URL
     @State private var player: AVPlayer?
-    @Binding var isVideoPresented: Bool
+    //@Binding var isVideoPresented: Bool
 
     var body: some View {
         ZStack {

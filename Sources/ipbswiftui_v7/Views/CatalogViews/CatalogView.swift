@@ -72,8 +72,8 @@ public struct CatalogView: View {
                     .padding(.horizontal)
                 } else if let rootCatalogItems = vm.rootCatalogItem?.listChildItems {
                     LazyVGrid(columns: columns, spacing: 16) {
-                        ForEach(rootCatalogItems.filter { $0.itemCategory.idUnique != "08dca66d-6224-4994-818e-56c808f614cb" }, id: \.itemCategory.idUnique) { item in
-//Специфический код - не выводим обучение в главном каталоге
+                        ForEach(rootCatalogItems, id: \.itemCategory.idUnique) { item in
+
                             CategoryCardOneLineView(
                                 imageURL: item.itemCategory.imageData?.urlData ?? "",
                                 name: item.itemCategory.name ?? "",

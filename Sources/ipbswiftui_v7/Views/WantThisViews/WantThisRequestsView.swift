@@ -59,60 +59,39 @@ public struct WantThisRequestsView: View {
                         if let fieldsData = document.valueAsJSON?.data(using: .utf8),
                            let fields = try? JSONDecoder().decode([FieldData].self, from: (fieldsData)) {
                             
-                            HStack
-                            {
+                            
+                            HStack(alignment: .top, spacing: 12) {
                                 Image("receipt", bundle: .module)
                                     .resizable()
                                     .scaledToFit()
-                                    .frame(width: size/2, height: size/2)
+                                    .frame(width: size / 2, height: size / 2)
                                     .cornerRadius(8)
-                                
+
                                 VStack(alignment: .leading, spacing: 4) {
-//                                    ZStack {
-//                                        
-//                                        
-//                                        //                                    if let imageURL = document.listImages?.sorted(by: { $0.dateAdded > $1.dateAdded }).first?.urlData {
-//                                        //                                        AsyncImageView(
-//                                        //                                            imageURL: imageURL,
-//                                        //                                            width: size,
-//                                        //                                            height: size,
-//                                        //                                            cornerRadius: 8
-//                                        //                                        )
-//                                        //                                    } else {
-//                                        //                                        Image(systemName: "photo")
-//                                        //                                            .resizable()
-//                                        //                                            .scaledToFit()
-//                                        //                                            .frame(width: size, height: size)
-//                                        //                                            .cornerRadius(8)
-//                                        //                                    }
-//                                    }
-//                                    
                                     Text("Запрос от " + document.dateAdded.convertDateFormat(to: "d MMMM"))
                                         .font(Style.title)
                                         .foregroundStyle(Style.textPrimary)
+
                                     displayDocStatus(document.statusDoc ?? .notFill)
                                         .font(Style.subheadlineBold)
-                                    
+
                                     Text("Чек от " + getDateCheck(forData: getValueData(forName: "date_doc", from: fields)))
                                         .font(Style.footnoteRegular)
                                         .foregroundStyle(Style.textPrimary)
-                                    
-                                    
+
                                     Text("На сумму " + getValueData(forName: "sum_doc", from: fields))
                                         .font(Style.footnoteRegular)
                                         .foregroundStyle(Style.textPrimary)
-                                    
-                                    
-                                    //                                if let name = fields.first?.valueData {
-                                    //                                    Text(name)
-                                    //                                        .font(Style.footnoteRegular)
-                                    //                                        .foregroundStyle(Style.textPrimary)
-                                    //                                }
-                                    
+
                                     Spacer()
                                 }
                             }
-                            //.frame(width: size)
+                            .padding()
+                            .background(Color.white) // Белый фон карточки
+                            .cornerRadius(12)
+                            .shadow(color: .black.opacity(0.05), radius: 4, x: 0, y: 2) // Мягкая тень
+                            .padding(.horizontal, 10)
+                            .padding(.vertical, 6)
                             .onTapGesture {
                                 isWantThisDetailPresented = true
                                 currentDocument = document
@@ -124,6 +103,7 @@ public struct WantThisRequestsView: View {
                                     vm.itemImageURL = imageURL
                                 }
                             }
+                          
                         }
                     }
                 //}

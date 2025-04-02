@@ -9,6 +9,7 @@ import SwiftUI
 
 public struct ReceiptView: View {
     @EnvironmentObject var vm: CartViewModel
+    @EnvironmentObject var withdrawalVM: WithdrawalViewModel
     
     let termsOfUseLink: String = "https://iprobonus.com"
     let iProBonusLink: String = "https://iprobonus.com"
@@ -59,11 +60,24 @@ public struct ReceiptView: View {
                 .padding(.horizontal, 12)
             }
             
-            CustomButtonView(title: "Оплатить", isDisabled: $vm.isLoading) {
-                vm.checkoutStage = vm.paymentOption == .internalPay ? .final : .paymentProvider
-                if vm.paymentOption == .internalPay { vm.confirmCart() }
+            if let clientBalanceAmount = withdrawalVM.clientBalanceAmount{
+                if let totalPrice = vm.cartResult?.data?.listDRSale?.reduce(0.0, { $0 + $1.amountEndPrice }), totalPrice != 0 {
+                    
+                    if clientBalanceAmount > totalPrice
+                    {
+                        CustomButtonView(title: "Оплатить", isDisabled: $vm.isLoading) {
+                            vm.checkoutStage = vm.paymentOption == .internalPay ? .final : .paymentProvider
+                            if vm.paymentOption == .internalPay { vm.confirmCart() }
+                        }
+                        .padding(.vertical, 20)
+                    }
+                    else
+                    {
+                        CustomButtonView(title: "Оплатить", isDisabled: .constant(true), action: <#() -> Void#>)
+                    }
+                
+                }
             }
-            .padding(.vertical, 20)
             
             VStack(spacing: 12) {
                 VStack {

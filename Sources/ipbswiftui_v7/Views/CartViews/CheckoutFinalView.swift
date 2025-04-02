@@ -38,7 +38,7 @@ public struct CheckoutFinalView: View {
 //                    .font(Style.title)
 //                    .foregroundStyle(Style.error)
                 
-                if let orderNumber = vm.cartResult?.data?.numberInt {
+                if let orderNumber = vm.caBrtResult?.data?.numberInt {
                     Text("Номер заказа: \(orderNumber)")
                         .font(Style.subheadlineRegular)
                         .foregroundStyle(Style.textTertiary)

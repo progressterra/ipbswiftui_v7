@@ -55,7 +55,8 @@ public struct WantThisRequestsView: View {
         ScrollView {
             if let documentList = vm.documentList?.dataList {
                 //LazyVGrid(columns: [GridItem(), GridItem()]) {
-                    ForEach(documentList, id: \.idUnique) { document in
+                //Не показываем не заполненные документы
+                ForEach(documentList.filter { $0.statusDoc != nil && $0.statusDoc != .notFill }, id: \.idUnique) { document in
                         if let fieldsData = document.valueAsJSON?.data(using: .utf8),
                            let fields = try? JSONDecoder().decode([FieldData].self, from: (fieldsData)) {
                             
@@ -111,9 +112,6 @@ public struct WantThisRequestsView: View {
                           
                         }
                     }
-                //}
-//                .padding(.horizontal)
-//                .padding(.top)
             } else {
                 ProgressView()
             }

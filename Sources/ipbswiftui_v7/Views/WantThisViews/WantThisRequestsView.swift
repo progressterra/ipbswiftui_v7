@@ -87,6 +87,7 @@ public struct WantThisRequestsView: View {
                                 }
                             }
                             .padding()
+                            .frame(width: UIScreen.main.bounds.width - 20) // ⬅️ Фикс ширины
                             .background(Color.white) // Белый фон карточки
                             .cornerRadius(12)
                             .shadow(color: .black.opacity(0.05), radius: 4, x: 0, y: 2) // Мягкая тень

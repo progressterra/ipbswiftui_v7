@@ -24,9 +24,19 @@ public struct CheckoutFinalView: View {
                     .font(Style.title)
                     .foregroundStyle(Style.onBackground)
                 
-                Text(error.errorDescription ?? "")
-                    .font(Style.title)
+                
+                Text({
+                    if case let .customError(message) = error {
+                        return message
+                    } else {
+                        return ""
+                    }
+                }()).font(Style.title)
                     .foregroundStyle(Style.error)
+                
+//                Text(error.errorMessage ?? "")
+//                    .font(Style.title)
+//                    .foregroundStyle(Style.error)
                 
                 if let orderNumber = vm.cartResult?.data?.numberInt {
                     Text("Номер заказа: \(orderNumber)")

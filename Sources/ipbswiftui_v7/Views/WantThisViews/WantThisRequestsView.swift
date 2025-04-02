@@ -61,12 +61,15 @@ public struct WantThisRequestsView: View {
                             
                             
                             HStack(alignment: .top, spacing: 12) {
+                                // 📌 Изображение жёстко слева
                                 Image("receipt", bundle: .module)
                                     .resizable()
                                     .scaledToFit()
                                     .frame(width: size / 2, height: size / 2)
                                     .cornerRadius(8)
+                                    .fixedSize() // 🔒 не даёт изображению растягиваться
 
+                                // Тексты
                                 VStack(alignment: .leading, spacing: 4) {
                                     Text("Запрос от " + document.dateAdded.convertDateFormat(to: "d MMMM"))
                                         .font(Style.title)
@@ -85,13 +88,14 @@ public struct WantThisRequestsView: View {
 
                                     Spacer()
                                 }
+
+                                Spacer() // ⬅️ Чтобы текст не давил на картинку
                             }
                             .padding()
-                            .frame(width: UIScreen.main.bounds.width - 20) // ⬅️ Фикс ширины
-                            .background(Color.white) // Белый фон карточки
+                            .frame(width: UIScreen.main.bounds.width - 20) // одинаковая ширина карточек
+                            .background(Color.white)
                             .cornerRadius(12)
-                            .shadow(color: .black.opacity(0.05), radius: 4, x: 0, y: 2) // Мягкая тень
-                            .padding(.horizontal, 10)
+                            .shadow(color: .black.opacity(0.05), radius: 4, x: 0, y: 2)
                             .padding(.vertical, 6)
                             .onTapGesture {
                                 isWantThisDetailPresented = true

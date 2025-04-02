@@ -73,7 +73,7 @@ public struct ReceiptView: View {
                     }
                     else
                     {
-                        CustomButtonView(title: "Оплатить", isDisabled: .constant(true), action: <#() -> Void#>)
+                        CustomButtonView(title: "Оплатить", isDisabled: .constant(true), action: {})
                     }
                 
                 }

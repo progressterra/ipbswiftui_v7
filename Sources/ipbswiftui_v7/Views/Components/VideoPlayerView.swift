@@ -33,6 +33,7 @@ struct VideoPlayerView: View {
             }
         }
         .onAppear {
+            configureAudioSession()
             player = AVPlayer(url: videoURL)
             player?.pause()
             showPlayButton = true // Гарантированное появление кнопки
@@ -60,6 +61,15 @@ struct VideoPlayerView: View {
         player?.pause()
         isPlaying = false
         showPlayButton = true
+    }
+    
+    private func configureAudioSession() {
+        do {
+            try AVAudioSession.sharedInstance().setCategory(.playback, mode: .default, options: [])
+            try AVAudioSession.sharedInstance().setActive(true)
+        } catch {
+            print("Ошибка при настройке аудиосессии: \(error)")
+        }
     }
 }
 

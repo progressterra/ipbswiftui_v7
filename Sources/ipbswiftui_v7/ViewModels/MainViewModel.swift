@@ -97,7 +97,7 @@ public class MainViewModel: ObservableObject {
             sort: SortData(fieldName: "", variantSort: .asc),
             searchData: "",
             skip: 0,
-            take: 10
+            take: 100
         )
         
         productService.fetchProductList(for: idCategory, using: filter)

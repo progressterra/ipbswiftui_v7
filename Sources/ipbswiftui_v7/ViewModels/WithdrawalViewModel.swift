@@ -212,7 +212,7 @@ public class WithdrawalViewModel: ObservableObject {
             ),
             searchData: "",
             skip: 0,
-            take: 25
+            take: 100
         )
         
         documentService.fetchDocumentList(with: filter)
@@ -236,7 +236,7 @@ public class WithdrawalViewModel: ObservableObject {
             sort: SortData(fieldName: "dateAdded", variantSort: .desc),
             searchData: nil,
             skip: 0,
-            take: 25
+            take: 100
         )
         
         paymentDataService.fetchPaymentDataList(with: filter)
@@ -295,7 +295,7 @@ public class WithdrawalViewModel: ObservableObject {
             sort: nil,
             searchData: nil,
             skip: 0,
-            take: 50
+            take: 100
         )
         
         paymentsService.fetchPaymentList(with: filter)

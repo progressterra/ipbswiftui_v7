@@ -85,7 +85,7 @@ public class CatalogViewModel: ObservableObject {
             sort: nil,
             searchData: searchText,
             skip: 0,
-            take: 30
+            take: 100
         )
         
         catalogService.getCatalog(with: filter)
@@ -137,7 +137,7 @@ public class CatalogViewModel: ObservableObject {
             sort: SortData(fieldName: "", variantSort: .asc),
             searchData: searchText,
             skip: 0,
-            take: 25
+            take: 100
         )
         
         productService.fetchProductList(for: idCategory, using: filter)

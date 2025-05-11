@@ -187,7 +187,7 @@ public class MessengerViewModel: ObservableObject {
             sort: SortData(fieldName: "dateUpdated", variantSort: .desc),
             searchData: nil,
             skip: 0,
-            take: 50
+            take: 100
         )
         
         isLoading = true
@@ -317,7 +317,7 @@ extension MessengerViewModel {
         guard !AuthStorage.shared.getRefreshToken().isEmpty else { return }
         
         let filter = FilterAndSort(
-            listFields: nil, sort: nil, searchData: nil, skip: 0, take: 50
+            listFields: nil, sort: nil, searchData: nil, skip: 0, take: 100
         )
         
         messengerService.getDialogList(with: filter)
